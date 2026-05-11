@@ -1,5 +1,4 @@
 import { createContext, useContext, useEffect, useState } from "react";
-// import { vehicles as vehiclesData } from "../assets/data";
 import axios from "axios";
 
 const VehicleContext = createContext();
