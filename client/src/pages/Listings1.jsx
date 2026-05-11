@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 import VehicleGrid from '../components/VehicleGrid';
 import SearchBar from '../components/SearchBar';
 import { ChevronDown, Filter, SlidersHorizontal } from 'lucide-react';
-import { useVehicle } from '../contexts/VehicleContext';
+import { useVehicle } from '../contexts/vehicleContext';
 
 /* ─── Filter group accordion ─────────────────────────────────────── */
 const FilterGroup = ({ label, name, options }) => {

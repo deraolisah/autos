@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react'
-import { useVehicle } from '../contexts/VehicleContext';
+import { useVehicle } from '../contexts/vehicleContext';
 import { Link, useParams } from 'react-router-dom';
 import { ChevronRight, Heart, Share } from 'lucide-react';
 
