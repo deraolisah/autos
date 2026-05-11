@@ -1,7 +1,7 @@
 // hooks/useFavorites.js
 import { useState, useEffect } from 'react';
 import axios from 'axios';
-import { useAuth } from '../contexts/AuthContext';
+import { useAuth } from '../contexts/authContext';
 
 export const useFavorites = () => {
   const [favorites, setFavorites] = useState([]);

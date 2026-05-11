@@ -9,6 +9,8 @@ const VehicleCard = ({ vehicle }) => {
   const menuRef = useRef(null);
   const cardRef = useRef(null);
 
+  const [loaded, setLoaded] = useState(false);
+
   const formatAmount = (amount) => {
     return new Intl.NumberFormat('en-NG', {
       style: 'currency',
@@ -133,12 +135,31 @@ const VehicleCard = ({ vehicle }) => {
             <span> Unavailable </span>
           )}
         </span>
-        <Link to={`/vehicle/${vehicle._id}`} className="block overflow-hidden aspect-video rounded-md">
+        {/* <Link to={`/vehicle/${vehicle._id}`} className="block overflow-hidden aspect-video rounded-md">
           <img
             src={vehicle.images?.[0] || null}
             alt=""
             loading="lazy"
             className="w-full h-full object-cover object-center transform transition-all duration-700 ease-in-out group-hover:scale-105 group-hover:brightness-110"
+          />
+        </Link> */}
+
+        <Link to={`/vehicle/${vehicle._id}`} className="block overflow-hidden aspect-video rounded-md relative">
+          {/* Loader shimmer */}
+          {!loaded && (
+            <div className="absolute inset-0 bg-light-alt/60 dark:bg-dark-alt/60 shimmer rounded-md"></div>
+          )}
+
+          {/* Image */}
+          <img
+            src={vehicle.images?.[0] || ""}
+            alt=""
+            loading="lazy"
+            onLoad={() => setLoaded(true)}
+            onError={() => setLoaded(true)} // hide loader if image fails
+            className={`w-full h-full object-cover object-center transform transition-all duration-700 ease-in-out group-hover:scale-105 group-hover:brightness-110 ${
+              loaded ? "opacity-100" : "opacity-0"
+            }`}
           />
         </Link>
 
