@@ -22,11 +22,11 @@ const VehicleGrid = () => {
 
     if (error) {
         return (
-            <div className='text-red-500 text-center mt-4'>
+            <div className='bg-light-alt dark:bg-dark-alt rounded-lg p-4 h-48 text-red-500 text-center mt-4 flex flex-col gap-2 items-center justify-center duration-300 transition-all'>
                 <img src='' alt='' className='' />
                 Error: {error}
-                <br/><br/>
-                <button className='cursor-pointer text-dark dark:text-light border border-light-alt dark:border-dark-alt p-1.5 px-4 rounded-full' onClick={()=> { window.location.reload()}}> refresh </button>
+                
+                <button className='cursor-pointer text-dark dark:text-light bg-light dark:bg-dark p-1.5 px-4 rounded-full' onClick={()=> { window.location.reload()}}> refresh </button>
             </div>
         );
     };

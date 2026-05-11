@@ -13,11 +13,12 @@ dotenv.config({ quiet: true });
 
 const app = express();
 const PORT = process.env.PORT;
+const allowedOrigins = process.env.FRONTEND_URL.split(",");
 
 // Middlewares
 // app.use(cors());
 app.use(cors({
-  origin: [process.env.FRONTEND_URL],
+  origin: allowedOrigins,
   credentials: true
 }));
 app.use(express.json());
