@@ -57,7 +57,7 @@ const FilterTag = ({ label, onRemove }) => (
     <button
       onClick={onRemove}
       aria-label={`Remove ${label} filter`}
-      className="flex items-center opacity-60 hover:opacity-100 transition-opacity cursor-pointer"
+      className="flex items-center opacity-60 hover:opacity-100 cursor-pointer duration-300 transition-all"
     >
       <X size={11} strokeWidth={2} />
     </button>
