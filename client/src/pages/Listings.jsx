@@ -52,14 +52,14 @@ const FilterGroup = ({ label, name, options }) => {
 
 /* ─── Filter Tag ─────────────────────────────────────────────────── */
 const FilterTag = ({ label, onRemove }) => (
-  <span className="inline-flex items-center gap-1.5 bg-yellow-400 dark:bg-yellow-400 text-dark text-xs font-medium pl-2.5 pr-1.5 py-1 rounded-full">
+  <span className="inline-flex items-center gap-1.5 bg-yellow-400 dark:bg-yellow-500 text-dark text-xs font-medium pl-2.5 p-1 rounded-full">
     {label}
     <button
       onClick={onRemove}
       aria-label={`Remove ${label} filter`}
-      className="flex items-center opacity-60 hover:opacity-100 cursor-pointer duration-300 transition-all"
+      className="flex items-center bg-yellow-600 hover:bg-yellow-200 p-1 rounded-full cursor-pointer duration-300 transition-all"
     >
-      <X size={11} strokeWidth={2} />
+      <X size={12} strokeWidth={2} />
     </button>
   </span>
 );
@@ -68,7 +68,7 @@ const FilterTag = ({ label, onRemove }) => (
 const Listings = () => {
   const { vehicles } = useVehicle();
   const [sidebarOpen, setSidebarOpen] = useState(false);
-  const [activeTags, setActiveTags] = useState(['SUVs', '$15k – $30k', 'New']);
+  const [activeTags, setActiveTags] = useState(['Trucks', 'Under $15k', 'New', "Electric"]);
 
   const removeTag = tag => setActiveTags(prev => prev.filter(t => t !== tag));
 
@@ -116,7 +116,6 @@ const Listings = () => {
 
   return (
     <section className="container p-0! flex h-full relative">
-
       {/* ── Sidebar ── */}
       <aside
         className={`
@@ -145,62 +144,41 @@ const Listings = () => {
         ))}
       </aside>
 
-      {/* ── Mobile overlay ── */}
-      {/* {sidebarOpen && (
-        <div
-          className="fixed inset-0 z-40 bg-black/50 md:hidden cursor-pointer"
-          onClick={() => setSidebarOpen(false)}
-        />
-      )} */}
 
       {/* ── Main ── */}
       <main className="min-w-0  w-full h-full p-4 flex-1">
 
         {/* Topbar */}
-        <div className="w-full flex flex-col md:flex-row items-start md:items-center justify-between gap-3 mb-3 flex-wrap">
-          <div className="flex items-baseline gap-1.5">
-            <h2 className="text-xl md:text-2xl font-semibold tracking-tight">Vehicles</h2>
-            <span className="text-sm text-gray-400">({vehicles.length} found)</span>
-          </div>
+        <div className="w-full flex flex-col md:flex-row items-start justify-between gap-3 mb-3 flex-wrap">
+          <div className='w-full md:w-fit flex items-start justify-between gap-2'>
+            <div className="flex items-baseline gap-1.5">
+              <h2 className="text-xl md:text-2xl font-semibold tracking-tight">Vehicles</h2>
+              <span className="text-sm text-gray-400">({vehicles.length} found)</span>
+            </div>
 
-          <div className="w-full flex items-center gap-2 flex-1 justify-end">
             {/* Mobile filter button */}
-            {/* <button
-              className="flex md:hidden items-center gap-1.5 h-9 px-3 bg-gray-100 dark:bg-white/5 border border-gray-200 dark:border-white/10 rounded-lg text-xs text-gray-600 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-white/10 transition-colors duration-150 cursor-pointer"
-              onClick={() => setSidebarOpen(prev => !prev)}
-              aria-label="Open filters"
-            >
-              <Filter size={13} strokeWidth={1.5} />
-              <span>Filters</span>
-              <ChevronDown size={13} strokeWidth={1.5} />
-            </button> */}
-
-            <button className='flex items-center md:hidden text-xs bg-light dark:bg-light-alt/5 ring ring-light-alt dark:ring-dark-alt p-2.5 rounded-md gap-1.5 hover:bg-light-alt hover:dark:bg-dark-alt duration-300 transition-all' onClick={()=> {setSidebarOpen(prev => !prev)}} title='Filters'> 
+            <button className='flex items-center md:hidden text-xs bg-light dark:bg-light-alt/5 ring ring-light-alt dark:ring-dark-alt p-2.5 rounded-md gap-1.5 hover:bg-light-alt hover:dark:bg-dark-alt duration-300 transition-all' onClick={()=> {setSidebarOpen(prev => !prev)}} title='Filters' aria-label="Open filters"> 
                 <Filter size={14} strokeWidth={1.5} />
                 {/* <span> Filters </span> */}
                 {/* <ChevronDown size={14} strokeWidth={1.5} /> */}
-            </button>
+            </button>            
+          </div>
 
+          <div className="w-full md:w-fit flex items-center gap-2 flex-1 md:justify-end">
             {/* Search */}
-            {/* <div className="flex items-center gap-2 flex-1 max-w-xs h-9 px-3 bg-gray-100 dark:bg-white/5 border border-gray-200 dark:border-white/10 rounded-lg">
-              <svg className="text-gray-400 shrink-0" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
-                <circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/>
-              </svg>
-              <SearchBar />
-            </div> */}
             <SearchBar />
 
             {/* Sort */}
             <select
-              className="h-9 bg-light dark:bg-dark border border-light-alt dark:border-dark-alt rounded-md px-2.5 text-xs text-gray-500 dark:text-gray-400 outline-none cursor-pointer hover:bg-light-alt dark:hover:bg-dark-alt duration-300 transition-all"
+              className="h-9 bg-light-alt/5 dark:bg-light-alt/5 border border-light-alt dark:border-dark-alt rounded-md px-2.5 text-xs text-gray-500 dark:text-gray-400 outline-none cursor-pointer hover:bg-light-alt dark:hover:bg-dark-alt duration-300 transition-all"
               title="Sort"
-            >
+              >
               <option value="">Sort by</option>
               <option value="date">Date listed</option>
               <option value="price-asc">Price: Low-High</option>
               <option value="price-desc">Price: High-Low</option>
               <option value="alpha">Alphabetical</option>
-            </select>
+            </select>            
           </div>
         </div>
 

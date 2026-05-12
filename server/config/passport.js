@@ -3,6 +3,9 @@ import { Strategy as GoogleStrategy } from 'passport-google-oauth20';
 import { Strategy as FacebookStrategy } from 'passport-facebook';
 import User from '../models/userModels.js';
 import jwt from 'jsonwebtoken';
+import dotenv from "dotenv"
+
+dotenv.config({ quiet: true });
 
 // Generate JWT token
 const generateToken = (user) => {

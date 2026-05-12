@@ -8,12 +8,18 @@ import AuthCallback from '../pages/AuthCallback';
 // Public Routes
 import Home from '../pages/Home';
 import About from '../pages/About';
+import Contact from '../pages/Contact.jsx';
 import Listings from '../pages/Listings';
-import Listings1 from '../pages/Listings1.jsx';
 import VehicleDetails from '../pages/VehicleDetails';
 
 // Protected Routes
+import DashboardLayout from '../layouts/DashboardLayout.jsx';
 import Dashboard from '../pages/user/Dashboard.jsx';
+import Favorites from '../pages/user/Favorites.jsx';
+
+// Not Found Routes
+import NotFound from '../pages/NotFound.jsx';
+
 
 const AppRoutes = () => {
   return (
@@ -24,17 +30,25 @@ const AppRoutes = () => {
             {/* Public Routes */}
             <Route path='/' element={<Home />} />
             <Route path='/about' element={<About />} />
+            <Route path='/contact' element={<Contact />} />
             <Route path='/listings' element={<Listings />} />
-            {/* <Route path='/listings' element={<Listings1 />} /> */}
             <Route path='/vehicle/:id' element={<VehicleDetails />} />
             <Route path='/auth/social-callback' element={<AuthCallback />} />
 
             {/* Protected Routes */}
             <Route path='/account' element={
               <ProtectedRoute>
-                <Dashboard />
+                <DashboardLayout />
               </ProtectedRoute>
-            } />
+            }>
+              <Route index element={<Dashboard /> } />
+              <Route path='favorites' element={<Favorites />} />
+              <Route path='settings' element={<Favorites />} />
+            </Route>
+
+
+            {/* Not Found */}
+            <Route path='*' element={<NotFound />} />
         </Routes>  
         <Footer />
     </div>

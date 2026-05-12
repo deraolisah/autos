@@ -9,6 +9,7 @@ const vehicleSchema = new mongoose.Schema({
     brand: { type: String, required: false },
     year: { type: String, required: false },
     category: { type: String },
+    condition: { type: String },
     listed: {type: Boolean, required: true, default: true },
     ratings: { type: Number, default: 0 },
 });

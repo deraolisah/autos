@@ -1,6 +1,6 @@
 import React, { useState, useRef, useEffect } from 'react'
-import { Link } from 'react-router-dom';
-import { Bell, File, Home, House, List, Menu, Moon, Sun, User, UserRound, X } from "lucide-react";
+import { Link, NavLink } from 'react-router-dom';
+import { Bell, File, Home, House, List, Menu, Moon, Phone, Sun, User, UserRound, X } from "lucide-react";
 import logo from "../assets/logo.png";
 import { useTheme } from '../contexts/themeContext';
 import "./AccountPopup";
@@ -48,6 +48,14 @@ const Navbar = () => {
 
 
 
+    const navList = [
+        {name: "Home", link: "/", icon: <House size={14} /> },
+        {name: "About", link: "/about", icon: <File size={14} /> },
+        {name: "Contact", link: "/contact", icon: <Phone size={14} /> },
+        {name: "Listings", link: "/listings", icon: <List size={14} /> }
+    ];
+
+
   return (
     <>
         <nav className='container fixed top-0 left-1/2 -translate-x-1/2 z-2000! flex items-center justify-between h-14 border-b border-gray-300 md:border-gray-300/60 dark:border-dark-alt md:dark:border-dark-alt/60 bg-light md:bg-light/45 dark:bg-dark md:dark:bg-dark/65 backdrop-blur-md duration-300 transition-all'>
@@ -57,9 +65,11 @@ const Navbar = () => {
             </Link>
 
             <ul className='hidden md:flex items-center gap-6 text-xs'>
-                <Link to="/" className=''> Home </Link>
-                <Link to="/about" className=''> About </Link>
-                <Link to="/listings" className=''> Listings </Link>
+                {navList.map((item, index) => (
+                    <NavLink key={index} end to={item.link} className={({ isActive }) => `hover:text-yellow-600 dark:hover:text-yellow-500 ${isActive ? "font-bold" : ""}`} title={item.name}> 
+                        {item.name} 
+                    </NavLink>
+                ))}
             </ul>
 
 
@@ -86,9 +96,9 @@ const Navbar = () => {
                 </button>
                 <button className={`rounded-full p-2 hover:bg-gray-300 dark:hover:bg-dark-alt duration-300 transition-all flex md:hidden ${menuOpen ? "bg-gray-300 dark:bg-dark-alt" : "" }`} title="Menu" onClick={()=> {toggleMenuOpen()}}>
                     {!menuOpen ? (
-                        <Menu size={16} />
+                        <Menu size={18} />
                     ) : (
-                        <X size={16} />
+                        <X size={18} />
                     )}
                 </button>
             </div>
@@ -97,9 +107,12 @@ const Navbar = () => {
         {menuOpen && (
             // <ul ref={menuRef} className='flex md:hidden flex-col items-center gap-4 text-xs w-fit absolute z-200 top-15 right-[1rem] rounded-lg bg-light-alt dark:bg-dark-alt p-4'>
             <ul ref={menuRef} className='flex md:hidden flex-col items-center gap-2 text-sm fixed z-100 top-15 right-[1rem] bg-light dark:bg-dark shadow-xl rounded-xl border border-gray-300 dark:border-dark-alt p-2'>
-                <Link to="/" className='flex items-center gap-1.5 hover:bg-light-alt hover:dark:bg-dark-alt py-1 px-2 rounded-md w-28'><Home size={14} /> Home </Link>
-                <Link to="/about" className='flex items-center gap-1.5 hover:bg-light-alt hover:dark:bg-dark-alt py-1 px-2 rounded-md w-28'><File size={14} /> About </Link>
-                <Link to="/listings" className='flex items-center gap-1.5 hover:bg-light-alt hover:dark:bg-dark-alt py-1 px-2 rounded-md w-28'><List size={14} /> Listings </Link>
+                {navList.map((item, index) => (
+                    <NavLink key={index} end to={item.link} onClick={() =>{setMenuOpen(false);}} className={({ isActive }) => `flex items-center gap-1.5 hover:bg-light-alt hover:dark:bg-dark-alt py-1 px-2 rounded-md w-28 ${isActive ? "font-bold" : ""}`} title={item.name}> 
+                        {item.icon}                     
+                        {item.name} 
+                    </NavLink>
+                ))}
             </ul>
         )}
 

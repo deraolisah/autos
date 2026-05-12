@@ -88,8 +88,8 @@ const AccountPopup = ({ loginOpen, toggleLogin }) => {
               <Link to="/account" className='px-2 py-1 rounded-md flex items-center gap-1.5 text-sm font-medium'>
                 <User size={16} strokeWidth={1.5} /> {user?.name || 'User'}
               </Link>
-              <Link to="/favorites" className='px-2 py-1 rounded-md flex items-center gap-1.5 text-sm'>
-                <Bookmark size={16} strokeWidth={1.5} /> Glovebox
+              <Link to="/account/favorites" className='px-2 py-1 rounded-md flex items-center gap-1.5 text-sm'>
+                <Bookmark size={16} strokeWidth={1.5} /> Favorites
               </Link>
               <Link to="/account/settings" className='hover:bg-light-alt hover:dark:bg-dark-alt px-2 py-1 rounded-md flex items-center gap-1.5'>
                 <Settings size={16} strokeWidth={1.5} /> Settings

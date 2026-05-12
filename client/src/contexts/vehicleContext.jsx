@@ -66,6 +66,16 @@ export const VehicleProvider = ({ children }) => {
     }, []);
 
 
+    // Format Price helper
+    const formatAmount = (amount) => {
+        return new Intl.NumberFormat('en-NG', {
+        style: 'currency',
+        currency: 'NGN',
+        minimumFractionDigits: 0,
+        }).format(amount);
+    };
+
+
     // Get a Single Vehicle
     // const getVehicle = async (id) => {
     //     console.log("getVehicle called with id:", id);
@@ -121,6 +131,7 @@ export const VehicleProvider = ({ children }) => {
         vehicles,           // Array of all vehicles
         setVehicles,
         getAllVehicles,     // Function to fetch all vehicles
+        formatAmount,
         loading,
         error,
     };

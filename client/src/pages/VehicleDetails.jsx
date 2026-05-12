@@ -5,7 +5,7 @@ import { ChevronRight, Heart, Share } from 'lucide-react';
 
 const VehicleDetails = () => {
   const { id } = useParams();
-  const { vehicles, loading, error } = useVehicle();
+  const { formatAmount, vehicles, loading, error } = useVehicle();
 
   const vehicle = vehicles.find(p => p._id === id);
 
@@ -31,9 +31,9 @@ const VehicleDetails = () => {
     }
   }, [vehicle]);
 
-  if (loading) return <div>Loading...</div>;
-  if (error) return <div>Error: {error}</div>;
-  if (!vehicle) return <div>No vehicle found</div>;
+  if (loading) return <div className='p-4'>Loading...</div>;
+  if (error) return <div className='p-4'>Error: {error}</div>;
+  if (!vehicle) return <div className='p-4'>No vehicle found</div>;
 
   // Build thumbnails: real images first, placeholders fill the rest
   const thumbnails = [...(vehicle.images || [])];
@@ -73,7 +73,7 @@ const VehicleDetails = () => {
             <div className='w-full flex-1'>
                 <div className='flex items-center justify-between'>
                     <h1 className='text-2xl font-bold line-clamp-2 flex items-center gap-4'>
-                        <span> {vehicle.name} </span>
+                        <span> {vehicle.year} {vehicle.name} </span>
                         <span className={`bg-green-500 text-white py-1 p-1.5 rounded-sm capitalize text-[10px] md:text-[11px] font-normal shadow ${vehicle.listed ? "bg-green-500" : "bg-red-500"}`}>
                             {vehicle.listed ? (
                                 <span> Available </span>
@@ -84,17 +84,17 @@ const VehicleDetails = () => {
                     </h1>
 
                     <div className='flex items-center gap-1.5'>
-                        <button className='hover:bg-light-alt hover:dark:bg-dark-alt p-2 rounded-full'>
+                        <button className='hover:bg-light-alt hover:dark:bg-dark-alt p-2 rounded-full duration-300 transition-all' title='Favorite'>
                             <Heart size={18} />
                         </button>
-                        <button className='hover:bg-light-alt hover:dark:bg-dark-alt px-2 p-1.5 rounded-md text-sm flex items-center gap-1.5'>
+                        <button className='hover:bg-light-alt hover:dark:bg-dark-alt px-2 p-1.5 rounded-md text-sm flex items-center gap-1.5 duration-300 transition-all' title='Share'>
                             Share
                             <Share size={16} />
                         </button>
                     </div>
                 </div>
-                <p className='text-sm text-gray-600 capitalize'>{vehicle.year} ⁕ {vehicle.category}</p>
-                <p className='mt-2 font-semibold'>₦{vehicle.price}</p>
+                <p className='text-sm text-gray-600 capitalize'>{vehicle?.condition || "New"} ⁕ {vehicle.category}</p>
+                <p className='mt-2 font-semibold'>{formatAmount(vehicle.price)}</p>
             </div>
         </div>
     </section>

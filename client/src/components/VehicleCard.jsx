@@ -2,7 +2,7 @@ import { EllipsisVertical, Flag, Trash2 } from 'lucide-react';
 import React, { useState, useRef, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 
-const VehicleCard = ({ vehicle }) => {
+const VehicleCard = ({ vehicle, formatAmount }) => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [menuPosition, setMenuPosition] = useState({ top: 0, left: 0 });
   const buttonRef = useRef(null);
@@ -11,13 +11,6 @@ const VehicleCard = ({ vehicle }) => {
 
   const [loaded, setLoaded] = useState(false);
 
-  const formatAmount = (amount) => {
-    return new Intl.NumberFormat('en-NG', {
-      style: 'currency',
-      currency: 'NGN',
-      minimumFractionDigits: 0,
-    }).format(amount);
-  };
 
   const listed = vehicle.listed === true;
   const unlisted = vehicle.listed === false;
@@ -170,6 +163,7 @@ const VehicleCard = ({ vehicle }) => {
               <h4 className="font-bold text-xs md:text-sm leading-normal line-clamp-1">
                 <span className="">{vehicle.year} {vehicle.name}</span>
               </h4>
+              {/* <p className="text-xs">{price}</p> */}
               <p className="text-xs">{formatAmount(vehicle.price)}</p>
               {/* <span className="text-xs font-normal capitalize">{vehicle.category}</span> */}
               {/* <p className='text-xs'> 150hp </p> */}

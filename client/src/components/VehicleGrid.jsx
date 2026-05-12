@@ -4,7 +4,7 @@ import VehicleCard from './VehicleCard';
 
 
 const VehicleGrid = () => {
-    const { vehicles, loading, error } = useVehicle();
+    const { formatAmount, vehicles, loading, error } = useVehicle();
 
     if (loading){
         return (
@@ -37,7 +37,7 @@ const VehicleGrid = () => {
     return (
         <div className='grid grid-cols-2 md:grid-cols-3 gap-4 gap-y-5 md:gap-5 mt-4'>
             {vehicles.map((vehicle, index) => (
-                <VehicleCard key={vehicle._id || index} vehicle={vehicle} />      
+                <VehicleCard key={vehicle._id || index} formatAmount={formatAmount} vehicle={vehicle} />      
             ))}
         </div>
     );

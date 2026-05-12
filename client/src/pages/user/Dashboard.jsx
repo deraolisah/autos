@@ -3,7 +3,7 @@ import React from 'react';
 const Dashboard = () => {
   return (
     <section className='container'>
-      Admin Dashboard
+      <h1> Admin Dashboard </h1>
     </section>
   )
 }
