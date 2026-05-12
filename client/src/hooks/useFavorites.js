@@ -5,8 +5,8 @@ import { useAuth } from '../contexts/authContext';
 
 export const useFavorites = () => {
   const [favorites, setFavorites] = useState([]);
-  const [loading, setLoading] = useState(false);
-  const { isAuthenticated, token } = useAuth();
+  // const [loading, setLoading] = useState(false);
+  const { isAuthenticated, token, loading, setLoading } = useAuth();
   const API_URL = import.meta.env.VITE_API_URL;
 
   const fetchFavorites = async () => {

@@ -53,9 +53,11 @@ import React, { useState } from 'react'
 import { Link } from 'react-router-dom';
 import LoginPopup from './LoginPopup';
 import { useAuth } from '../contexts/authContext';  // Make sure path matches
+import { useFavorites } from '../hooks/useFavorites';
 
 const AccountPopup = ({ loginOpen, toggleLogin }) => {
   const { user, logout, isAuthenticated, loading } = useAuth();
+  const { favorites } = useFavorites();
   // const [loginOpen, setLoginOpen] = useState(false);
   
   // const toggleLogin = () => { setLoginOpen(prev => !prev); };
@@ -85,11 +87,13 @@ const AccountPopup = ({ loginOpen, toggleLogin }) => {
             </button>
           ) : (
             <>
-              <Link to="/account" className='px-2 py-1 rounded-md flex items-center gap-1.5 text-sm font-medium'>
+              <Link to="/account" className='hover:bg-light-alt hover:dark:bg-dark-alt px-2 py-1 rounded-md flex items-center gap-1.5 text-sm font-medium'>
                 <User size={16} strokeWidth={1.5} /> {user?.name || 'User'}
               </Link>
-              <Link to="/account/favorites" className='px-2 py-1 rounded-md flex items-center gap-1.5 text-sm'>
-                <Bookmark size={16} strokeWidth={1.5} /> Favorites
+              <Link to="/account/favorites" className='hover:bg-light-alt hover:dark:bg-dark-alt px-2 py-1 rounded-md flex items-center gap-1.5 text-sm'>
+                <Bookmark size={16} strokeWidth={1.5} /> 
+                Favorites
+                <span className='text-xs'> ( {favorites?.length || 2} ) </span>
               </Link>
               <Link to="/account/settings" className='hover:bg-light-alt hover:dark:bg-dark-alt px-2 py-1 rounded-md flex items-center gap-1.5'>
                 <Settings size={16} strokeWidth={1.5} /> Settings
