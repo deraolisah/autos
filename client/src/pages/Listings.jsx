@@ -7,7 +7,7 @@ import { useVehicle } from '../contexts/vehicleContext';
 /* ─── Filter Group ───────────────────────────────────────────────── */
 const FilterGroup = ({ label, name, options }) => {
   const [open, setOpen] = useState(true);
-  const [selected, setSelected] = useState(options[0]?.value ?? '');
+  const [selected, setSelected] = useState(options[1]?.value ?? '');
 
   return (
     <div className="py-0">
@@ -68,7 +68,7 @@ const FilterTag = ({ label, onRemove }) => (
 const Listings = () => {
   const { vehicles } = useVehicle();
   const [sidebarOpen, setSidebarOpen] = useState(false);
-  const [activeTags, setActiveTags] = useState(['Trucks', 'Under $15k', 'New', "Electric"]);
+  const [activeTags, setActiveTags] = useState([ 'SUVs', '$15k – $30k', 'New' ]);
 
   const removeTag = tag => setActiveTags(prev => prev.filter(t => t !== tag));
 
@@ -77,9 +77,9 @@ const Listings = () => {
       label: 'Vehicle Type',
       name: 'type',
       options: [
-        { value: 'trucks', label: 'Trucks' },
         { value: 'cars', label: 'Cars' },
         { value: 'suvs', label: 'SUVs' },
+        { value: 'trucks', label: 'Trucks' },
         { value: 'pickups', label: 'Pick-ups' },
       ],
     },
@@ -97,9 +97,9 @@ const Listings = () => {
       label: 'Condition',
       name: 'condition',
       options: [
+        { value: 'cpo', label: 'Certified Pre-Owned' },
         { value: 'new', label: 'New' },
         { value: 'used', label: 'Used' },
-        { value: 'cpo', label: 'Certified Pre-Owned' },
       ],
     },
     {

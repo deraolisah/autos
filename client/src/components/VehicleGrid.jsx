@@ -11,7 +11,7 @@ const VehicleGrid = () => {
             <div className='grid grid-cols-2 md:grid-cols-3 gap-4 gap-y-5 md:gap-5 mt-4'>
                 {/* {vehicles.map((loader, idx) => ( */}
                 {Array.from({ length: 6 }).map((_, idx) => (
-                    <div key={idx} className='w-full h-40 bg-light-alt/60 dark:bg-dark-alt/60 rounded-md overflow-hidden flex relative'>
+                    <div key={idx} className='w-full h-48 bg-light-alt/60 dark:bg-dark-alt/60 rounded-md overflow-hidden flex relative'>
                         <div className='absolute inset-0 w-full h-full shimmer'></div>
                     </div>
                 ))}

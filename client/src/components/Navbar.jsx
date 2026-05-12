@@ -24,7 +24,7 @@ const Navbar = () => {
     const toggleMenuOpen = () => { setMenuOpen(prev => !prev) }
     const toggleAccountPopup = () => { setAccountPopup(prev => !prev) }
     const toggleNotificationsPopup = () => { setNotificationsPopup(prev => !prev) }
-    const toggleLogin = () => { setLoginOpen(prev => !prev); };
+    const toggleLogin = () => { setLoginOpen(prev => !prev) }
     
     // 
     useEffect(() => {

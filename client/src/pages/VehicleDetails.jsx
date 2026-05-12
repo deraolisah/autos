@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import { useVehicle } from '../contexts/vehicleContext';
 import { Link, useParams } from 'react-router-dom';
-import { ChevronRight, Heart, Share } from 'lucide-react';
+import { ChevronRight, Expand, Heart, Share } from 'lucide-react';
 
 const VehicleDetails = () => {
   const { id } = useParams();
@@ -21,6 +21,10 @@ const VehicleDetails = () => {
 
   // State for selected main image
   const [selectedImage, setSelectedImage] = useState(null);
+    // State for lightbox image
+    const [ showLightbox, setShowLightbox ] = useState(false);
+
+    const togglelightbox = () => { setShowLightbox(prev => !prev) };
 
   // Update selectedImage when vehicle changes
   useEffect(() => {
@@ -48,11 +52,25 @@ const VehicleDetails = () => {
             <div className='w-full sm:w-1/2 flex flex-col gap-2.5'>
                 {/* Main Image */}
                 {selectedImage && (
-                    <img
-                        src={selectedImage}
-                        alt={vehicle.name}
-                        className='aspect-2/1 md:aspect-2/1 object-cover object-center w-full rounded-md'
-                    />
+                    <div className='relative rounded-md overflow-hidden'>
+                        <img
+                            src={selectedImage}
+                            alt={vehicle.name}
+                            className='aspect-2/1 md:aspect-2/1 object-cover object-center w-full'
+                        />
+                        <span className='absolute top-0 left-0 right-0 bottom-0 bg-linear-to-b from-transparent via-transparent to-black/60'></span>
+                        <span className='absolute bottom-2 right-2 text-light cursor-pointer' title='Full Screen' onClick={() => {togglelightbox()}}>
+                            <Expand />
+                        </span>
+                    </div>
+                )}
+
+                {/* Lightbox */}
+                {showLightbox && (
+                    <div className='fixed z-20000 inset-0 w-full h-full flex items-center justify-center p-4! bg-black/50 backdrop-blur-xs'>
+                        <img src={selectedImage} alt='' className='w-fit object-cover h-fit' />
+                        <button onClick={()=>{setShowLightbox(false)}} className='fixed top-4 right-4 py-1 px-2 text-sm rounded-sm uppercase text-light dark:text-dark bg-dark dark:bg-light'> close </button>
+                    </div>
                 )}
 
                 {/* Thumbnails */}
@@ -63,17 +81,20 @@ const VehicleDetails = () => {
                             src={img}
                             alt={`Thumbnail ${index + 1}`}
                             onClick={() => setSelectedImage(img)}
-                            className={`w-full aspect-video object-cover rounded-md ring-2 ring-transparent cursor-pointer opacity-60 hover:opacity-100 transition ${selectedImage === img ? "opacity-100 ring-yellow-500" : ""}`}
+                                className={`w-full aspect-3/2 object-cover rounded md:rounded-md ring md:ring-2 ring-transparent cursor-pointer opacity-60 hover:opacity-100 transition ${selectedImage === img ? "opacity-100 ring-yellow-500" : ""}`}
                         />
                     ))}
                 </div>
             </div>
 
             {/* Vehicle Info */}
-            <div className='w-full flex-1'>
-                <div className='flex items-center justify-between'>
-                    <h1 className='text-2xl font-bold line-clamp-2 flex items-center gap-4'>
-                        <span> {vehicle.year} {vehicle.name} </span>
+            <div className='w-full flex-1 space-y-2'>
+                <div className='w-full flex items-center justify-between'>
+                    <div className='w-full flex items-center flex-wrap gap-x-4 gap-2'>
+                        <h1 className='text-xl md:text-2xl font-bold leading-none'>
+                            <span> {vehicle.year} {vehicle.name} </span>
+                        </h1>
+
                         <span className={`bg-green-500 text-white py-1 p-1.5 rounded-sm capitalize text-[10px] md:text-[11px] font-normal shadow ${vehicle.listed ? "bg-green-500" : "bg-red-500"}`}>
                             {vehicle.listed ? (
                                 <span> Available </span>
@@ -81,9 +102,9 @@ const VehicleDetails = () => {
                                 <span> Unavailable </span>
                             )}
                         </span>
-                    </h1>
+                    </div>
 
-                    <div className='flex items-center gap-1.5'>
+                    <div className='w-fit flex items-center gap-1'>
                         <button className='hover:bg-light-alt hover:dark:bg-dark-alt p-2 rounded-full duration-300 transition-all' title='Favorite'>
                             <Heart size={18} />
                         </button>
@@ -93,8 +114,8 @@ const VehicleDetails = () => {
                         </button>
                     </div>
                 </div>
-                <p className='text-sm text-gray-600 capitalize'>{vehicle?.condition || "New"} ⁕ {vehicle.category}</p>
                 <p className='mt-2 font-semibold'>{formatAmount(vehicle.price)}</p>
+                <p className='text-sm text-gray-600 capitalize'>{vehicle?.condition || "New"} ⁕ {vehicle.category}</p>
             </div>
         </div>
     </section>

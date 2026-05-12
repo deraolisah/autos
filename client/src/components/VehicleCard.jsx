@@ -119,7 +119,7 @@ const VehicleCard = ({ vehicle, formatAmount }) => {
   };
 
   return (
-    <div ref={cardRef} className="relative group" title={vehicle.name}>
+    <div ref={cardRef} className="relative group hover:border-transparent rounded-xl border border-light-alt/60 dark:border-dark-alt/60 duration-300 trnasition-all" title={vehicle.name}>
       <div className='z-10 relative rounded-lg bg-transparent group-hover:bg-transparent duration-100 transition-all'>
         <span className={`bg-green-500 text-white py-0.5 p-1.5 rounded-sm capitalize text-[10px] md:text-[11px] font-normal absolute z-1 top-1.5 left-1.5 cursor-auto shadow ${vehicle.listed ? "bg-green-500" : "bg-red-500"}`}>
           {vehicle.listed ? (
@@ -156,7 +156,7 @@ const VehicleCard = ({ vehicle, formatAmount }) => {
           />
         </Link>
 
-        <div className="p-2 pb-0.5 space-y-2 relative z-10">
+        <div className="p-2 grou-hover:pb-0! space-y-2 relative z-10 duration-300 transition-all">
           <div className="flex items-center justify-between gap-1.5">
             <img src={vehicle.avatar || null} alt="" className="aspect-square w-7.5 h-7.5 p-0 object-cover rounded-full bg-light-alt dark:bg-dark-alt duration-300 transition-all" />
             <div className='flex-1 flex flex-col items-start justify-between gap-px'>
