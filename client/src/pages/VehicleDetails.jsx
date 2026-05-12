@@ -68,7 +68,7 @@ const VehicleDetails = () => {
                 {/* Lightbox */}
                 {showLightbox && (
                     <div className='fixed z-20000 inset-0 w-full h-full flex items-center justify-center p-4! bg-black/50 backdrop-blur-xs'>
-                        <img src={selectedImage} alt='' className='w-fit object-cover h-fit' />
+                        <img src={selectedImage} alt='' className='w-fit object-contain h-fit' />
                         <button onClick={()=>{setShowLightbox(false)}} className='fixed top-4 right-4 py-1 px-2 text-sm rounded-sm uppercase text-light dark:text-dark bg-dark dark:bg-light'> close </button>
                     </div>
                 )}
