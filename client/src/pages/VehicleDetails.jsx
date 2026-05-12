@@ -69,7 +69,7 @@ const VehicleDetails = () => {
                 {showLightbox && (
                     <div className='fixed z-20000 inset-0 w-full h-full flex items-center justify-center p-4! bg-black/50 backdrop-blur-xs'>
                         <img src={selectedImage} alt='' className='w-fit object-contain h-fit' />
-                        <button onClick={()=>{setShowLightbox(false)}} className='fixed top-4 right-4 py-1 px-2 text-sm rounded-sm uppercase text-light dark:text-dark bg-dark dark:bg-light'> close </button>
+                        <button onClick={()=>{setShowLightbox(false)}} className='fixed top-4 right-4 py-1 px-2 text-sm font-medium rounded-sm uppercase text-light dark:text-dark bg-dark dark:bg-light'> close </button>
                     </div>
                 )}
 
@@ -89,7 +89,7 @@ const VehicleDetails = () => {
 
             {/* Vehicle Info */}
             <div className='w-full flex-1 space-y-2'>
-                <div className='w-full flex items-center justify-between'>
+                <div className='w-full flex items-start md:items-center justify-between'>
                     <div className='w-full flex items-center flex-wrap gap-x-4 gap-2'>
                         <h1 className='text-xl md:text-2xl font-bold leading-none'>
                             <span> {vehicle.year} {vehicle.name} </span>
@@ -104,11 +104,11 @@ const VehicleDetails = () => {
                         </span>
                     </div>
 
-                    <div className='w-fit flex items-center gap-1'>
-                        <button className='hover:bg-light-alt hover:dark:bg-dark-alt p-2 rounded-full duration-300 transition-all' title='Favorite'>
+                    <div className='w-fit flex items-center gap-1.5'>
+                        <button className='bg-light-alt/30 dark:bg-dark-alt/30 hover:bg-light-alt hover:dark:bg-dark-alt p-2 rounded-full duration-300 transition-all' title='Favorite'>
                             <Heart size={18} />
                         </button>
-                        <button className='hover:bg-light-alt hover:dark:bg-dark-alt px-2 p-1.5 rounded-md text-sm flex items-center gap-1.5 duration-300 transition-all' title='Share'>
+                        <button className='bg-light-alt/30 dark:bg-dark-alt/30 hover:bg-light-alt hover:dark:bg-dark-alt px-2 p-1.5 rounded-md text-sm flex items-center gap-1.5 duration-300 transition-all' title='Share'>
                             Share
                             <Share size={16} />
                         </button>
