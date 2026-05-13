@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import { useVehicle } from '../contexts/vehicleContext';
 import { Link, useParams } from 'react-router-dom';
-import { ChevronRight, Expand, Heart, Share } from 'lucide-react';
+import { ChevronLeft, ChevronRight, Expand, Heart, Share } from 'lucide-react';
 import { useFavorites } from '../hooks/useFavorites';
 
 
@@ -68,15 +68,19 @@ const VehicleDetails = () => {
                 {/* Main Image */}
                 {selectedImage && (
                     <div className='relative rounded-md overflow-hidden'>
+                        <Link to="/listings" className='absolute z-2 top-2 left-2 bg-light/80 dark:bg-dark/80 backdrop-blur-sm p-1 pr-2 rounded-sm text-xs flex items-center gap-0 cursor-pointer duration-300 transition-all'>
+                            <ChevronLeft size={14} />
+                            back
+                        </Link>
                         <img
                             src={selectedImage}
                             alt={vehicle.name}
                             className='aspect-2/1 md:aspect-2/1 object-cover object-center w-full'
                         />
                         <span className='absolute top-0 left-0 right-0 bottom-0 bg-linear-to-b from-transparent via-transparent to-black/60'></span>
-                        <span className='absolute bottom-2 right-2 text-light cursor-pointer' title='Full Screen' onClick={() => {togglelightbox()}}>
+                        <button className='absolute bottom-2 right-2 text-light cursor-pointer' title='Full Screen' onClick={() => {togglelightbox()}}>
                             <Expand />
-                        </span>
+                        </button>
                     </div>
                 )}
 
