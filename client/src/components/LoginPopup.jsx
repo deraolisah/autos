@@ -1,6 +1,8 @@
 import React, { useState } from "react";
 import axios from "axios";
 import { useAuth } from "../contexts/authContext";
+import { Eye, EyeOff } from "lucide-react";
+import { useNavigate } from "react-router-dom";
 
 const LoginPopup = ({ onClose }) => {
   const [isLogin, setIsLogin] = useState(true);
@@ -9,8 +11,15 @@ const LoginPopup = ({ onClose }) => {
   const [name, setName] = useState("");
   const [message, setMessage] = useState("");
   const [loading, setLoading] = useState(false);
+  const [showPassword, setShowPassword] = useState(false);
+
   const { login } = useAuth();
   const API_URL = import.meta.env.VITE_API_URL;
+  const navigate = useNavigate();
+
+  const togglePassword = () => {
+    setShowPassword(prev => !prev);
+  }
 
   // Handle OAuth popup
   const handleSocialLogin = (provider) => {
@@ -67,7 +76,8 @@ const LoginPopup = ({ onClose }) => {
       if (response.data.success && response.data.token) {
         login(response.data.token, response.data.user);
         setMessage(isLogin ? "✅ Logged in successfully!" : "✅ Registered successfully!");
-        setTimeout(() => onClose?.(), 1500);
+        setTimeout(() => onClose?.(), 1000);
+        navigate("/account");
       }
     } catch (err) {
       setMessage(`❌ ${err.response?.data?.error || "Something went wrong"}`);
@@ -80,7 +90,7 @@ const LoginPopup = ({ onClose }) => {
     <div className="w-full max-w-sm mx-auto max-h-[80svh] p-4 overflow-y-auto scrollbar-hidden relative z-2000 flex flex-col items-center justify-center border border-light-alt dark:border-dark-alt bg-light dark:bg-dark rounded-2xl duration-300 transition-all">      
         <h2 className="mb-2 font-semibold text-lg"> Login </h2>
       {/* Email/Password Form */}
-      <form onSubmit={handleSubmit} className="space-y-4">
+      <form onSubmit={handleSubmit} className="space-y-4 w-full">
         {!isLogin && (
           <input
             type="text"
@@ -103,15 +113,24 @@ const LoginPopup = ({ onClose }) => {
           required
         />
         
-        <input
-          type="password"
-          placeholder="Password"
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
-          className="w-full p-2 border rounded dark:bg-dark-alt focus:outline-none"
-          disabled={loading}
-          required
-        />
+        <div className="relative w-full">
+          <input
+            type={showPassword ? "text" : "password"}
+            placeholder="Password"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+            className="w-full p-2 border rounded dark:bg-dark-alt focus:outline-none"
+            disabled={loading}
+            required
+            />
+            <button type="button" onClick={()=>{togglePassword()}} className="absolute top-1/2 right-3 -translate-y-1/2 p-1.5 rounded-full dark:text-dark hover:bg-light-alt dark:hover:bg-dark-alt dark:hover:text-light-alt">
+              {showPassword ? (
+                <Eye size={16} />
+              ) : (
+                <EyeOff size={16} />
+              )}
+            </button>
+        </div>
         
         <div className="flex items-center gap-3">
             <button type="submit" disabled={loading} className="w-full bg-yellow-500 text-white py-2 rounded hover:bg-yellow-700 disabled:opacity-50 duration-300 transition-all">

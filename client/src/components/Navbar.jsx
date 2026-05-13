@@ -10,6 +10,7 @@ import LoginPopup from './LoginPopup';
 import { useAuth } from '../contexts/authContext';
 
 const Navbar = ({ isHome }) => {
+    const { isAuthenticated } = useAuth();
     const { theme, toggleTheme } = useTheme();
     const [menuOpen, setMenuOpen] = useState(false);
     const [accountPopup, setAccountPopup] = useState(false);
@@ -128,7 +129,7 @@ const Navbar = ({ isHome }) => {
             </div>
         )}
 
-        {loginOpen && (
+        {loginOpen && !isAuthenticated && (
             <div className='px-4 flex items-center justify-center fixed inset-0 w-full h-full z-200000 top-1/2 left-1/2 -translate-1/2'>
                 <LoginPopup />
                 <div onClick={() => {setLoginOpen(false); }} className='fixed! inset-0 z-200 w-full h-full bg-light/50 dark:bg-dark/50 backdrop-blur-sm'></div>
