@@ -1,4 +1,5 @@
-import { createContext, useContext, useEffect, useState } from "react";
+import { createContext, use, useContext, useEffect, useState } from "react";
+import { useAuth } from "./authContext";
 import axios from "axios";
 
 const VehicleContext = createContext();
@@ -11,12 +12,14 @@ export const useVehicle = () => {
 
 
 export const VehicleProvider = ({ children }) => {
-    // const [vehicle, setVehicle] = useState(null);  // Changed from undefined to null
     const [vehicles, setVehicles] = useState([]);
+    const [favorites, setFavorites] = useState([]);
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState(null);
+    
 
-      const API_URL = import.meta.env.VITE_API_URL;
+    const { token, isAuthenticated } = useAuth();
+    const API_URL = import.meta.env.VITE_API_URL;
 
 
       // Import Vehicles from json file
@@ -35,19 +38,16 @@ export const VehicleProvider = ({ children }) => {
     // };
 
 
-    // Get All Vehicles using Axios
+    // Fetch All Vehicles using Axios
     const getAllVehicles = async () => {
-        // console.log("getVehicles called with URL:", `${API_URL}/api/vehicles/all`);
         setLoading(true);
         setError(null);
         try {
             const res = await axios.get(`${API_URL}/api/vehicles/all`);
-            // console.log("API Response:", res.data);
 
             if (res.data.success && Array.isArray(res.data.data)) {
                 setVehicles(res.data.data);
             } else {
-                // console.error("Unexpected API response structure:", res.data);
                 setVehicles([]);
             }
         } catch (error) {
@@ -59,14 +59,9 @@ export const VehicleProvider = ({ children }) => {
         }
     }
 
-    useEffect(() => {
-        if (vehicles.length === 0) {
-            getAllVehicles();
-        }
-    }, []);
 
 
-    // Format Price helper
+    // Format Price Helper
     const formatAmount = (amount) => {
         return new Intl.NumberFormat('en-NG', {
         style: 'currency',
@@ -74,6 +69,65 @@ export const VehicleProvider = ({ children }) => {
         minimumFractionDigits: 0,
         }).format(amount);
     };
+
+
+
+
+    
+    // Fetch All Favorites for a User
+    const getFavorites = async () => {
+        if (!isAuthenticated) return;
+        setLoading(true);
+        try {
+            const res = await axios.get(`${API_URL}/api/favorites`, {
+                headers: { Authorization: `Bearer ${token}` 
+            }
+        });
+
+        // ✅ Always set to an array
+        if (Array.isArray(res.data)) {
+            setFavorites(res.data);
+        } else {
+            setFavorites([]);
+        }
+        } catch (error) {
+            console.error("Error fetching favorites:", error);
+            setFavorites([]);
+        } finally {
+            setLoading(false);
+        }
+    };
+
+
+    // Add/Remove a Vehicle to/from Favorites
+    const toggleFavorite = async (vehicleId) => {
+        if (!isAuthenticated) {
+            alert("Please login to add favorites");
+            return;
+        }
+        
+        const isFav = Array.isArray(favorites) && favorites.some(v => v._id === vehicleId);
+        const method = isFav ? "delete" : "post";
+        
+        try {
+            const res = await axios({
+                method,
+                url: method === "post" ? `${API_URL}/api/favorites/add/${vehicleId}` : `${API_URL}/api/favorites/remove/${vehicleId}`,
+                headers: { Authorization: `Bearer ${token}` }
+            });
+            
+            if (method === "post") {
+                // backend returns the vehicle object
+                setFavorites([...favorites, res.data]);
+            } else {
+                // backend returns { message, id }
+                setFavorites(favorites.filter(v => v._id !== vehicleId));
+            }
+        } catch (error) {
+            console.error("Error toggling favorite:", error.response?.data?.message || error.message);
+        }
+    };
+
 
 
     // Get a Single Vehicle
@@ -119,11 +173,23 @@ export const VehicleProvider = ({ children }) => {
     //     }
     // };
 
-    // useEffect(() => {
-    //     if (vehicle.length === 0) {
-    //         getVehicle();
-    //     }
-    // }, []);
+    // ✅ Add this helper function
+    const isFavorited = (vehicleId) => {
+        if (!Array.isArray(favorites)) return false;
+        return favorites.some(fav => fav._id === vehicleId);
+    };
+
+
+    useEffect(() => {
+        if (vehicles.length === 0) getAllVehicles();
+    }, []);
+
+    // Separate effect for favorites - depends on auth
+    useEffect(() => {
+        if (isAuthenticated && token) {
+            getFavorites();
+        }
+    }, [isAuthenticated, token]);
 
 
     // The context value MUST include both functions
@@ -132,6 +198,10 @@ export const VehicleProvider = ({ children }) => {
         setVehicles,
         getAllVehicles,     // Function to fetch all vehicles
         formatAmount,
+        toggleFavorite,
+        getFavorites,
+        isFavorited,
+        favorites,
         loading,
         error,
     };

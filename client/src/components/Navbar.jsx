@@ -9,7 +9,7 @@ import NotificationsPopup from './NotificationsPopup';
 import LoginPopup from './LoginPopup';
 import { useAuth } from '../contexts/authContext';
 
-const Navbar = () => {
+const Navbar = ({ isHome }) => {
     const { theme, toggleTheme } = useTheme();
     const [menuOpen, setMenuOpen] = useState(false);
     const [accountPopup, setAccountPopup] = useState(false);
@@ -58,7 +58,7 @@ const Navbar = () => {
 
   return (
     <>
-        <nav className='container fixed top-0 left-1/2 -translate-x-1/2 z-2000! flex items-center justify-between h-14 border-b border-gray-300 md:border-gray-300/60 dark:border-dark-alt md:dark:border-dark-alt/60 bg-light md:bg-light/45 dark:bg-dark md:dark:bg-dark/65 backdrop-blur-md duration-300 transition-all'>
+        <nav className={`container fixed top-0 left-1/2 -translate-x-1/2 z-2000! flex items-center justify-between h-14 border-b border-gray-300 md:border-gray-300/60 dark:border-dark-alt md:dark:border-dark-alt/60 bg-light md:bg-light/45 dark:bg-dark md:dark:bg-dark/65 backdrop-blur-md duration-300 transition-all ${isHome ? "bg-transparent! border-0! backdrop-blur-none!" : ""}`}>
             <Link to="/" onClick={()=> { scrollTo(0,0); }} className='font-semibold text-lg flex items-center gap-1'>
                 <img src={logo} alt='Autos Logo' className='object-cover w-6.5  dark:invert-90 duration-300 transition-all' />
                 Autos

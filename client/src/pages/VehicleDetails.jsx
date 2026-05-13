@@ -2,12 +2,16 @@ import React, { useState, useEffect } from 'react'
 import { useVehicle } from '../contexts/vehicleContext';
 import { Link, useParams } from 'react-router-dom';
 import { ChevronRight, Expand, Heart, Share } from 'lucide-react';
+import { useFavorites } from '../hooks/useFavorites';
+
 
 const VehicleDetails = () => {
-  const { id } = useParams();
-  const { formatAmount, vehicles, loading, error } = useVehicle();
-
-  const vehicle = vehicles.find(p => p._id === id);
+    const { id } = useParams();
+    const { formatAmount, vehicles, favorites, toggleFavorite, loading, error } = useVehicle();
+    const { isFavorited } = useFavorites(); 
+    
+    const vehicle = vehicles.find(p => p._id === id);
+    const isFav = isFavorited(vehicle?._id);
 
   // Placeholders to fill up to 4 thumbnails
   const placeholders = [
@@ -39,11 +43,22 @@ const VehicleDetails = () => {
   if (error) return <div className='p-4'>Error: {error}</div>;
   if (!vehicle) return <div className='p-4'>No vehicle found</div>;
 
+
+//   // ✅ Safely check favorites only if both exist
+// //   const isFav = Array.isArray(favorites) && favorites.some(fav => fav._id === vehicle._id);
+//     const isFav = isFavorited(vehicle?._id);
+
+//     // ✅ Safe check - handles undefined, null, or non-arrays
+//     // const isFav = Array.isArray(favorites) && favorites.some(fav => fav._id === vehicle._id);
+
+
   // Build thumbnails: real images first, placeholders fill the rest
   const thumbnails = [...(vehicle.images || [])];
   while (thumbnails.length < 6) {
     thumbnails.push(placeholders[thumbnails.length]);
   }
+
+
 
   return (
     <section className='container py-4'>
@@ -105,8 +120,8 @@ const VehicleDetails = () => {
                     </div>
 
                     <div className='w-fit flex items-center gap-1.5'>
-                        <button className='bg-light-alt/30 dark:bg-dark-alt/30 hover:bg-light-alt hover:dark:bg-dark-alt p-1.5 rounded-full duration-300 transition-all' title='Favorite'>
-                            <Heart size={18} />
+                        <button className={`bg-light-alt/30 dark:bg-dark-alt/30 hover:bg-light-alt hover:dark:bg-dark-alt p-1.5 rounded-full duration-300 transition-all ${isFav ? "text-red-600" : "text-gray-400"}`} title='Favorite' onClick={() => toggleFavorite(vehicle._id)}>
+                            {isFav ? "❤️ Favorited" : (<Heart size={18} />)}
                         </button>
                         <button className='bg-light-alt/30 dark:bg-dark-alt/30 hover:bg-light-alt hover:dark:bg-dark-alt px-2 p-1.5 rounded-md text-xs md:text-sm flex items-center gap-1.5 duration-300 transition-all' title='Share'>
                             Share

@@ -53,14 +53,12 @@ import React, { useState } from 'react'
 import { Link } from 'react-router-dom';
 import LoginPopup from './LoginPopup';
 import { useAuth } from '../contexts/authContext';  // Make sure path matches
-import { useFavorites } from '../hooks/useFavorites';
+import { useVehicle } from '../contexts/vehicleContext';
 
 const AccountPopup = ({ loginOpen, toggleLogin }) => {
   const { user, logout, isAuthenticated, loading } = useAuth();
-  const { favorites } = useFavorites();
-  // const [loginOpen, setLoginOpen] = useState(false);
+  const { favorites, getFavorites } = useVehicle();
   
-  // const toggleLogin = () => { setLoginOpen(prev => !prev); };
 
   const handleLogout = () => {
     logout();
@@ -93,7 +91,7 @@ const AccountPopup = ({ loginOpen, toggleLogin }) => {
               <Link to="/account/favorites" className='hover:bg-light-alt hover:dark:bg-dark-alt px-2 py-1 rounded-md flex items-center gap-1.5 text-sm'>
                 <Bookmark size={16} strokeWidth={1.5} /> 
                 Favorites
-                <span className='text-xs'> ( {favorites?.length || 2} ) </span>
+                <span className='text-xs'> ( {favorites.length} ) </span>
               </Link>
               <Link to="/account/settings" className='hover:bg-light-alt hover:dark:bg-dark-alt px-2 py-1 rounded-md flex items-center gap-1.5'>
                 <Settings size={16} strokeWidth={1.5} /> Settings

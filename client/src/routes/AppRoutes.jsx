@@ -1,4 +1,4 @@
-import { Route, Routes } from 'react-router-dom';
+import { Route, Routes, useLocation } from 'react-router-dom';
 import React from 'react'
 import Navbar from '../components/Navbar';
 import Footer from '../components/Footer';
@@ -22,9 +22,15 @@ import NotFound from '../pages/NotFound.jsx';
 
 
 const AppRoutes = () => {
+  const location = useLocation();
+
+  const isHome = location.pathname === "/";
+
+
+
   return (
     <div className='relative pt-14 font-body min-h-screen bg-light dark:bg-dark dark:text-light transition-all duration-300'>
-        <Navbar />
+        <Navbar isHome={isHome} />
 
         <Routes>
             {/* Public Routes */}
@@ -50,7 +56,7 @@ const AppRoutes = () => {
             {/* Not Found */}
             <Route path='*' element={<NotFound />} />
         </Routes>  
-        <Footer />
+        <Footer isHome={isHome} />
     </div>
   )
 }

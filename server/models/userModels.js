@@ -5,6 +5,7 @@ const userSchema = new mongoose.Schema({
   email: { type: String, required: true, unique: true },
   password: { type: String }, // Optional for social logins
   name: { type: String },
+  favorites: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Vehicle' }], 
   googleId: { type: String },
   facebookId: { type: String },
   avatar: { type: String },

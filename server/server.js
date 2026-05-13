@@ -6,6 +6,7 @@ import connectDB from "./config/db.js";
 import passport from './config/passport.js';
 import authRoutes from "./routes/authRoutes.js";
 import vehicleRoutes from "./routes/vehicleRoutes.js";
+import favoriteRoutes from "./routes/favoriteRoutes.js";
 import logger from "morgan";
 dotenv.config({ quiet: true });
 
@@ -42,6 +43,8 @@ connectDB();
 app.use("/api/vehicles", vehicleRoutes);
 // 
 app.use("/api/auth", authRoutes);
+// 
+app.use("/api/favorites", favoriteRoutes);
 
 
 // 
