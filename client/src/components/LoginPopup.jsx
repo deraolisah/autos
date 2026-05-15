@@ -89,6 +89,9 @@ const LoginPopup = ({ onClose }) => {
   return (
     <div className="w-full max-w-sm mx-auto max-h-[80svh] p-4 overflow-y-auto scrollbar-hidden relative z-2000 flex flex-col items-center justify-center border border-light-alt dark:border-dark-alt bg-light dark:bg-dark rounded-2xl duration-300 transition-all">      
         <h2 className="mb-2 font-semibold text-lg"> Login </h2>
+
+        {message && <p className="mt-4 text-sm text-center">{message}</p>}
+        
       {/* Email/Password Form */}
       <form onSubmit={handleSubmit} className="space-y-4 w-full">
         {!isLogin && (
@@ -123,7 +126,7 @@ const LoginPopup = ({ onClose }) => {
             disabled={loading}
             required
             />
-            <button type="button" onClick={()=>{togglePassword()}} className="absolute top-1/2 right-3 -translate-y-1/2 p-1.5 rounded-full dark:text-dark hover:bg-light-alt dark:hover:bg-dark-alt dark:hover:text-light-alt">
+            <button type="button" onClick={()=>{togglePassword()}} className="absolute top-1/2 right-3 -translate-y-1/2 p-1.5 rounded-full text-dark dark:text-light hover:bg-light-alt dark:hover:bg-dark dark:hover:text-light-alt">
               {showPassword ? (
                 <Eye size={16} />
               ) : (
@@ -190,7 +193,7 @@ const LoginPopup = ({ onClose }) => {
       </div>
       
       
-      {message && <p className="mt-4 text-sm text-center">{message}</p>}
+      
     </div>
   );
 };

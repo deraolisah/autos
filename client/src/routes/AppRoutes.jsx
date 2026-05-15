@@ -11,6 +11,8 @@ import About from '../pages/About';
 import Contact from '../pages/Contact.jsx';
 import Listings from '../pages/Listings';
 import VehicleDetails from '../pages/VehicleDetails';
+import Feedback from '../pages/Feedback.jsx';
+import Support from '../pages/Support.jsx';
 
 // Protected Routes
 import DashboardLayout from '../layouts/DashboardLayout.jsx';
@@ -40,6 +42,8 @@ const AppRoutes = () => {
             <Route path='/listings' element={<Listings />} />
             <Route path='/vehicle/:id' element={<VehicleDetails />} />
             <Route path='/auth/social-callback' element={<AuthCallback />} />
+            <Route path='/feedback' element={<Feedback />} />
+            <Route path='/support' element={<Support />} />
 
             {/* Protected Routes */}
             <Route path='/account' element={
