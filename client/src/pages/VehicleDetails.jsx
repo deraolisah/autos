@@ -3,6 +3,7 @@ import { useVehicle } from '../contexts/vehicleContext';
 import { Link, useParams } from 'react-router-dom';
 import { ChevronLeft, ChevronRight, Expand, Heart, Share } from 'lucide-react';
 import { useFavorites } from '../hooks/useFavorites';
+import FavoriteButton from '../components/FavoriteButton';
 
 
 const VehicleDetails = () => {
@@ -124,9 +125,10 @@ const VehicleDetails = () => {
                     </div>
 
                     <div className='w-fit flex items-center gap-1.5'>
-                        <button className={`bg-light-alt/30 dark:bg-dark-alt/30 hover:bg-light-alt hover:dark:bg-dark-alt p-1.5 rounded-full duration-300 transition-all ${isFav ? "text-red-600" : "text-gray-400"}`} title='Favorite' onClick={() => toggleFavorite(vehicle._id)}>
+                        <FavoriteButton vehicleId={vehicle._id} />
+                        {/* <button className={`bg-light-alt/30 dark:bg-dark-alt/30 hover:bg-light-alt hover:dark:bg-dark-alt p-1.5 rounded-full duration-300 transition-all ${isFav ? "text-red-600" : "text-gray-400"}`} title='Favorite' onClick={() => toggleFavorite(vehicle._id)}>
                             {isFav ? "❤️ Favorited" : (<Heart size={18} />)}
-                        </button>
+                        </button> */}
                         <button className='bg-light-alt/30 dark:bg-dark-alt/30 hover:bg-light-alt hover:dark:bg-dark-alt px-2 p-1.5 rounded-md text-xs md:text-sm flex items-center gap-1.5 duration-300 transition-all' title='Share'>
                             Share
                             <Share size={16} />

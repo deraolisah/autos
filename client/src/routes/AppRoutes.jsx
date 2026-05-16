@@ -18,6 +18,7 @@ import Support from '../pages/Support.jsx';
 import DashboardLayout from '../layouts/DashboardLayout.jsx';
 import Dashboard from '../pages/user/Dashboard.jsx';
 import Favorites from '../pages/user/Favorites.jsx';
+import FavoritesPage from '../pages/user/FavoritesPage.jsx';
 
 // Not Found Routes
 import NotFound from '../pages/NotFound.jsx';
@@ -52,7 +53,8 @@ const AppRoutes = () => {
               </ProtectedRoute>
             }>
               <Route index element={<Dashboard /> } />
-              <Route path='favorites' element={<Favorites />} />
+              {/* <Route path='favorites' element={<Favorites />} /> */}
+              <Route path="favorites" element={<FavoritesPage />} />
               <Route path='settings' element={<Favorites />} />
             </Route>
 
