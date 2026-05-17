@@ -10,13 +10,13 @@ const Hero = () => {
 
   return (
     <section className='container mx-auto p-0! -mt-14'>
-      <div className='aspect-3/2 md:aspect-2/1 w-full h-screen md:h-full flex flex-col gap-0.5 md:gap-2 items-start justify-end md:justify-start px-4 py-6 md:py-26 relative overflow-hidden' style={{
+      <div className='aspect-3/2 md:aspect-2/1 w-full h-screen md:h-full flex flex-col gap-0.5 md:gap-2 items-center justify-center px-4 py-6 md:py-26 relative overflow-hidden' style={{
           backgroundImage: `url(${hero})`,
           backgroundRepeat: "no-repeat",
           backgroundSize: "cover",
           backgroundPosition: "center"
       }}>
-        <div className='absolute inset-0 w-full h-full bg-linear-to-t from-transparent to-white/5 dark:to-black/80  z-0'></div>
+        <div className='absolute inset-0 w-full h-full bg-linear-to-t from-transparent to-white/5 dark:to-black  z-0'></div>
         <p className='text-light uppercase z-2'> Explore Our Luxury </p>
         <h1 className='text-3xl md:text-5xl text-light font-bold uppercase z-2 mb-1'> Car Collection </h1>
         <Link to="/listings" className='text-xs sm:text-base text-light bg-primary px-4 py-2 rounded-md w-fit z-2'> Get Started </Link>

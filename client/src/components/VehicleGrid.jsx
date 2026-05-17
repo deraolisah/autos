@@ -22,11 +22,19 @@ const VehicleGrid = () => {
 
     if (error) {
         return (
-            <div className='bg-light-alt dark:bg-dark-alt rounded-lg p-4 h-48 text-red-500 text-center mt-4 flex flex-col gap-2 items-center justify-center duration-300 transition-all'>
-                <img src='' alt='' className='' />
-                Error: {error}
-                
-                <button className='cursor-pointer text-dark dark:text-light bg-light dark:bg-dark p-1.5 px-4 rounded-full' onClick={()=> { window.location.reload()}}> refresh </button>
+            <div className='rounded-lg overflow-hidden min-h-48 text-red-500 text-center duration-300 transition-all relative'>
+                <div className='w-full h-full bg-light-alt/60 dark:bg-dark/90 absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 z-2 flex flex-col items-center justify-center gap-2'>
+                    {/* <img src='' alt='' className='' /> */}
+                    Error: {error}                
+                    <button className='cursor-pointer border border-transparent text-dark dark:text-light bg-light dark:bg-dark hover:border-light-alt dark:hover:border-dark-alt p-1.5 px-4 rounded-full' onClick={()=> { window.location.reload()}}> refresh </button>
+                </div>
+                <div className='w-full grid grid-cols-2 md:grid-cols-3 gap-4 gap-y-5 md:gap-5'>
+                    {Array.from({ length: 6 }).map((_, idx) => (
+                        <div key={idx} className='w-full h-34 md:h-48 bg-light-alt/60 dark:bg-dark-alt/60 rounded-md overflow-hidden flex relative'>
+                            <div className='absolute inset-0 w-full h-full shimmer'></div>
+                        </div>
+                    ))}
+                </div>
             </div>
         );
     };
