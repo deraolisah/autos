@@ -13,6 +13,7 @@ const userSchema = new mongoose.Schema({
   createdAt: { type: Date, default: Date.now }
 });
 
+
 // Hash password only if it exists and is modified
 userSchema.pre('save', async function() {
   if (this.password && this.isModified('password')) {

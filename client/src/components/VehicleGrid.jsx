@@ -26,7 +26,7 @@ const VehicleGrid = () => {
                 <div className='w-full h-full bg-light-alt/60 dark:bg-dark/90 absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 z-2 flex flex-col items-center justify-center gap-2'>
                     {/* <img src='' alt='' className='' /> */}
                     Error: {error}                
-                    <button className='cursor-pointer border border-transparent text-dark dark:text-light bg-light dark:bg-dark hover:border-light-alt dark:hover:border-dark-alt p-1.5 px-4 rounded-full' onClick={()=> { window.location.reload()}}> refresh </button>
+                    <button className='cursor-pointer border border-transparent text-dark dark:text-light bg-light dark:bg-dark hover:border-light-alt dark:hover:border-dark-alt p-1.5 px-4 rounded-full duration-300 transition-all' onClick={()=> { window.location.reload()}}> refresh </button>
                 </div>
                 <div className='w-full grid grid-cols-2 md:grid-cols-3 gap-4 gap-y-5 md:gap-5'>
                     {Array.from({ length: 6 }).map((_, idx) => (
