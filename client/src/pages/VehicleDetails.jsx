@@ -69,10 +69,10 @@ const VehicleDetails = () => {
                 {/* Main Image */}
                 {selectedImage && (
                     <div className='relative rounded-md overflow-hidden'>
-                        <Link to="/listings" className='absolute z-2 top-2 left-2 bg-light/80 dark:bg-dark/80 backdrop-blur-sm p-1 pr-2 rounded-sm text-xs flex items-center gap-0 cursor-pointer duration-300 transition-all'>
+                        <button className='absolute z-2 top-2 left-2 bg-light/80 dark:bg-dark/80 backdrop-blur-sm p-1 pr-2 rounded-sm text-xs flex items-center gap-0 cursor-pointer duration-300 transition-all' onClick={()=> {window.history.back()}}>
                             <ChevronLeft size={14} />
                             back
-                        </Link>
+                        </button>
                         <img
                             src={selectedImage}
                             alt={vehicle.name}
@@ -124,7 +124,7 @@ const VehicleDetails = () => {
                         </span>
                     </div>
 
-                    <div className='w-fit flex items-center gap-1.5'>
+                    <div className='w-fit flex items-center gap-2'>
                         <FavoriteButton vehicleId={vehicle._id} />
                         {/* <button className={`bg-light-alt/30 dark:bg-dark-alt/30 hover:bg-light-alt hover:dark:bg-dark-alt p-1.5 rounded-full duration-300 transition-all ${isFav ? "text-red-600" : "text-gray-400"}`} title='Favorite' onClick={() => toggleFavorite(vehicle._id)}>
                             {isFav ? "❤️ Favorited" : (<Heart size={18} />)}

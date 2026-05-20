@@ -2,6 +2,7 @@
 import { useState } from "react";
 import { useFavorites } from "../contexts/favoritesContext";
 import { useAuth } from "../contexts/authContext";
+import { Heart } from "lucide-react";
 
 const FavoriteButton = ({ vehicleId, className = "" }) => {
     const { isFavorite, addToFavorites, removeFromFavorites, loading } = useFavorites();
@@ -43,7 +44,7 @@ const FavoriteButton = ({ vehicleId, className = "" }) => {
             {isLoading ? (
                 <span className="spinner">⏳</span>
             ) : (
-                <span>{favorite ? '❤️' : '🤍'}</span>
+                <span>{favorite ? <Heart size={20} fill="red" stroke="red" /> : <Heart size={20} strokeWidth={1.5} />}</span>
             )}
         </button>
     );

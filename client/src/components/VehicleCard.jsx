@@ -2,8 +2,10 @@ import { EllipsisVertical, Flag, Trash2 } from 'lucide-react';
 import React, { useState, useRef, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import CustomMenu from './CustomMenu';
+import { useVehicle } from '../contexts/vehicleContext';
 
-const VehicleCard = ({ vehicle, formatAmount }) => {
+const VehicleCard = ({ vehicle }) => {
+  const { formatAmount } = useVehicle();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [menuPosition, setMenuPosition] = useState({ top: 0, left: 0 });
   const buttonRef = useRef(null);

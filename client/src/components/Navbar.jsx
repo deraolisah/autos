@@ -1,6 +1,6 @@
 import React, { useState, useRef, useEffect } from 'react'
 import { Link, NavLink } from 'react-router-dom';
-import { Bell, File, Home, House, List, Menu, Moon, Phone, Sun, User, UserRound, X } from "lucide-react";
+import { Bell, File, Home, House, List, Menu, Monitor, Moon, Phone, Sun, User, UserRound, X } from "lucide-react";
 import logo from "../assets/logo.png";
 import { useTheme } from '../contexts/themeContext';
 import "./AccountPopup";
@@ -8,36 +8,44 @@ import AccountPopup from './AccountPopup';
 import NotificationsPopup from './NotificationsPopup';
 import LoginPopup from './LoginPopup';
 import { useAuth } from '../contexts/authContext';
+import ThemePopup from './ThemePopup';
 
 const Navbar = ({ isHome }) => {
     const { isAuthenticated } = useAuth();
     const { theme, toggleTheme } = useTheme();
-    const [menuOpen, setMenuOpen] = useState(false);
-    const [accountPopup, setAccountPopup] = useState(false);
+
     const [notificationsPopup, setNotificationsPopup] = useState(false);
+    const [themePopup, setThemePopup] = useState(false);
+    const [accountPopup, setAccountPopup] = useState(false);
     const [loginOpen, setLoginOpen] = useState(false);
+    const [menuOpen, setMenuOpen] = useState(false);
       
     
-    const menuRef = useRef();
-    const accountRef = useRef();
     const notificationsRef = useRef();
+    const themeRef = useRef();
+    const accountRef = useRef();
+    const menuRef = useRef();
     
-    const toggleMenuOpen = () => { setMenuOpen(prev => !prev) }
-    const toggleAccountPopup = () => { setAccountPopup(prev => !prev) }
     const toggleNotificationsPopup = () => { setNotificationsPopup(prev => !prev) }
+    const toggleThemePopup = () => { setThemePopup(prev => !prev) }
+    const toggleAccountPopup = () => { setAccountPopup(prev => !prev) }
     const toggleLogin = () => { setLoginOpen(prev => !prev) }
+    const toggleMenuOpen = () => { setMenuOpen(prev => !prev) }
     
     // 
     useEffect(() => {
         const handleClickOutside = (event) => {
-            if (menuRef.current && !menuRef.current.contains(event.target)) {
-            setMenuOpen(false);
-            }
-            if (accountRef.current && !accountRef.current.contains(event.target)) {
-            setAccountPopup(false);
-            }
             if (notificationsRef.current && !notificationsRef.current.contains(event.target)) {
             setNotificationsPopup(false);
+            }
+            if (themeRef.current && !themeRef.current.contains(event.target)) {
+            setThemePopup(false);
+            }
+            if (accountRef.current && !accountRef.current.contains(event.target)) {
+                setAccountPopup(false);
+            }
+            if (menuRef.current && !menuRef.current.contains(event.target)) {
+            setMenuOpen(false);
             }
         };
 
@@ -85,11 +93,15 @@ const Navbar = ({ isHome }) => {
                         </span>
                     )}
                 </button>
-                <button className="rounded-full p-2 hover:bg-gray-300 dark:hover:bg-dark-alt duration-300 transition-all" title="Theme" onClick={toggleTheme}>
-                    {theme === "light" ? (
+                <button className="rounded-full p-2 hover:bg-gray-300 dark:hover:bg-dark-alt duration-300 transition-all" title="Theme" onClick={() => {toggleThemePopup()}}>
+                    {theme === "system" ? (
+                        <Monitor size={16} strokeWidth={1.5} />
+                    ) : theme === "dark" ? (
                         <Moon size={16} strokeWidth={1.5} />
+                    ) : theme === "light" ? (
+                        <Sun size={16} strokeWidth={1.5} />
                     ) : (
-                        <Sun size={16} />
+                        <Monitor size={16} strokeWidth={1.5} />
                     )}
                 </button>
                 <button className={`rounded-full p-2 hover:bg-gray-300 dark:hover:bg-dark-alt duration-300 transition-all ${accountPopup ? "bg-gray-300 dark:bg-dark-alt" : ""}`} title="Account" onClick={()=> {toggleAccountPopup()}}>
@@ -117,15 +129,22 @@ const Navbar = ({ isHome }) => {
             </ul>
         )}
 
-        {accountPopup && (
-            <div ref={accountRef} className='fixed z-100 top-15 right-[2.5rem] md:right-4 bg-light dark:bg-dark shadow-xl rounded-xl border border-gray-300 dark:border-dark-alt p-2'>
-                <AccountPopup loginOpen={loginOpen} toggleLogin={toggleLogin} />
-            </div>
-        )}
 
         {notificationsPopup && (
             <div ref={notificationsRef} className='fixed z-100 top-15 right-[5rem] bg-light dark:bg-dark shadow-xl rounded-xl border border-gray-300 dark:border-dark-alt p-2'>
                 <NotificationsPopup />
+            </div>
+        )}
+
+        {themePopup && (
+            <div ref={themeRef} className='fixed z-100 top-15 right-[4rem] md:right-[3rem] bg-light dark:bg-dark shadow-xl rounded-xl border border-gray-300 dark:border-dark-alt p-1'>
+                <ThemePopup />
+            </div>
+        )}
+
+        {accountPopup && (
+            <div ref={accountRef} className='fixed z-100 top-15 right-[2.5rem] md:right-4 bg-light dark:bg-dark shadow-xl rounded-xl border border-gray-300 dark:border-dark-alt p-2'>
+                <AccountPopup loginOpen={loginOpen} toggleLogin={toggleLogin} />
             </div>
         )}
 

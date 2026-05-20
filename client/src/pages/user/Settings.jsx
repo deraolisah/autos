@@ -2,8 +2,8 @@ import React from 'react'
 
 const Settings = () => {
   return (
-    <section className='container'>
-        <h1> My Settings </h1>      
+    <section className='container py-4'>
+        <h2 className='text-xl md:text-2xl font-semibold tracking-tight'> My Settings </h2>      
     </section>
   )
 }
