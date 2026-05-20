@@ -11,6 +11,7 @@ export const useFavorites = () => {
     return context;
 };
 
+
 export const FavoritesProvider = ({ children }) => {
     const [favorites, setFavorites] = useState([]);
     const [loading, setLoading] = useState(false);
