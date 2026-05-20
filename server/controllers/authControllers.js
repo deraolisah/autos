@@ -18,6 +18,7 @@ export const register = async (req, res) => {
       email, 
       password,
       name: name || email.split('@')[0],
+      role: 'user',
       provider: 'local'
     });
     await user.save();
@@ -32,11 +33,11 @@ export const register = async (req, res) => {
     res.json({ 
       success: true, 
       token,
-      user: { id: user._id, email: user.email, name: user.name }
+      user: { id: user._id, email: user.email, name: user.name, role: user.role }
     });
   } catch (error) {
     res.status(500).json({ error: error.message });
-    console.error("Error resgitering:", error);
+    console.error("Error registering user:", error);
   }
 };
 
@@ -67,7 +68,7 @@ export const login = async (req, res) => {
     res.json({ 
       success: true, 
       token,
-      user: { id: user._id, email: user.email, name: user.name, avatar: user.avatar }
+      user: { id: user._id, email: user.email, name: user.name, avatar: user.avatar, role: user.role }
     });
   } catch (error) {
     res.status(500).json({ error: error.message });

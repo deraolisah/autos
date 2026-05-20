@@ -86,7 +86,7 @@ const AccountPopup = ({ loginOpen, toggleLogin }) => {
             </button>
           ) : (
             <>
-              <Link to="/account" className='hover:bg-light-alt hover:dark:bg-dark-alt px-2 py-1 rounded-md flex items-center gap-1.5 text-sm font-medium'>
+              <Link to={user?.role === "admin" ? "/admin" : "/account"} className='w-full hover:bg-light-alt hover:dark:bg-dark-alt px-2 py-1 rounded-md flex items-center gap-1.5 text-sm font-medium'>
                 <User size={16} strokeWidth={1.5} /> {user?.name || 'User'}
               </Link>
               <Link to="/account/favorites" className='hover:bg-light-alt hover:dark:bg-dark-alt px-2 py-1 rounded-md flex items-center gap-1.5 text-sm'>

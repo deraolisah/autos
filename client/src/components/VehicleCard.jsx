@@ -122,7 +122,7 @@ const VehicleCard = ({ vehicle }) => {
   };
 
   return (
-    <div ref={cardRef} className="relative group hover:border-transparent rounded-xl border border-light-alt/60 dark:border-dark-alt/60 duration-300 trnasition-all" title={vehicle.name}>
+    <div ref={cardRef} className={`relative group hover:border-transparent rounded-xl border border-light-alt/60 dark:border-dark-alt/60 duration-300 trnasition-all ${isMenuOpen ? "border-transparent" : ""}`} title={vehicle.name}>
       <div className='z-10 relative rounded-lg bg-transparent group-hover:bg-transparent duration-100 transition-all'>
         <span className={`bg-green-500 text-white py-0.5 p-1.5 rounded-sm capitalize text-[10px] md:text-[11px] font-normal absolute z-1 top-1.5 left-1.5 cursor-auto shadow ${vehicle.listed ? "bg-green-500" : "bg-red-500"}`}>
           {vehicle.listed ? (
@@ -192,7 +192,10 @@ const VehicleCard = ({ vehicle }) => {
 
       {/* Custom Menu with dynamic positioning */}
       {isMenuOpen && (
-        <CustomMenu menuRef={menuRef} vehicle={vehicle} menuPosition={menuPosition} />
+        <>
+          <CustomMenu menuRef={menuRef} vehicle={vehicle} menuPosition={menuPosition} />
+          <div className={`absolute inset-0 after:content-[''] after:rounded-xl after:absolute after:z-0 after:top-1/2 after:left-1/2 after:-translate-1/2 after:w-[calc(100%+15px)] after:h-[calc(100%+15px)] ${listed && "after:bg-light-alt/80 dark:after:bg-dark-alt"} ${unlisted && "after:bg-red-500/20"} after:transition-all after:duration-400`}></div>
+        </>
       )}
 
       {/* Vehicle Card Hover overlay */}

@@ -198,11 +198,13 @@ const Listings = () => {
           <VehicleGrid />
         </div>
 
-        <div className='flex items-center justify-between py-4 border-t border-light-alt dark:border-dark-alt mt-6 duration-300 transition-all'>
+        <div className='flex items-center justify-between py-4  mt-6 duration-300 transition-all'>
           <button className='inline-flex items-center bg-light-alt/80 dark:bg-dark-alt/80 hover:bg-light-alt dark:hover:bg-dark-alt rounded-md px-4 pl-2.5 py-1.5 cursor-pointer duration-300 transition-all'>
             <ChevronLeft size={16} />
             Prev
           </button>
+
+          <span className='text-sm text-gray-500 dark:text-gray-400'> Page 1 of 2 </span>
 
           <button className='inline-flex items-center bg-light-alt/80 dark:bg-dark-alt/80 hover:bg-light-alt dark:hover:bg-dark-alt rounded-md px-4 pr-2.5 py-1.5 cursor-pointer duration-300 transition-all'>
             Next

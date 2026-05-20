@@ -3,14 +3,14 @@ import AppRoutes from './routes/AppRoutes';
 import { ThemeProvider } from "./contexts/themeContext";
 import { VehicleProvider } from "./contexts/vehicleContext";
 import { AuthProvider } from "./contexts/authContext";
-import { FavoritesProvider } from "./contexts/favoritesContext"; // Add this
+import { FavoritesProvider } from "./contexts/favoritesContext";
 
 const App = () => {
   return (
     <AuthProvider>
       <ThemeProvider>
         <VehicleProvider>
-          <FavoritesProvider> {/* Add this wrapper */}
+          <FavoritesProvider>
             <BrowserRouter>
               <AppRoutes />
             </BrowserRouter>

@@ -70,7 +70,7 @@
 import { useVehicle } from '../contexts/vehicleContext';
 
 export const useFavorites = () => {
-    const { favorites, toggleFavorite } = useVehicle();
+    const { favorites, toggleFavorite, isFavorite } = useFavorites();
     
     const isFavorited = (vehicleId) => {
         if (!Array.isArray(favorites)) return false;
@@ -89,7 +89,7 @@ export const useFavorites = () => {
     return {
         favorites,
         isFavorited,
-        toggleFavorite,
+        // toggleFavorite,
         getFavoriteCount,
         getFavoriteIds
     };

@@ -19,7 +19,7 @@ export const FavoritesProvider = ({ children }) => {
 
     // Fetch favorites when user logs in
     useEffect(() => {
-        if (user && token) {
+        if (user?.role === "user" && token) {
             fetchFavorites();
         } else {
             setFavorites([]);
@@ -48,6 +48,10 @@ export const FavoritesProvider = ({ children }) => {
             alert("Please login to add favorites");
             return false;
         }
+        if(user?.role !== "user"){
+            alert("Only regular users can add favorites");
+            return false;
+        }
 
         try {
             const response = await axios.post(
@@ -66,6 +70,11 @@ export const FavoritesProvider = ({ children }) => {
     };
 
     const removeFromFavorites = async (vehicleId) => {
+        if(user?.role !== "user"){
+            alert("Only regular users can remove favorites");
+            return false;
+        }
+        
         try {
             await axios.delete(
                 `${import.meta.env.VITE_API_URL}/api/favorites/remove/${vehicleId}`,

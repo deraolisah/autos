@@ -25,6 +25,8 @@ import Settings from '../pages/user/Settings.jsx';
 
 // ADMIN - Protected Routes
 import AdminDashboard from '../pages/admin/AdminDashboard.jsx';
+import AddVehicle from '../pages/admin/AddVehicle.jsx';
+import AllVehicles from '../pages/admin/AllVehicles.jsx';
 
 // Not Found Routes
 import NotFound from '../pages/NotFound.jsx';
@@ -53,24 +55,25 @@ const AppRoutes = () => {
 
           {/* USER - Protected Routes */}
           <Route path='/account' element={
-            <ProtectedRoute>
+            <ProtectedRoute allowedRoles={["user"]}>
               <DashboardLayout />
             </ProtectedRoute>
           }>
             <Route index element={<Dashboard /> } />
-            {/* <Route path='favorites' element={<Favorites />} /> */}
             <Route path="favorites" element={<FavoritesPage />} />
             <Route path='settings' element={<Settings />} />
           </Route>
 
 
           {/* ADMIN - Protected Routes */}
-          <Route path='/admin' element={
-            <ProtectedRoute>
+          <Route path='/admin/*' element={
+            <ProtectedRoute allowedRoles={["admin"]}>
               <DashboardLayout />
             </ProtectedRoute>
           }>
             <Route index element={<AdminDashboard /> } />
+            <Route path="add" element={<AddVehicle />} />
+            <Route path="view-all" element={<AllVehicles />} />
           </Route>
 
           {/* Not Found */}
