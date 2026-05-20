@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import VehicleGrid from '../components/VehicleGrid';
 import SearchBar from '../components/SearchBar';
-import { ChevronDown, Filter, SlidersHorizontal, X } from 'lucide-react';
+import { ChevronDown, ChevronLeft, ChevronRight, Filter, SlidersHorizontal, X } from 'lucide-react';
 import { useVehicle } from '../contexts/vehicleContext';
 
 /* ─── Filter Group ───────────────────────────────────────────────── */
@@ -115,20 +115,22 @@ const Listings = () => {
   ];
 
   return (
-    <section className="container p-0! flex h-full relative">
+    <section className="container p-0! flex items-start gap-px h-full relative">
       {/* ── Sidebar ── */}
       <aside
         className={`
-          fixed md:relative top-14 md:top-0 left-0 z-50 md:z-auto
-          w-60 min-w-60 h-full
+          fixed md:relative top-14 md:top-0! left-0 z-50 md:z-auto
+          w-60 min-w-60 h-full md:min-h-screen
           bg-light dark:bg-dark
-          border-r border-light-alt dark:border-dark-alt
           pb-14!
+          border-r border-light-alt dark:border-dark-alt
           flex flex-col overflow-y-auto
           transition-all duration-300 ease-in-out
           ${sidebarOpen ? 'translate-x-0' : '-translate-x-full md:translate-x-0'}
         `}
       >
+       
+       {/* <aside className={`md:block w-full md:w-1/4 bg-white pb-8 md:border-r border-dark/10 left-0 md:sticky z-10 md:top-0 fixed h-[68%] md:min-h-screen md:h-full overflow-y-auto scrollbar-hidden md:overflow-y-visible rounded-t-2xl md:rounded-t-none bottom-0 md:opacity-100 md:translate-y-0 md:pointer-events-auto transition-all duration-400 ${sidebarOpen ? "opacity-100 translate-y-0 pointer-events-auto" : "opacity-0 translate-y-20 pointer-events-none"}`}> */}
         {/* Sidebar header */}
         <div className="flex items-center justify-between gap-2 py-4 px-3 border-b border-light-alt dark:border-dark-alt duration-300 transition-all mb-4">
           <span className="flex items-center gap-1.5 text-xs font-medium uppercase tracking-widest">
@@ -146,7 +148,7 @@ const Listings = () => {
 
 
       {/* ── Main ── */}
-      <main className="min-w-0  w-full h-full p-4 flex-1">
+      <main className="min-w-0 w-full h-full p-4 pb-0 flex-1">
 
         {/* Topbar */}
         <div className="w-full flex flex-col md:flex-row items-start justify-between gap-3 mb-3 flex-wrap">
@@ -194,6 +196,18 @@ const Listings = () => {
         {/* Vehicle grid — scrollable */}
         <div className="flex-1">
           <VehicleGrid />
+        </div>
+
+        <div className='flex items-center justify-between py-4 border-t border-light-alt dark:border-dark-alt mt-6 duration-300 transition-all'>
+          <button className='inline-flex items-center bg-light-alt/80 dark:bg-dark-alt/80 hover:bg-light-alt dark:hover:bg-dark-alt rounded-md px-4 pl-2.5 py-1.5 cursor-pointer duration-300 transition-all'>
+            <ChevronLeft size={16} />
+            Prev
+          </button>
+
+          <button className='inline-flex items-center bg-light-alt/80 dark:bg-dark-alt/80 hover:bg-light-alt dark:hover:bg-dark-alt rounded-md px-4 pr-2.5 py-1.5 cursor-pointer duration-300 transition-all'>
+            Next
+            <ChevronRight size={16} />
+          </button>
         </div>
       </main>
 

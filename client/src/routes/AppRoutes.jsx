@@ -6,6 +6,7 @@ import ProtectedRoute from '../components/ProtectedRoute';
 import AuthCallback from '../pages/AuthCallback';
 
 // Public Routes
+import PublicLayout from '../layouts/PublicLayout.jsx';
 import Home from '../pages/Home';
 import About from '../pages/About';
 import Contact from '../pages/Contact.jsx';
@@ -14,30 +15,32 @@ import VehicleDetails from '../pages/VehicleDetails';
 import Feedback from '../pages/Feedback.jsx';
 import Support from '../pages/Support.jsx';
 
-// Protected Routes
+
+// USER - Protected Routes
 import DashboardLayout from '../layouts/DashboardLayout.jsx';
 import Dashboard from '../pages/user/Dashboard.jsx';
 import FavoritesPage from '../pages/user/FavoritesPage.jsx';
 import Settings from '../pages/user/Settings.jsx';
+
+
+// ADMIN - Protected Routes
+import AdminDashboard from '../pages/admin/AdminDashboard.jsx';
 
 // Not Found Routes
 import NotFound from '../pages/NotFound.jsx';
 
 
 const AppRoutes = () => {
-  const location = useLocation();
 
-  const isHome = location.pathname === "/";
 
 
 
   return (
-    <div className='relative pt-14 font-body min-h-screen bg-light dark:bg-dark dark:text-light transition-all duration-300'>
-        <Navbar isHome={isHome} />
-
+    <div className=''>
         <Routes>
-            {/* Public Routes */}
-            <Route path='/' element={<Home />} />
+          {/* Public Routes */}
+          <Route path='/' element={<PublicLayout />}>
+            <Route index element={<Home />} />
             <Route path='/about' element={<About />} />
             <Route path='/contact' element={<Contact />} />
             <Route path='/listings' element={<Listings />} />
@@ -45,24 +48,35 @@ const AppRoutes = () => {
             <Route path='/auth/social-callback' element={<AuthCallback />} />
             <Route path='/feedback' element={<Feedback />} />
             <Route path='/support' element={<Support />} />
-
-            {/* Protected Routes */}
-            <Route path='/account' element={
-              <ProtectedRoute>
-                <DashboardLayout />
-              </ProtectedRoute>
-            }>
-              <Route index element={<Dashboard /> } />
-              {/* <Route path='favorites' element={<Favorites />} /> */}
-              <Route path="favorites" element={<FavoritesPage />} />
-              <Route path='settings' element={<Settings />} />
-            </Route>
+          </Route>
 
 
-            {/* Not Found */}
-            <Route path='*' element={<NotFound />} />
+          {/* USER - Protected Routes */}
+          <Route path='/account' element={
+            <ProtectedRoute>
+              <DashboardLayout />
+            </ProtectedRoute>
+          }>
+            <Route index element={<Dashboard /> } />
+            {/* <Route path='favorites' element={<Favorites />} /> */}
+            <Route path="favorites" element={<FavoritesPage />} />
+            <Route path='settings' element={<Settings />} />
+          </Route>
+
+
+          {/* ADMIN - Protected Routes */}
+          <Route path='/admin' element={
+            <ProtectedRoute>
+              <DashboardLayout />
+            </ProtectedRoute>
+          }>
+            <Route index element={<AdminDashboard /> } />
+          </Route>
+
+          {/* Not Found */}
+          <Route path='*' element={<NotFound />} />
         </Routes>  
-        <Footer isHome={isHome} />
+
     </div>
   )
 }
