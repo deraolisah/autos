@@ -1,13 +1,30 @@
-import React, { useState } from 'react';
+// Listings.jsx - Main Component with Full Functionality
+import React, { useState, useEffect, useMemo } from 'react';
 import VehicleGrid from '../components/VehicleGrid';
 import SearchBar from '../components/SearchBar';
 import { ChevronDown, ChevronLeft, ChevronRight, Filter, SlidersHorizontal, X } from 'lucide-react';
 import { useVehicle } from '../contexts/vehicleContext';
 
-/* ─── Filter Group ───────────────────────────────────────────────── */
-const FilterGroup = ({ label, name, options }) => {
+/* ─── Filter Group Component ───────────────────────────────────── */
+const FilterGroup = ({ label, name, options, selectedValues, onChange }) => {
   const [open, setOpen] = useState(true);
-  const [selected, setSelected] = useState(options[1]?.value ?? '');
+
+  const handleChange = (value) => {
+    const currentSelected = selectedValues[name] || [];
+    let newSelected;
+    
+    if (currentSelected.includes(value)) {
+      newSelected = currentSelected.filter(v => v !== value);
+    } else {
+      newSelected = [...currentSelected, value];
+    }
+    
+    onChange(name, newSelected);
+  };
+
+  const isSelected = (value) => {
+    return (selectedValues[name] || []).includes(value);
+  };
 
   return (
     <div className="py-0">
@@ -32,11 +49,11 @@ const FilterGroup = ({ label, name, options }) => {
               className="flex items-center gap-2.5 px-2 py-1.5 rounded-md text-sm text-gray-500 dark:text-gray-400 hover:bg-light-alt dark:hover:bg-dark-alt hover:text-gray-900 dark:hover:text-gray-100 cursor-pointer transition-colors duration-150"
             >
               <input
-                type="radio"
+                type="checkbox"
                 name={name}
                 value={opt.value}
-                checked={selected === opt.value}
-                onChange={() => setSelected(opt.value)}
+                checked={isSelected(opt.value)}
+                onChange={() => handleChange(opt.value)}
                 className="appearance-none w-3.5 h-3.5 bg-light dark:bg-dark rounded-full border-[1.5px] border-light-alt dark:border-dark-alt checked:border-blue-500 checked:bg-yellow-500 relative shrink-0 cursor-pointer duration-300 transition-all"
               />
               {opt.label}
@@ -50,7 +67,8 @@ const FilterGroup = ({ label, name, options }) => {
   );
 };
 
-/* ─── Filter Tag ─────────────────────────────────────────────────── */
+
+/* ─── Filter Tag Component ─────────────────────────────────────── */
 const FilterTag = ({ label, onRemove }) => (
   <span className="inline-flex items-center gap-1.5 bg-yellow-400 dark:bg-yellow-500 text-dark text-xs font-medium pl-2.5 p-1 rounded-full">
     {label}
@@ -64,55 +82,222 @@ const FilterTag = ({ label, onRemove }) => (
   </span>
 );
 
-/* ─── Listings Page ──────────────────────────────────────────────── */
+/* ─── Custom Hook for Responsive Items Per Page ────────────────── */
+const useResponsiveItemsPerPage = () => {
+  const [itemsPerPage, setItemsPerPage] = useState(9);
+
+  useEffect(() => {
+    const updateItemsPerPage = () => {
+      setItemsPerPage(window.innerWidth < 768 ? 8 : 9);
+    };
+
+    updateItemsPerPage();
+    window.addEventListener('resize', updateItemsPerPage);
+    return () => window.removeEventListener('resize', updateItemsPerPage);
+  }, []);
+
+  return itemsPerPage;
+};
+
+/* ─── Main Listings Component ──────────────────────────────────── */
 const Listings = () => {
   const { vehicles } = useVehicle();
   const [sidebarOpen, setSidebarOpen] = useState(false);
-  const [activeTags, setActiveTags] = useState([ 'SUVs', '$15k – $30k', 'New' ]);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [searchQuery, setSearchQuery] = useState('');
+  const [sortBy, setSortBy] = useState('date');
+  const [selectedFilters, setSelectedFilters] = useState({
+    type: [],
+    price: [],
+    condition: [],
+    fuel: []
+  });
+  
+  const itemsPerPage = useResponsiveItemsPerPage();
 
-  const removeTag = tag => setActiveTags(prev => prev.filter(t => t !== tag));
+  // Reset to first page when filters, search, or sort changes
+  useEffect(() => {
+    setCurrentPage(1);
+  }, [selectedFilters, searchQuery, sortBy]);
 
-  const filterGroups = [
-    {
+  // Filter options mapping
+  const filterOptions = {
+    type: {
       label: 'Vehicle Type',
-      name: 'type',
       options: [
-        { value: 'cars', label: 'Cars' },
-        { value: 'suvs', label: 'SUVs' },
-        { value: 'trucks', label: 'Trucks' },
-        { value: 'pickups', label: 'Pick-ups' },
-      ],
+        { value: 'cars', label: 'Cars', filterKey: 'type' },
+        { value: 'suvs', label: 'SUVs', filterKey: 'type' },
+        { value: 'trucks', label: 'Trucks', filterKey: 'type' },
+        { value: 'pickups', label: 'Pick-ups', filterKey: 'type' },
+      ]
     },
-    {
+    price: {
       label: 'Price Range',
-      name: 'price',
       options: [
-        { value: 'under15', label: 'Under $15k' },
-        { value: '15to30', label: '$15k – $30k' },
-        { value: '30to60', label: '$30k – $60k' },
-        { value: 'above60', label: 'Above $60k' },
-      ],
+        { value: 'under15', label: 'Under $15k', min: 0, max: 15000 },
+        { value: '15to30', label: '$15k – $30k', min: 15000, max: 30000 },
+        { value: '30to60', label: '$30k – $60k', min: 30000, max: 60000 },
+        { value: 'above60', label: 'Above $60k', min: 60000, max: Infinity },
+      ]
     },
-    {
+    condition: {
       label: 'Condition',
-      name: 'condition',
       options: [
-        { value: 'cpo', label: 'Certified Pre-Owned' },
-        { value: 'new', label: 'New' },
-        { value: 'used', label: 'Used' },
-      ],
+        { value: 'cpo', label: 'Certified Pre-Owned', filterKey: 'condition' },
+        { value: 'new', label: 'New', filterKey: 'condition' },
+        { value: 'used', label: 'Used', filterKey: 'condition' },
+      ]
     },
-    {
+    fuel: {
       label: 'Fuel Type',
-      name: 'fuel',
       options: [
-        { value: 'electric', label: 'Electric' },
-        { value: 'petrol', label: 'Petrol' },
-        { value: 'diesel', label: 'Diesel' },
-        { value: 'hybrid', label: 'Hybrid' },
-      ],
-    },
-  ];
+        { value: 'electric', label: 'Electric', filterKey: 'fuelType' },
+        { value: 'petrol', label: 'Petrol', filterKey: 'fuelType' },
+        { value: 'diesel', label: 'Diesel', filterKey: 'fuelType' },
+        { value: 'hybrid', label: 'Hybrid', filterKey: 'fuelType' },
+      ]
+    }
+  };
+
+  // Helper function to get vehicle price (assuming vehicle has price field)
+  const getVehiclePrice = (vehicle) => {
+    return vehicle.price || vehicle.amount || 0;
+  };
+
+  // Filter vehicles based on selected filters
+  const filteredVehicles = useMemo(() => {
+    let filtered = [...vehicles];
+
+    // Apply search filter
+    if (searchQuery) {
+      const query = searchQuery.toLowerCase();
+      filtered = filtered.filter(vehicle => 
+        vehicle.name?.toLowerCase().includes(query) ||
+        vehicle.make?.toLowerCase().includes(query) ||
+        vehicle.model?.toLowerCase().includes(query) ||
+        vehicle.year?.toString().includes(query)
+      );
+    }
+
+    // Apply type filter
+    if (selectedFilters.type.length > 0) {
+      filtered = filtered.filter(vehicle => 
+        selectedFilters.type.includes(vehicle.type?.toLowerCase())
+      );
+    }
+
+    // Apply price filter
+    if (selectedFilters.price.length > 0) {
+      filtered = filtered.filter(vehicle => {
+        const price = getVehiclePrice(vehicle);
+        return selectedFilters.price.some(range => {
+          const priceRange = filterOptions.price.options.find(opt => opt.value === range);
+          return priceRange && price >= priceRange.min && price <= priceRange.max;
+        });
+      });
+    }
+
+    // Apply condition filter
+    if (selectedFilters.condition.length > 0) {
+      filtered = filtered.filter(vehicle => 
+        selectedFilters.condition.includes(vehicle.condition?.toLowerCase())
+      );
+    }
+
+    // Apply fuel type filter
+    if (selectedFilters.fuel.length > 0) {
+      filtered = filtered.filter(vehicle => 
+        selectedFilters.fuel.includes(vehicle.fuelType?.toLowerCase())
+      );
+    }
+
+    return filtered;
+  }, [vehicles, searchQuery, selectedFilters]);
+
+  // Sort vehicles
+  const sortedAndFilteredVehicles = useMemo(() => {
+    const sorted = [...filteredVehicles];
+    
+    switch(sortBy) {
+      case 'price-asc':
+        sorted.sort((a, b) => getVehiclePrice(a) - getVehiclePrice(b));
+        break;
+      case 'price-desc':
+        sorted.sort((a, b) => getVehiclePrice(b) - getVehiclePrice(a));
+        break;
+      case 'alpha':
+        sorted.sort((a, b) => (a.name || '').localeCompare(b.name || ''));
+        break;
+      case 'date':
+        sorted.sort((a, b) => new Date(b.createdAt || 0) - new Date(a.createdAt || 0));
+        break;
+      default:
+        // Default sort by date or id
+        sorted.sort((a, b) => (b._id || '').localeCompare(a._id || ''));
+    }
+    
+    return sorted;
+  }, [filteredVehicles, sortBy]);
+
+  // Generate active filter tags
+  const activeFilterTags = useMemo(() => {
+    const tags = [];
+    
+    Object.entries(selectedFilters).forEach(([category, values]) => {
+      values.forEach(value => {
+        const option = filterOptions[category].options.find(opt => opt.value === value);
+        if (option) {
+          tags.push({
+            category,
+            value,
+            label: option.label
+          });
+        }
+      });
+    });
+    
+    return tags;
+  }, [selectedFilters]);
+
+  // Handle filter changes
+  const handleFilterChange = (filterName, selectedValues) => {
+    setSelectedFilters(prev => ({
+      ...prev,
+      [filterName]: selectedValues
+    }));
+  };
+
+  // Remove a single filter tag
+  const removeFilterTag = (category, value) => {
+    setSelectedFilters(prev => ({
+      ...prev,
+      [category]: prev[category].filter(v => v !== value)
+    }));
+  };
+
+  // Clear all filters
+  const clearAllFilters = () => {
+    setSelectedFilters({
+      type: [],
+      price: [],
+      condition: [],
+      fuel: []
+    });
+    setSearchQuery('');
+    setSortBy('');
+  };
+
+  // Handle page change
+  const handlePageChange = (newPage) => {
+    setCurrentPage(newPage);
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  };
+
+  // Calculate pagination
+  const totalItems = sortedAndFilteredVehicles.length;
+  const totalPages = Math.ceil(totalItems / itemsPerPage);
+  const startIndex = (currentPage - 1) * itemsPerPage;
+  const paginatedVehicles = sortedAndFilteredVehicles.slice(startIndex, startIndex + itemsPerPage);
 
   return (
     <section className="container p-0! flex items-start gap-px h-full relative">
@@ -129,91 +314,162 @@ const Listings = () => {
           ${sidebarOpen ? 'translate-x-0' : '-translate-x-full md:translate-x-0'}
         `}
       >
-       
-       {/* <aside className={`md:block w-full md:w-1/4 bg-white pb-8 md:border-r border-dark/10 left-0 md:sticky z-10 md:top-0 fixed h-[68%] md:min-h-screen md:h-full overflow-y-auto scrollbar-hidden md:overflow-y-visible rounded-t-2xl md:rounded-t-none bottom-0 md:opacity-100 md:translate-y-0 md:pointer-events-auto transition-all duration-400 ${sidebarOpen ? "opacity-100 translate-y-0 pointer-events-auto" : "opacity-0 translate-y-20 pointer-events-none"}`}> */}
-        {/* Sidebar header */}
         <div className="flex items-center justify-between gap-2 py-4 px-3 border-b border-light-alt dark:border-dark-alt duration-300 transition-all mb-4">
           <span className="flex items-center gap-1.5 text-xs font-medium uppercase tracking-widest">
             <SlidersHorizontal size={14} strokeWidth={1.5} />
             Filters
           </span>
 
-          <span className='hover:underline text-xs cursor-pointer hover:text-red-500'> x clear </span>
+          <button 
+            onClick={clearAllFilters}
+            className="hover:underline text-xs cursor-pointer hover:text-red-500 transition-colors"
+          >
+            Clear all
+          </button>
         </div>
 
-        {filterGroups.map(group => (
-          <FilterGroup key={group.name} {...group} />
-        ))}
+        <FilterGroup 
+          label="Vehicle Type"
+          name="type"
+          options={filterOptions.type.options}
+          selectedValues={selectedFilters}
+          onChange={handleFilterChange}
+        />
+
+        <FilterGroup 
+          label="Price Range"
+          name="price"
+          options={filterOptions.price.options}
+          selectedValues={selectedFilters}
+          onChange={handleFilterChange}
+        />
+
+        <FilterGroup 
+          label="Condition"
+          name="condition"
+          options={filterOptions.condition.options}
+          selectedValues={selectedFilters}
+          onChange={handleFilterChange}
+        />
+
+        <FilterGroup 
+          label="Fuel Type"
+          name="fuel"
+          options={filterOptions.fuel.options}
+          selectedValues={selectedFilters}
+          onChange={handleFilterChange}
+        />
       </aside>
 
-
-      {/* ── Main ── */}
+      {/* ── Main Content ── */}
       <main className="min-w-0 w-full h-full p-4 pb-0 flex-1">
-
         {/* Topbar */}
         <div className="w-full flex flex-col md:flex-row items-start justify-between gap-3 mb-3 flex-wrap">
           <div className='w-full md:w-fit flex items-start justify-between gap-2'>
             <div className="flex items-baseline gap-1.5">
               <h2 className="text-xl md:text-2xl font-semibold tracking-tight">Vehicles</h2>
-              <span className="text-sm text-gray-400">({vehicles.length} found)</span>
+              <span className="text-sm text-gray-400">
+                ({totalItems} {totalItems === 1 ? 'result' : 'results'})
+              </span>
             </div>
 
             {/* Mobile filter button */}
-            <button className='flex items-center md:hidden text-xs bg-light dark:bg-light-alt/5 ring ring-light-alt dark:ring-dark-alt p-2.5 rounded-md gap-1.5 hover:bg-light-alt hover:dark:bg-dark-alt duration-300 transition-all' onClick={()=> {setSidebarOpen(prev => !prev)}} title='Filters' aria-label="Open filters"> 
-                <Filter size={14} strokeWidth={1.5} />
-                {/* <span> Filters </span> */}
-                {/* <ChevronDown size={14} strokeWidth={1.5} /> */}
+            <button 
+              className='flex items-center md:hidden text-xs bg-light dark:bg-light-alt/5 ring ring-light-alt dark:border-dark-alt p-2.5 rounded-md gap-1.5 hover:bg-light-alt hover:dark:bg-dark-alt duration-300 transition-all' 
+              onClick={() => setSidebarOpen(prev => !prev)} 
+              title='Filters' 
+              aria-label="Open filters"
+            > 
+              <Filter size={14} strokeWidth={1.5} />
             </button>            
           </div>
 
           <div className="w-full md:w-fit flex items-center gap-2 flex-1 md:justify-end">
             {/* Search */}
-            <SearchBar />
+            <SearchBar 
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
+              onClear={() => setSearchQuery('')}
+            />
+
+            {/* <SearchBar 
+              value={searchQuery}
+              onChange={handleSearchChange}
+              onClear={() => setSearchQuery('')}
+            /> */}
 
             {/* Sort */}
             <select
+              value={sortBy}
+              onChange={(e) => setSortBy(e.target.value)}
               className="h-9 bg-light-alt/5 dark:bg-light-alt/5 border border-light-alt dark:border-dark-alt rounded-md px-2.5 text-xs text-gray-500 dark:text-gray-400 outline-none cursor-pointer hover:bg-light-alt dark:hover:bg-dark-alt duration-300 transition-all"
               title="Sort"
-              >
-              <option value="">Sort by</option>
+            >
+              {/* <option value="">Sort by</option> */}
               <option value="date">Date listed</option>
-              <option value="price-asc">Price: Low-High</option>
-              <option value="price-desc">Price: High-Low</option>
+              <option value="price-asc">Price: Low to High</option>
+              <option value="price-desc">Price: High to Low</option>
               <option value="alpha">Alphabetical</option>
             </select>            
           </div>
         </div>
 
         {/* Active filter tags */}
-        {activeTags.length > 0 && (
+        {activeFilterTags.length > 0 && (
           <div className="flex items-center gap-2 flex-wrap mb-4 min-h-6.5">
-            {activeTags.map(tag => (
-              <FilterTag key={tag} label={tag} onRemove={() => removeTag(tag)} />
+            {activeFilterTags.map(tag => (
+              <FilterTag 
+                key={`${tag.category}-${tag.value}`} 
+                label={tag.label} 
+                onRemove={() => removeFilterTag(tag.category, tag.value)} 
+              />
             ))}
+            {activeFilterTags.length > 1 && (
+              <button
+                onClick={clearAllFilters}
+                className="text-xs text-gray-500 hover:text-red-500 underline ml-2"
+              >
+                Clear all
+              </button>
+            )}
           </div>
         )}
 
-        {/* Vehicle grid — scrollable */}
-        <div className="flex-1">
-          <VehicleGrid />
-        </div>
+        {/* No results message */}
+        {totalItems === 0 && (
+          <div className="flex flex-col items-center justify-center py-12 text-center">
+            <div className="text-gray-400 mb-2">No vehicles found</div>
+            <button
+              onClick={clearAllFilters}
+              className="text-sm text-blue-500 hover:underline"
+            >
+              Clear all filters
+            </button>
+          </div>
+        )}
 
-        <div className='flex items-center justify-between py-4  mt-6 duration-300 transition-all'>
-          <button className='inline-flex items-center bg-light-alt/80 dark:bg-dark-alt/80 hover:bg-light-alt dark:hover:bg-dark-alt rounded-md px-4 pl-2.5 py-1.5 cursor-pointer duration-300 transition-all'>
-            <ChevronLeft size={16} />
-            Prev
-          </button>
-
-          <span className='text-sm text-gray-500 dark:text-gray-400'> Page 1 of 2 </span>
-
-          <button className='inline-flex items-center bg-light-alt/80 dark:bg-dark-alt/80 hover:bg-light-alt dark:hover:bg-dark-alt rounded-md px-4 pr-2.5 py-1.5 cursor-pointer duration-300 transition-all'>
-            Next
-            <ChevronRight size={16} />
-          </button>
-        </div>
+        {/* Vehicle grid with pagination */}
+        {totalItems > 0 && (
+          <div className="flex-1">
+            <VehicleGrid 
+              vehicles={paginatedVehicles}
+              currentPage={currentPage}
+              totalPages={totalPages}
+              itemsPerPage={itemsPerPage}
+              onPageChange={handlePageChange}
+              loading={false}
+            />
+          </div>
+        )}
       </main>
 
-      {sidebarOpen && (<div onClick={() => {setSidebarOpen(false)}} className='fixed top-0 left-0 z-10 bg-black/60 w-full h-full flex md:hidden cursor-pointer'/>)}
+      {/* Mobile overlay */}
+      {sidebarOpen && (
+        <div 
+          onClick={() => setSidebarOpen(false)} 
+          className='fixed top-0 left-0 z-10 bg-black/60 w-full h-full flex md:hidden cursor-pointer'
+        />
+      )}
     </section>
   );
 };

@@ -54,11 +54,11 @@ import { Link } from 'react-router-dom';
 import LoginPopup from './LoginPopup';
 import { useAuth } from '../contexts/authContext';  // Make sure path matches
 import { useVehicle } from '../contexts/vehicleContext';
-import { useFavorites } from "../contexts/favoritesContext";
+import { useFavorite } from "../contexts/favoriteContext";
 
 const AccountPopup = ({ loginOpen, toggleLogin }) => {
   const { user, logout, isAuthenticated, loading } = useAuth();
-    const { favorites } = useFavorites();
+    const { favorites } = useFavorite();
   
 
   const handleLogout = () => {

@@ -90,7 +90,7 @@ const LoginPopup = ({ onClose }) => {
     <div className="w-full max-w-sm mx-auto max-h-[80svh] p-4 overflow-y-auto scrollbar-hidden relative z-2000 flex flex-col items-center justify-center border border-light-alt dark:border-dark-alt bg-light dark:bg-dark rounded-2xl duration-300 transition-all">      
         <h2 className="mb-2 font-semibold text-lg"> Login </h2>
 
-        {message && <p className="mt-4 text-sm text-center">{message}</p>}
+        {message && <p className="my-3 text-sm text-center">{message}</p>}
         
       {/* Email/Password Form */}
       <form onSubmit={handleSubmit} className="space-y-4 w-full">

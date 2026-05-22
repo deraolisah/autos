@@ -12,15 +12,16 @@ const DashboardLayout = () => {
       <Sidebar sidebarOpen={sidebarOpen} setSidebarOpen={setSidebarOpen} />
 
 
-      <main className={`bg-light dark:bg-dark w-full h-full flex flex-col flex-1 duration-300 transition-all ${sidebarOpen ? "ml-0" : "md:-ml-68" }`}>
-        <Header setSidebarOpen={setSidebarOpen} />
+      <main className={`bg-light dark:bg-dark w-full min-h-full flex flex-col flex-1 duration-300 transition-all ${sidebarOpen ? "ml-0" : "md:ml-0" }`}>
+        <Header sidebarOpen={sidebarOpen} setSidebarOpen={setSidebarOpen} />
+        
         <div className="ticks"></div>
 
-        <div className='p-4'> 
+        <div className='p-0 pb-12'> 
           <Outlet />
         </div>
             
-        <div className="ticks"></div>
+        {/* <div className="ticks"></div> */}
       </main>
     </section>
   )

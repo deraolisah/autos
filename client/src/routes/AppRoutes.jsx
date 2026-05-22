@@ -27,15 +27,13 @@ import Settings from '../pages/user/Settings.jsx';
 import AdminDashboard from '../pages/admin/AdminDashboard.jsx';
 import AddVehicle from '../pages/admin/AddVehicle.jsx';
 import AllVehicles from '../pages/admin/AllVehicles.jsx';
+import EditVehicle from '../pages/admin/EditVehicle.jsx';
 
 // Not Found Routes
 import NotFound from '../pages/NotFound.jsx';
 
 
 const AppRoutes = () => {
-
-
-
 
   return (
     <div className=''>
@@ -73,7 +71,10 @@ const AppRoutes = () => {
           }>
             <Route index element={<AdminDashboard /> } />
             <Route path="add" element={<AddVehicle />} />
-            <Route path="view-all" element={<AllVehicles />} />
+            <Route path="view-all">
+              <Route index element={<AllVehicles />} />
+              <Route path=":id" element={<EditVehicle />} />
+            </Route>
           </Route>
 
           {/* Not Found */}

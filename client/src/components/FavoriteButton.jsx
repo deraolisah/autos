@@ -1,11 +1,11 @@
 // components/FavoriteButton.jsx
 import { useState } from "react";
-import { useFavorites } from "../contexts/favoritesContext";
+import { useFavorite } from "../contexts/favoriteContext";
 import { useAuth } from "../contexts/authContext";
 import { Heart } from "lucide-react";
 
 const FavoriteButton = ({ vehicleId, className = "" }) => {
-    const { isFavorite, addToFavorites, removeFromFavorites, loading } = useFavorites();
+    const { isFavorite, addToFavorites, removeFromFavorites, loading } = useFavorite();
     const { user } = useAuth();
     const [localLoading, setLocalLoading] = useState(false);
     

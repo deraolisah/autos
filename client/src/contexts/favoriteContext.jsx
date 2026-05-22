@@ -3,16 +3,16 @@ import { createContext, useContext, useState, useEffect, useCallback } from "rea
 import axios from "axios";
 import { useAuth } from "./authContext";
 
-const FavoritesContext = createContext();
+const FavoriteContext = createContext();
 
-export const useFavorites = () => {
-    const context = useContext(FavoritesContext);
-    if (!context) throw new Error("useFavorites must be used within a FavoritesProvider");
+export const useFavorite = () => {
+    const context = useContext(FavoriteContext);
+    if (!context) throw new Error("useFavorite must be used within a FavoritesProvider");
     return context;
 };
 
 
-export const FavoritesProvider = ({ children }) => {
+export const FavoriteProvider = ({ children }) => {
     const [favorites, setFavorites] = useState([]);
     const [loading, setLoading] = useState(false);
     const { user, token } = useAuth();
@@ -42,6 +42,8 @@ export const FavoritesProvider = ({ children }) => {
         }
     };
 
+
+    // Add to Favorites and Remove from Favorites functions with role check
     const addToFavorites = async (vehicleId) => {
         if (!user) {
             // Optionally trigger a login modal here
@@ -90,6 +92,8 @@ export const FavoritesProvider = ({ children }) => {
         }
     };
 
+
+    // Check if a vehicle is in favorites
     const isFavorite = (vehicleId) => {
         return favorites.some(vehicle => vehicle._id === vehicleId);
     };
@@ -104,8 +108,8 @@ export const FavoritesProvider = ({ children }) => {
     };
 
     return (
-        <FavoritesContext.Provider value={value}>
+        <FavoriteContext.Provider value={value}>
             {children}
-        </FavoritesContext.Provider>
+        </FavoriteContext.Provider>
     );
 };

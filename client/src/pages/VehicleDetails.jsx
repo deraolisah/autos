@@ -2,17 +2,18 @@ import React, { useState, useEffect } from 'react'
 import { useVehicle } from '../contexts/vehicleContext';
 import { Link, useParams } from 'react-router-dom';
 import { ChevronLeft, ChevronRight, Expand, Heart, Share } from 'lucide-react';
-import { useFavorites } from '../hooks/useFavorites';
+// import { useFavorites } from '../hooks/useFavorites';
+import { useFavorite } from '../contexts/favoriteContext';
 import FavoriteButton from '../components/FavoriteButton';
 
 
 const VehicleDetails = () => {
     const { id } = useParams();
-    const { formatAmount, vehicles, favorites, toggleFavorite, loading, error } = useVehicle();
-    const { isFavorited } = useFavorites(); 
+    const { formatAmount, vehicles, loading, error } = useVehicle();
+    const { isFavorited, favorites, toggleFavorite } = useFavorite(); 
     
     const vehicle = vehicles.find(p => p._id === id);
-    const isFav = isFavorited(vehicle?._id);
+    // const isFav = isFavorited(vehicle?._id);
 
   // Placeholders to fill up to 4 thumbnails
   const placeholders = [

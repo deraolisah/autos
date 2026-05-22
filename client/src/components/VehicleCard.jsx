@@ -3,9 +3,11 @@ import React, { useState, useRef, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import CustomMenu from './CustomMenu';
 import { useVehicle } from '../contexts/vehicleContext';
+import { useFavorite } from '../contexts/favoriteContext';
 
 const VehicleCard = ({ vehicle }) => {
   const { formatAmount } = useVehicle();
+  const { isFavorite, addToFavorites, removeFromFavorites } = useFavorite();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [menuPosition, setMenuPosition] = useState({ top: 0, left: 0 });
   const buttonRef = useRef(null);
@@ -85,22 +87,27 @@ const VehicleCard = ({ vehicle }) => {
     event.stopPropagation();
     switch(action) {
       case 'details':
-        console.log('View details:', vehicle.id);
+        console.log('View details:', vehicle._id, " | ", vehicle.name);
         break;
       case 'edit':
-        console.log('Edit vehicle:', vehicle.id);
+        console.log('Edit vehicle:', vehicle._id, " | ", vehicle.name);
         break;
       case 'favorite':
-        console.log('Save to favorites:', vehicle.id);
+        console.log('Toggle favorite:', vehicle._id, " | ", vehicle.name);
+        if (isFavorite(vehicle._id)) {
+          removeFromFavorites(vehicle._id);
+        } else {
+          addToFavorites(vehicle._id);
+        }
         break;
       case 'download':
-        console.log('Download image:', vehicle.id);
+        console.log('Download image:', vehicle._id, " | ", vehicle.name);
         break;
       case 'flag':
-        console.log('Flag vehicle:', vehicle.id);
+        console.log('Flag vehicle:', vehicle._id, " | ", vehicle.name);
         break;
       case 'delete':
-        console.log('Delete vehicle:', vehicle.id);
+        console.log('Delete vehicle:', vehicle._id, " | ", vehicle.name);
         break;
       default:
         break;
@@ -109,7 +116,7 @@ const VehicleCard = ({ vehicle }) => {
   };
 
   const handleCardClick = () => {
-    console.log('Navigate to vehicle:', vehicle.id);
+    console.log('Navigate to vehicle:', vehicle._id, " | ", vehicle.name);
   };
 
   const handleMenuButtonClick = (event) => {
@@ -193,7 +200,7 @@ const VehicleCard = ({ vehicle }) => {
       {/* Custom Menu with dynamic positioning */}
       {isMenuOpen && (
         <>
-          <CustomMenu menuRef={menuRef} vehicle={vehicle} menuPosition={menuPosition} />
+          <CustomMenu menuRef={menuRef} vehicle={vehicle} menuPosition={menuPosition} handleMenuAction={handleMenuAction} />
           <div className={`absolute inset-0 after:content-[''] after:rounded-xl after:absolute after:z-0 after:top-1/2 after:left-1/2 after:-translate-1/2 after:w-[calc(100%+15px)] after:h-[calc(100%+15px)] ${listed && "after:bg-light-alt/80 dark:after:bg-dark-alt"} ${unlisted && "after:bg-red-500/20"} after:transition-all after:duration-400`}></div>
         </>
       )}

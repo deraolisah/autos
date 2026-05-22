@@ -22,8 +22,7 @@ export const VehicleProvider = ({ children }) => {
     const API_URL = import.meta.env.VITE_API_URL;
 
 
-      // Import Vehicles from json file
-    // Or fetch from Backend Api using Fetch Api
+    // Fetch from Backend Api using Fetch Api
     // const getVehicles = async () => {
     //     setLoading(true);
     //     try {
@@ -73,63 +72,6 @@ export const VehicleProvider = ({ children }) => {
 
 
 
-    
-    // Fetch All Favorites for a User
-    // const getFavorites = async () => {
-    //     if (!isAuthenticated) return;
-    //     setLoading(true);
-    //     try {
-    //         const res = await axios.get(`${API_URL}/api/favorites`, {
-    //             headers: { Authorization: `Bearer ${token}` 
-    //         }
-    //     });
-
-    //     // ✅ Always set to an array
-    //     if (Array.isArray(res.data)) {
-    //         setFavorites(res.data);
-    //     } else {
-    //         setFavorites([]);
-    //     }
-    //     } catch (error) {
-    //         console.error("Error fetching favorites:", error);
-    //         setFavorites([]);
-    //     } finally {
-    //         setLoading(false);
-    //     }
-    // };
-
-
-    // Add/Remove a Vehicle to/from Favorites
-    // const toggleFavorite = async (vehicleId) => {
-    //     if (!isAuthenticated) {
-    //         alert("Please login to add favorites");
-    //         return;
-    //     }
-        
-    //     const isFav = Array.isArray(favorites) && favorites.some(v => v._id === vehicleId);
-    //     const method = isFav ? "delete" : "post";
-        
-    //     try {
-    //         const res = await axios({
-    //             method,
-    //             url: method === "post" ? `${API_URL}/api/favorites/add/${vehicleId}` : `${API_URL}/api/favorites/remove/${vehicleId}`,
-    //             headers: { Authorization: `Bearer ${token}` }
-    //         });
-            
-    //         if (method === "post") {
-    //             // backend returns the vehicle object
-    //             setFavorites([...favorites, res.data]);
-    //         } else {
-    //             // backend returns { message, id }
-    //             setFavorites(favorites.filter(v => v._id !== vehicleId));
-    //         }
-    //     } catch (error) {
-    //         console.error("Error toggling favorite:", error.response?.data?.message || error.message);
-    //     }
-    // };
-
-
-
     // Get a Single Vehicle
     // const getVehicle = async (id) => {
     //     console.log("getVehicle called with id:", id);
@@ -173,35 +115,19 @@ export const VehicleProvider = ({ children }) => {
     //     }
     // };
 
-    // ✅ Add this helper function
-    // const isFavorited = (vehicleId) => {
-    //     if (!Array.isArray(favorites)) return false;
-    //     return favorites.some(fav => fav._id === vehicleId);
-    // };
 
 
     useEffect(() => {
         if (vehicles.length === 0) getAllVehicles();
     }, []);
 
-    // Separate effect for favorites - depends on auth
-    // useEffect(() => {
-    //     if (isAuthenticated && token) {
-    //         getFavorites();
-    //     }
-    // }, [isAuthenticated, token]);
-
 
     // The context value MUST include both functions
     const contextValue = {
-        vehicles,           // Array of all vehicles
+        vehicles,         
         setVehicles,
-        getAllVehicles,     // Function to fetch all vehicles
+        getAllVehicles,     
         formatAmount,
-        // toggleFavorite,
-        // getFavorites,
-        // isFavorited,
-        // favorites,
         loading,
         error,
     };

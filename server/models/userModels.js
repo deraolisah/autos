@@ -3,7 +3,7 @@ import bcrypt from 'bcryptjs';
 
 const userSchema = new mongoose.Schema({
   email: { type: String, required: true, unique: true },
-  password: { type: String }, // Optional for social logins
+  password: { type: String },
   name: { type: String },
   role: { type: String, enum: ['user', 'admin'], default: 'user' },
   favorites: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Vehicle' }], 

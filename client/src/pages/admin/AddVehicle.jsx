@@ -2,9 +2,9 @@ import React from 'react'
 
 const AddVehicle = () => {
   return (
-    <div>
+    <section className='p-4'>
       Add Vehicle
-    </div>
+    </section>
   )
 }
 

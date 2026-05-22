@@ -1,11 +1,11 @@
 // pages/FavoritesPage.jsx
-import { useFavorites } from "../../contexts/favoritesContext";
+import { useFavorite } from "../../contexts/favoriteContext";
 import { useAuth } from "../../contexts/authContext";
 import VehicleCard from "../../components/VehicleCard"; 
 import { Link } from "react-router-dom";
 
 const FavoritesPage = () => {
-    const { favorites, loading, fetchFavorites } = useFavorites();
+    const { favorites, loading, fetchFavorites } = useFavorite();
     const { user } = useAuth();
     
     if (!user) {
