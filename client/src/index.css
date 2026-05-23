@@ -29,6 +29,8 @@
 
 *{
   box-sizing: border-box;
+  animation-duration: 300ms;
+  transition: all 300ms ease-in-out;
 }
 
 html{
