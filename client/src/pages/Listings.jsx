@@ -2,7 +2,7 @@
 import React, { useState, useEffect, useMemo } from 'react';
 import VehicleGrid from '../components/VehicleGrid';
 import SearchBar from '../components/SearchBar';
-import { ChevronDown, ChevronLeft, ChevronRight, Filter, SlidersHorizontal, X } from 'lucide-react';
+import { ChevronDown, ChevronLeft, ChevronRight, Filter, RefreshCcw, SlidersHorizontal, X } from 'lucide-react';
 import { useVehicle } from '../contexts/vehicleContext';
 
 /* ─── Filter Group Component ───────────────────────────────────── */
@@ -437,13 +437,18 @@ const Listings = () => {
 
         {/* No results message */}
         {totalItems === 0 && (
-          <div className="flex flex-col items-center justify-center py-12 text-center">
-            <div className="text-gray-400 mb-2">No vehicles found</div>
+          <div className="flex flex-col items-center gap-2 justify-center py-12 text-center">
+            <div className="text-gray-400">No vehicles found</div>
             <button
               onClick={clearAllFilters}
               className="text-sm text-blue-500 hover:underline"
             >
               Clear all filters
+            </button>
+
+            <button className='flex items-center gap-1 p-4 py-1.5 rounded-full bg-light-alt/60 dark:bg-dark-alt/60 hover:bg-light-alt dark:hover:bg-dark-alt' onClick={()=> {window.reload()}}>
+              <RefreshCcw size={14} />
+              Refresh
             </button>
           </div>
         )}
