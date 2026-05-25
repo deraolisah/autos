@@ -8,14 +8,15 @@ const AllVehicles = () => {
 
     useEffect(() => {
       getAllVehicles();
+      console.log("All vehicles loaded")
     }, []);
 
     if(loading) {
-        return <div>Loading...</div>;
+        return <div className='p-4'>Loading...</div>;
     }
 
     if(error) {
-        return <div>Error: {error}</div>;
+        return <div className='p-4'>Error: {error}</div>;
     }
     
 

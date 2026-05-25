@@ -6,7 +6,7 @@ const AdminDashboard = () => {
 
   return (
     <section className='p-0'>
-      <div className='bg-primary p-4'>
+      <div className='bg-primary text-dark p-4'>
         Welcome, Admin.
         <br/>
         <p className='underline'> {user.email} </p>

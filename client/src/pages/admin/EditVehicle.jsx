@@ -163,43 +163,41 @@ const EditVehicle = () => {
           {/* Vehicle Details */}
           <div className="flex-1 flex flex-col justify-between">
             <div className="space-y-2">
-              <div className="flex items-center justify-between gap-2">
-                <div className='space-y-1 space-x-1'>
+              <div className="flex items-start justify-between gap-2">
+                <div className='space-y-1.5'>
                   <h2 className="text-2xl font-bold">
                     {/* {vehicle.name} {vehicle.model} */}
                     {isEditing ? (
                       <input
                         type="text"
                         value={editData?.name || ""}
-                        onChange={(e) =>
-                          setEditData({ ...editData, name: e.target.value })
-                        }
-                        className="border border-light-alt dark:border-dark-alt p-1 rounded-md"
+                        onChange={(e) => setEditData({ ...editData, name: e.target.value })}
+                        className="w-full border border-light-alt dark:border-dark-alt px-1 rounded-md"
                       />
                     ) : (
                       `${vehicle?.name}`
                     )}
                   </h2>
 
-                  <p className="text-sm text-gray-500 dark:text-gray-400">
+                  <div className="text-sm text-gray-500 dark:text-gray-400">
                     {/* {vehicle.year} • {vehicle.category} */}
                     {isEditing ? (
-                      <>
+                      <div className="flex items-center flex-wrap gap-1.5">
                         <input 
                           type='text'
                           value={editData?.year || ""}
                           placeholder='Year'
                           onChange={(e) => setEditData({ ...editData, year: e.target.value })}
-                          className='border border-light-alt dark:border-dark-alt p-1 rounded-md'
+                          className='border border-light-alt dark:border-dark-alt px-1 p-px rounded-md'
                         />
                         <input 
                           type='text'
                           value={editData?.category || ""}
                           placeholder='Category'
                           onChange={(e) => setEditData({ ...editData, category: e.target.value })}
-                          className='border border-light-alt dark:border-dark-alt p-1 rounded-md'
+                          className='border border-light-alt dark:border-dark-alt px-1 p-px rounded-md'
                         />
-                      </>
+                      </div>
                     ) : (
                       <p className='flex items-center gap-2'>
                         <span> {vehicle?.year}  </span>
@@ -207,21 +205,21 @@ const EditVehicle = () => {
                         <span> {vehicle?.category} </span>
                       </p>
                     )}
-                  </p>
+                  </div>
                 </div>
 
-                <div className='flex items-center gap-2'>
+                <div className='flex items-center gap-1.5'>
                   {!isEditing ? (
-                    <button type='button' onClick={handleEdit} className="flex items-center gap-2 bg-light-alt/60 dark:bg-dark-alt/60 hover:bg-light-alt dark:hover:bg-dark-alt px-4 py-2 rounded-md text-sm ">
+                    <button type='button' onClick={handleEdit} className="flex items-center gap-2 bg-light-alt/60 dark:bg-dark-alt/60 hover:bg-light-alt dark:hover:bg-dark-alt px-4 py-1.5 rounded-md text-sm ">
                       <PencilSimpleIcon size={16} strokeWidth={1} />
                       Edit
                     </button>
                   ) : (
-                    <button onClick={handleSave} className="px-3 py-1 rounded bg-blue-500 text-white">
+                    <button onClick={handleSave} className="px-4 py-1.5 text-sm rounded-md bg-blue-600 text-white">
                       Save
                     </button>
                   )}
-                  <button onClick={handleCancel} className='px-4 py-2 text-sm rounded-md bg-red-500/50'>
+                  <button onClick={handleCancel} className='px-4 py-1.5 text-sm rounded-md bg-red-500/50'>
                     Cancel
                   </button>
                 </div>
@@ -229,7 +227,7 @@ const EditVehicle = () => {
 
               <div className="flex flex-wrap gap-3 bg-yellow-500/0">
                 {isEditing ? (
-                  <>
+                  <div className='px-3 py-1 rounded-full text-sm flex items-center gap-1 bg-light-alt dark:bg-dark-alt'>
                     <input 
                       id='listed'
                       type='checkbox'
@@ -240,21 +238,66 @@ const EditVehicle = () => {
                     <label htmlFor='listed'>
                       Listed
                     </label>
-                  </>
+                  </div>
                 ) : (
                   <div className={`text-sm px-3 py-1 rounded-full ${vehicle.listed ? "bg-green-100 text-green-700" : "bg-red-100 text-red-700"}`}>
                     {vehicle.listed ? "Listed" : "Unlisted"}
                   </div>
                 )}
 
+                <div className="bg-gray-100 dark:bg-dark-alt text-sm px-3 py-1 rounded-full">
+                  {formatAmount(vehicle.price)}
+                </div>
+
                 {/* <div className="bg-gray-100 dark:bg-dark-alt text-sm px-3 py-1 rounded-full">
                   {vehicle?.trips || 0} Trips
                 </div> */}
 
-                <div className="bg-gray-100 dark:bg-dark-alt text-sm px-3 py-1 rounded-full">
-                  {formatAmount(vehicle.price)}
-                </div>
               </div>
+
+
+              <div className="w-full flex flex-col gap-1.5">
+                {isEditing && (
+                  <>
+                    {editData?.images?.map((img, idx) => (
+                      <div key={idx} className="flex gap-2 items-center">
+                        <input
+                          type="text"
+                          value={img}
+                          placeholder={`Image URL ${idx + 1}`}
+                          onChange={(e) => {
+                            const newImages = [...editData.images];
+                            newImages[idx] = e.target.value;
+                            setEditData({ ...editData, images: newImages });
+                          }}
+                          className="w-full border border-light-alt dark:border-dark-alt px-1 p-px rounded-md"
+                        />
+                        <button
+                          type="button"
+                          onClick={() => {
+                            const newImages = editData.images.filter((_, i) => i !== idx);
+                            setEditData({ ...editData, images: newImages });
+                          }}
+                          className="px-2 py-1 bg-red-500 text-white rounded-md"
+                        >
+                          Remove
+                        </button>
+                      </div>
+                    ))}
+
+                    <button
+                      type="button"
+                      onClick={() =>
+                        setEditData({ ...editData, images: [...(editData.images || []), ""] })
+                      }
+                      className="mt-2 px-3 py-1 bg-blue-500 text-white rounded-md"
+                    >
+                      Add Image
+                    </button>
+                  </>
+                )}
+              </div>
+
             </div>
 
             {/* Quick Info */}
