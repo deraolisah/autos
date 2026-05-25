@@ -13,7 +13,6 @@ export const useVehicle = () => {
 
 export const VehicleProvider = ({ children }) => {
     const [vehicles, setVehicles] = useState([]);
-    const [favorites, setFavorites] = useState([]);
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState(null);
     

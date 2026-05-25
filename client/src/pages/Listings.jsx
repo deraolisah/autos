@@ -30,7 +30,7 @@ const FilterGroup = ({ label, name, options, selectedValues, onChange }) => {
     <div className="py-0">
       <button
         onClick={() => setOpen(prev => !prev)}
-        className="w-full flex items-center justify-between px-4 py-2 text-sm font-medium hover:bg-light-alt dark:hover:bg-dark-alt cursor-pointer duration-300 transition-all"
+        className="w-full flex items-center justify-between px-4 py-2 text-sm font-medium hover:bg-light-alt dark:hover:bg-dark-alt cursor-pointer "
         aria-expanded={open}
       >
         <span>{label}</span>
@@ -54,7 +54,7 @@ const FilterGroup = ({ label, name, options, selectedValues, onChange }) => {
                 value={opt.value}
                 checked={isSelected(opt.value)}
                 onChange={() => handleChange(opt.value)}
-                className="appearance-none w-3.5 h-3.5 bg-light dark:bg-dark rounded-full border-[1.5px] border-light-alt dark:border-dark-alt checked:border-blue-500 checked:bg-yellow-500 relative shrink-0 cursor-pointer duration-300 transition-all"
+                className="appearance-none w-3.5 h-3.5 bg-light dark:bg-dark rounded-full border-[1.5px] border-light-alt dark:border-dark-alt checked:border-blue-500 checked:bg-yellow-500 relative shrink-0 cursor-pointer "
               />
               {opt.label}
             </label>
@@ -62,7 +62,7 @@ const FilterGroup = ({ label, name, options, selectedValues, onChange }) => {
         </div>
       )}
 
-      <hr className="mx-4 my-1 border-0 h-px bg-light-alt dark:bg-dark-alt duration-300 transition-all" />
+      <hr className="mx-4 my-1 border-0 h-px bg-light-alt dark:bg-dark-alt " />
     </div>
   );
 };
@@ -75,7 +75,7 @@ const FilterTag = ({ label, onRemove }) => (
     <button
       onClick={onRemove}
       aria-label={`Remove ${label} filter`}
-      className="flex items-center bg-yellow-600 hover:bg-yellow-200 p-1 rounded-full cursor-pointer duration-300 transition-all"
+      className="flex items-center bg-yellow-600 hover:bg-yellow-200 p-1 rounded-full cursor-pointer "
     >
       <X size={12} strokeWidth={2} />
     </button>
@@ -101,13 +101,13 @@ const useResponsiveItemsPerPage = () => {
 
 /* ─── Main Listings Component ──────────────────────────────────── */
 const Listings = () => {
-  const { vehicles } = useVehicle();
+  const { error, loading, vehicles } = useVehicle();
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [currentPage, setCurrentPage] = useState(1);
   const [searchQuery, setSearchQuery] = useState('');
   const [sortBy, setSortBy] = useState('date');
   const [selectedFilters, setSelectedFilters] = useState({
-    type: [],
+    vehicleType: [],
     price: [],
     condition: [],
     fuel: []
@@ -122,13 +122,13 @@ const Listings = () => {
 
   // Filter options mapping
   const filterOptions = {
-    type: {
+    vehicleType: {
       label: 'Vehicle Type',
       options: [
-        { value: 'cars', label: 'Cars', filterKey: 'type' },
-        { value: 'suvs', label: 'SUVs', filterKey: 'type' },
-        { value: 'trucks', label: 'Trucks', filterKey: 'type' },
-        { value: 'pickups', label: 'Pick-ups', filterKey: 'type' },
+        { value: 'car', label: 'Cars', filterKey: 'vehicleType' },
+        { value: 'suv', label: 'SUVs', filterKey: 'vehicleType' },
+        { value: 'truck', label: 'Trucks', filterKey: 'vehicleType' },
+        { value: 'pickup', label: 'Pick-ups', filterKey: 'vehicleType' },
       ]
     },
     price: {
@@ -180,9 +180,9 @@ const Listings = () => {
     }
 
     // Apply type filter
-    if (selectedFilters.type.length > 0) {
+    if (selectedFilters.vehicleType.length > 0) {
       filtered = filtered.filter(vehicle => 
-        selectedFilters.type.includes(vehicle.type?.toLowerCase())
+        selectedFilters.vehicleType.includes(vehicle.vehicleType?.toLowerCase())
       );
     }
 
@@ -278,7 +278,7 @@ const Listings = () => {
   // Clear all filters
   const clearAllFilters = () => {
     setSelectedFilters({
-      type: [],
+      vehicleType: [],
       price: [],
       condition: [],
       fuel: []
@@ -300,7 +300,7 @@ const Listings = () => {
   const paginatedVehicles = sortedAndFilteredVehicles.slice(startIndex, startIndex + itemsPerPage);
 
   return (
-    <section className="container p-0! flex items-start gap-px h-full relative">
+    <section className="container p-0! flex items-start gap-0 h-full relative!">
       {/* ── Sidebar ── */}
       <aside
         className={`
@@ -308,13 +308,12 @@ const Listings = () => {
           w-60 min-w-60 h-full md:min-h-screen
           bg-light dark:bg-dark
           pb-14!
-          border-r border-light-alt dark:border-dark-alt
+          
           flex flex-col overflow-y-auto
-          transition-all duration-300 ease-in-out
           ${sidebarOpen ? 'translate-x-0' : '-translate-x-full md:translate-x-0'}
         `}
       >
-        <div className="flex items-center justify-between gap-2 py-4 px-3 border-b border-light-alt dark:border-dark-alt duration-300 transition-all mb-4">
+        <div className="flex items-center justify-between gap-2 py-4 px-3 border-b border-light-alt dark:border-dark-alt  mb-4">
           <span className="flex items-center gap-1.5 text-xs font-medium uppercase tracking-widest">
             <SlidersHorizontal size={14} strokeWidth={1.5} />
             Filters
@@ -330,8 +329,8 @@ const Listings = () => {
 
         <FilterGroup 
           label="Vehicle Type"
-          name="type"
-          options={filterOptions.type.options}
+          name="vehicleType"
+          options={filterOptions.vehicleType.options}
           selectedValues={selectedFilters}
           onChange={handleFilterChange}
         />
@@ -361,8 +360,10 @@ const Listings = () => {
         />
       </aside>
 
+      <div className='hidden md:flex md:w-px h-full absolute top-0 left-60  bg-light-alt dark:bg-dark-alt'></div>
+
       {/* ── Main Content ── */}
-      <main className="min-w-0 w-full h-full p-4 pb-0 flex-1">
+      <main className="min-w-0 w-full h-full p-4 flex-1">
         {/* Topbar */}
         <div className="w-full flex flex-col md:flex-row items-start justify-between gap-3 mb-3 flex-wrap">
           <div className='w-full md:w-fit flex items-start justify-between gap-2'>
@@ -375,7 +376,7 @@ const Listings = () => {
 
             {/* Mobile filter button */}
             <button 
-              className='flex items-center md:hidden text-xs bg-light dark:bg-light-alt/5 ring ring-light-alt dark:border-dark-alt p-2.5 rounded-md gap-1.5 hover:bg-light-alt hover:dark:bg-dark-alt duration-300 transition-all' 
+              className='flex items-center md:hidden text-xs bg-light dark:bg-light-alt/5 ring ring-light-alt dark:border-dark-alt p-2.5 rounded-md gap-1.5 hover:bg-light-alt hover:dark:bg-dark-alt ' 
               onClick={() => setSidebarOpen(prev => !prev)} 
               title='Filters' 
               aria-label="Open filters"
@@ -402,7 +403,7 @@ const Listings = () => {
             <select
               value={sortBy}
               onChange={(e) => setSortBy(e.target.value)}
-              className="h-9 bg-light-alt/5 dark:bg-light-alt/5 border border-light-alt dark:border-dark-alt rounded-md px-2.5 text-xs text-gray-500 dark:text-gray-400 outline-none cursor-pointer hover:bg-light-alt dark:hover:bg-dark-alt duration-300 transition-all"
+              className="h-9 bg-light-alt/5 dark:bg-light-alt/5 border border-light-alt dark:border-dark-alt rounded-md px-2.5 text-xs text-gray-500 dark:text-gray-400 outline-none cursor-pointer hover:bg-light-alt dark:hover:bg-dark-alt "
               title="Sort"
             >
               {/* <option value="">Sort by</option> */}
@@ -437,7 +438,7 @@ const Listings = () => {
 
         {/* No results message */}
         {totalItems === 0 && (
-          <div className="flex flex-col items-center gap-2 justify-center py-12 text-center">
+          <div className="h-36 md:h-48 bg-light-alt dark:bg-dark-alt rounded-lg flex flex-col items-center gap-2 justify-center py-12 text-center">
             <div className="text-gray-400">No vehicles found</div>
             <button
               onClick={clearAllFilters}
@@ -446,26 +447,28 @@ const Listings = () => {
               Clear all filters
             </button>
 
-            <button className='flex items-center gap-1 p-4 py-1.5 rounded-full bg-light-alt/60 dark:bg-dark-alt/60 hover:bg-light-alt dark:hover:bg-dark-alt' onClick={()=> {window.reload()}}>
+            {/* <button className='flex items-center gap-1 p-4 py-1.5 rounded-full cursor-pointer bg-light/60 dark:bg-dark/60 hover:bg-light dark:hover:bg-dark' onClick={()=> {window.location.reload()}}>
               <RefreshCcw size={14} />
               Refresh
-            </button>
+            </button> */}
           </div>
         )}
 
         {/* Vehicle grid with pagination */}
-        {totalItems > 0 && (
-          <div className="flex-1">
+        {/* {totalItems > 0 && ( */}
+          <div className="w-full flex-1">
             <VehicleGrid 
               vehicles={paginatedVehicles}
               currentPage={currentPage}
               totalPages={totalPages}
               itemsPerPage={itemsPerPage}
               onPageChange={handlePageChange}
-              loading={false}
+              // loading={false}
+              loading={loading}
+              error={error}
             />
           </div>
-        )}
+        {/* )} */}
       </main>
 
       {/* Mobile overlay */}

@@ -3,7 +3,7 @@ import { XLogoIcon } from '@phosphor-icons/react';
 
 const Footer = ({ isHome }) => {
   return (
-    <footer className={`container flex-col items-start justify-between gap-2 py-10 p-4 border-t border-light-alt dark:border-dark-alt duration-300 transition-all ${isHome ? "hidden" : "flex"}`}>
+    <footer className={`container flex-col items-start justify-between gap-2 py-10 p-4 border-t border-light-alt dark:border-dark-alt  ${isHome ? "hidden" : "flex"}`}>
 
       <div className='flex items-center gap-2 text-sm font-bold text-gray-800 dark:text-gray-200'>
         Footer

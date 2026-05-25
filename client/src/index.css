@@ -29,8 +29,8 @@
 
 *{
   box-sizing: border-box;
-  animation-duration: 300ms;
-  transition: all 300ms ease-in-out;
+  outline: 0 none;
+  transition: all 400ms ease;
 }
 
 html{
@@ -38,7 +38,7 @@ html{
 }
 /* Add dark mode background to body/html */
 html, body {
-  @apply text-dark dark:text-light-alt bg-light dark:bg-dark duration-300 transition-all;
+  @apply text-dark dark:text-light-alt bg-light dark:bg-dark;
 }
 
 .container {

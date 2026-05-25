@@ -70,7 +70,7 @@ const VehicleDetails = () => {
                 {/* Main Image */}
                 {selectedImage && (
                     <div className='relative rounded-md overflow-hidden'>
-                        <button className='absolute z-2 top-2 left-2 bg-light/80 dark:bg-dark/80 backdrop-blur-sm p-1 pr-2 rounded-sm text-xs flex items-center gap-0 cursor-pointer duration-300 transition-all' onClick={()=> {window.history.back()}}>
+                        <button className='absolute z-2 top-2 left-2 bg-light/80 dark:bg-dark/80 backdrop-blur-sm p-1 pr-2 rounded-sm text-xs flex items-center gap-0 cursor-pointer ' onClick={()=> {window.history.back()}}>
                             <ChevronLeft size={14} />
                             back
                         </button>
@@ -88,9 +88,11 @@ const VehicleDetails = () => {
 
                 {/* Lightbox */}
                 {showLightbox && (
-                    <div className='fixed z-20000 inset-0 w-full h-full flex items-center justify-center p-4! bg-black/50 backdrop-blur-md'>
-                        <img src={selectedImage} alt='' className='w-fit object-contain h-fit' />
-                        <button onClick={()=>{setShowLightbox(false)}} className='fixed top-4 right-4 py-1 px-2 text-sm font-medium rounded-sm uppercase text-light dark:text-dark bg-dark dark:bg-light'> close </button>
+                    <div className='fixed z-20000 inset-0 w-full h-full flex items-center justify-center p-4! bg-light/60 dark:bg-dark/60 backdrop-blur-md'>
+                        <div className='w-full h-full max-h-[84vh] relative'>
+                            <img src={selectedImage} alt='' className='w-full object-contain h-full' />
+                        </div>
+                        <button onClick={()=>{setShowLightbox(false)}} className='fixed top-4 right-4 py-1 px-2 text-xs font-medium rounded-sm uppercase text-light dark:text-dark bg-dark dark:bg-light'> close </button>
                     </div>
                 )}
 
@@ -127,10 +129,10 @@ const VehicleDetails = () => {
 
                     <div className='w-fit flex items-center gap-2'>
                         <FavoriteButton vehicleId={vehicle._id} />
-                        {/* <button className={`bg-light-alt/30 dark:bg-dark-alt/30 hover:bg-light-alt hover:dark:bg-dark-alt p-1.5 rounded-full duration-300 transition-all ${isFav ? "text-red-600" : "text-gray-400"}`} title='Favorite' onClick={() => toggleFavorite(vehicle._id)}>
+                        {/* <button className={`bg-light-alt/30 dark:bg-dark-alt/30 hover:bg-light-alt hover:dark:bg-dark-alt p-1.5 rounded-full  ${isFav ? "text-red-600" : "text-gray-400"}`} title='Favorite' onClick={() => toggleFavorite(vehicle._id)}>
                             {isFav ? "❤️ Favorited" : (<Heart size={18} />)}
                         </button> */}
-                        <button className='bg-light-alt/30 dark:bg-dark-alt/30 hover:bg-light-alt hover:dark:bg-dark-alt px-2 p-1.5 rounded-md text-xs md:text-sm flex items-center gap-1.5 duration-300 transition-all' title='Share'>
+                        <button className='bg-light-alt/30 dark:bg-dark-alt/30 hover:bg-light-alt hover:dark:bg-dark-alt px-2 p-1.5 rounded-md text-xs md:text-sm flex items-center gap-1.5 ' title='Share'>
                             Share
                             <Share size={16} />
                         </button>

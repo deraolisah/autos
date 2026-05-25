@@ -10,7 +10,7 @@ const CustomMenu = ({ menuRef, vehicle, menuPosition, handleMenuAction }) => {
     <div 
         draggable={true}
         ref={menuRef}
-        className="fixed w-48 overflow-hidden bg-light dark:bg-dark rounded-lg shadow-lg border border-gray-200 dark:border-dark-alt z-200 cursor-grab! duration-300 transition-all"
+        className="fixed w-48 overflow-hidden bg-light dark:bg-dark rounded-lg shadow-lg border border-gray-200 dark:border-dark-alt z-200 cursor-grab! "
         style={{
         top: menuPosition.top,
         left: menuPosition.left,

@@ -31,6 +31,8 @@ const Navbar = ({ isHome }) => {
     const toggleAccountPopup = () => { setAccountPopup(prev => !prev) }
     const toggleLogin = () => { setLoginOpen(prev => !prev) }
     const toggleMenuOpen = () => { setMenuOpen(prev => !prev) }
+
+    const onClose = () => { setLoginOpen(false) }
     
     // 
     useEffect(() => {
@@ -67,9 +69,9 @@ const Navbar = ({ isHome }) => {
 
   return (
     <>
-        <nav className={`container fixed top-0 left-1/2 -translate-x-1/2 z-2000! flex items-center justify-between h-14 border-b border-gray-300 md:border-gray-300/60 dark:border-dark-alt md:dark:border-dark-alt/60 bg-light md:bg-light/45 dark:bg-dark md:dark:bg-dark/65 backdrop-blur-md duration-300 transition-all ${isHome ? "bg-transparent! border-0! backdrop-blur-none!" : ""}`}>
+        <nav className={`container fixed top-0 left-1/2 -translate-x-1/2 z-2000! flex items-center justify-between h-14 border-b border-gray-300 md:border-gray-300/60 dark:border-dark-alt md:dark:border-dark-alt/60 bg-light md:bg-light/45 dark:bg-dark md:dark:bg-dark/65 backdrop-blur-md  ${isHome ? "bg-transparent! border-0! backdrop-blur-none!" : ""}`}>
             <Link to="/" onClick={()=> { scrollTo(0,0); }} className='font-semibold text-lg flex items-center gap-1'>
-                <img src={logo} alt='Autos Logo' className='object-cover w-6.5  dark:invert-90 duration-300 transition-all' />
+                <img src={logo} alt='Autos Logo' className='object-cover w-6.5 dark:invert-90' />
                 Autos
             </Link>
 
@@ -84,16 +86,16 @@ const Navbar = ({ isHome }) => {
 
             {/* Nav Options */}
             <div className="flex items-center justify-end gap-1">
-                <button className={`rounded-full p-2 hover:bg-gray-300 dark:hover:bg-dark-alt duration-300 transition-all cursor-pointer relative ${notificationsPopup ? "bg-gray-300 dark:bg-dark-alt" : ""}`} title='Notifications' onClick={()=> {toggleNotificationsPopup()}}>
+                <button className={`rounded-full p-2 hover:bg-gray-300 dark:hover:bg-dark-alt  cursor-pointer relative ${notificationsPopup ? "bg-gray-300 dark:bg-dark-alt" : ""}`} title='Notifications' onClick={()=> {toggleNotificationsPopup()}}>
                     <Bell size={16} strokeWidth={1.5} />
                     {!notificationsPopup && (
                         <span>
-                            <span className='animate-pulse w-2 h-2 rounded-full bg-yellow-500 flex absolute top-0 right-0'></span>
-                            <span className='animate-ping w-3 h-3 rounded-full bg-yellow-500 flex absolute -top-0.5 -right-0.5'></span>
+                            <span className=' w-2 h-2 rounded-full bg-yellow-500 flex absolute top-0 right-0'></span>
+                            <span className=' w-3 h-3 rounded-full bg-yellow-500/50 flex absolute -top-0.5 -right-0.5'></span>
                         </span>
                     )}
                 </button>
-                <button className="rounded-full p-2 hover:bg-gray-300 dark:hover:bg-dark-alt duration-300 transition-all" title="Theme" onClick={() => {toggleThemePopup()}}>
+                <button className="rounded-full p-2 hover:bg-gray-300 dark:hover:bg-dark-alt " title="Theme" onClick={() => {toggleThemePopup()}}>
                     {theme === "system" ? (
                         <Monitor size={16} strokeWidth={1.5} />
                     ) : theme === "dark" ? (
@@ -104,10 +106,10 @@ const Navbar = ({ isHome }) => {
                         <Monitor size={16} strokeWidth={1.5} />
                     )}
                 </button>
-                <button className={`rounded-full p-2 hover:bg-gray-300 dark:hover:bg-dark-alt duration-300 transition-all ${accountPopup ? "bg-gray-300 dark:bg-dark-alt" : ""}`} title="Account" onClick={()=> {toggleAccountPopup()}}>
+                <button className={`rounded-full p-2 hover:bg-gray-300 dark:hover:bg-dark-alt  ${accountPopup ? "bg-gray-300 dark:bg-dark-alt" : ""}`} title="Account" onClick={()=> {toggleAccountPopup()}}>
                     <UserRound size={16} strokeWidth={1.5} />
                 </button>
-                <button className={`rounded-full p-2 hover:bg-gray-300 dark:hover:bg-dark-alt duration-300 transition-all flex md:hidden ${menuOpen ? "bg-gray-300 dark:bg-dark-alt" : "" }`} title="Menu" onClick={()=> {toggleMenuOpen()}}>
+                <button className={`rounded-full p-2 hover:bg-gray-300 dark:hover:bg-dark-alt  flex md:hidden ${menuOpen ? "bg-gray-300 dark:bg-dark-alt" : "" }`} title="Menu" onClick={()=> {toggleMenuOpen()}}>
                     {!menuOpen ? (
                         <Menu size={18} />
                     ) : (
@@ -150,7 +152,7 @@ const Navbar = ({ isHome }) => {
 
         {loginOpen && !isAuthenticated && (
             <div className='px-4 flex items-center justify-center fixed inset-0 w-full h-full z-200000 top-1/2 left-1/2 -translate-1/2'>
-                <LoginPopup />
+                <LoginPopup onClose={onClose} />
                 <div onClick={() => {setLoginOpen(false); }} className='fixed! inset-0 z-200 w-full h-full bg-light/50 dark:bg-dark/50 backdrop-blur-sm'></div>
             </div>
         )}

@@ -55,6 +55,11 @@ export const AuthProvider = ({ children }) => {
         delete axios.defaults.headers.common['Authorization'];
     };
 
+    // Check if Admin
+    const isAdmin = () => {
+        user?.role === "admin";
+    }
+
     // Return the value directly (not nested)
     const value = {
         user,

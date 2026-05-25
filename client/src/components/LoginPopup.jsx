@@ -77,7 +77,12 @@ const LoginPopup = ({ onClose }) => {
         login(response.data.token, response.data.user);
         setMessage(isLogin ? "✅ Logged in successfully!" : "✅ Registered successfully!");
         setTimeout(() => onClose?.(), 1000);
-        navigate("/account");
+
+        if(user?.role === "admin"){
+          navigate("/admin");
+        } else {
+          navigate("/account");
+        } return;
       }
     } catch (err) {
       setMessage(`❌ ${err.response?.data?.error || "Something went wrong"}`);
@@ -85,9 +90,9 @@ const LoginPopup = ({ onClose }) => {
       setLoading(false);
     }
   };
-
+  
   return (
-    <div className="w-full max-w-sm mx-auto max-h-[80svh] p-4 overflow-y-auto scrollbar-hidden relative z-2000 flex flex-col items-center justify-center border border-light-alt dark:border-dark-alt bg-light dark:bg-dark rounded-2xl duration-300 transition-all">      
+    <div className="w-full max-w-sm mx-auto max-h-[80svh] p-4 overflow-y-auto scrollbar-hidden relative z-2000 flex flex-col items-center justify-center border border-light-alt dark:border-dark-alt bg-light dark:bg-dark rounded-2xl ">      
         <h2 className="mb-2 font-semibold text-lg"> Login </h2>
 
         {message && <p className="my-3 text-sm text-center">{message}</p>}
@@ -136,7 +141,7 @@ const LoginPopup = ({ onClose }) => {
         </div>
         
         <div className="flex items-center gap-3">
-            <button type="submit" disabled={loading} className="w-full bg-yellow-500 text-white py-2 rounded hover:bg-yellow-700 disabled:opacity-50 duration-300 transition-all">
+            <button type="submit" disabled={loading} className="w-full bg-yellow-500 text-white py-2 rounded hover:bg-yellow-700 disabled:opacity-50 ">
                 {loading ? "Processing..." : (isLogin ? "Sign In" : "Create Account")}
             </button>
 

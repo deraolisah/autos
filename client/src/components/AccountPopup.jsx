@@ -78,7 +78,7 @@ const AccountPopup = ({ loginOpen, toggleLogin }) => {
 
   return (
     <>
-      {!loginOpen ? (
+      {/* {!loginOpen ? ( */}
         <ul className='flex flex-col gap-2 text-sm w-40'>
           {!isAuthenticated ? (
             <button onClick={toggleLogin} className='hover:bg-light-alt hover:dark:bg-dark-alt px-2 py-1 rounded-md flex items-center gap-1.5'>
@@ -89,14 +89,18 @@ const AccountPopup = ({ loginOpen, toggleLogin }) => {
               <Link to={user?.role === "admin" ? "/admin" : "/account"} className='w-full hover:bg-light-alt hover:dark:bg-dark-alt px-2 py-1 rounded-md flex items-center gap-1.5 text-sm font-medium'>
                 <User size={16} strokeWidth={1.5} /> {user?.name || 'User'}
               </Link>
-              <Link to="/account/favorites" className='hover:bg-light-alt hover:dark:bg-dark-alt px-2 py-1 rounded-md flex items-center gap-1.5 text-sm'>
-                <Bookmark size={16} strokeWidth={1.5} /> 
-                Favorites
-                <span className='text-xs'> ( {favorites.length} ) </span>
-              </Link>
-              <Link to="/account/settings" className='hover:bg-light-alt hover:dark:bg-dark-alt px-2 py-1 rounded-md flex items-center gap-1.5'>
-                <Settings size={16} strokeWidth={1.5} /> Settings
-              </Link>
+              {user.role === "user" && (
+                <>
+                <Link to="/account/favorites" className='hover:bg-light-alt hover:dark:bg-dark-alt px-2 py-1 rounded-md flex items-center gap-1.5 text-sm'>
+                  <Bookmark size={16} strokeWidth={1.5} /> 
+                  Favorites
+                  <span className='text-xs'> ( {favorites.length} ) </span>
+                </Link>
+                <Link to="/account/settings" className='hover:bg-light-alt hover:dark:bg-dark-alt px-2 py-1 rounded-md flex items-center gap-1.5'>
+                  <Settings size={16} strokeWidth={1.5} /> Settings
+                </Link>
+                </>
+              )}
               <button onClick={handleLogout} className='hover:bg-light-alt hover:dark:bg-dark-alt px-2 py-1 rounded-md flex items-center gap-1.5 text-red-600'>
                 <LogOut size={14} /> Logout 
               </button>
@@ -104,6 +108,7 @@ const AccountPopup = ({ loginOpen, toggleLogin }) => {
           )}
           
           <hr className='bg-light-alt dark:bg-dark-alt border-0 h-px' />
+
           <Link to="/support" className='hover:bg-light-alt hover:dark:bg-dark-alt px-2 py-1 rounded-md flex items-center gap-1.5'>
             <CircleQuestionMark size={16} strokeWidth={1.5} /> Help / Support
           </Link>
@@ -111,9 +116,9 @@ const AccountPopup = ({ loginOpen, toggleLogin }) => {
             <MessageCircleCheck size={16} strokeWidth={1.5} /> Send Feedback 
           </Link>
         </ul>
-      ) : (
+      {/* ) : ( */}
         <div></div>
-      )}
+      {/* )} */}
     </>
   )
 }

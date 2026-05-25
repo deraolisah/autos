@@ -166,9 +166,9 @@ const VehicleCard = ({ vehicle }) => {
           />
         </Link>
 
-        <div className="p-2 grou-hover:pb-0! space-y-2 relative z-10 duration-300 transition-all">
+        <div className="p-2 grou-hover:pb-0! space-y-2 relative z-10 ">
           <div className="flex items-center justify-between gap-1.5">
-            <img src={vehicle.avatar || null} alt="" className="aspect-square w-5.5 h-5.5 md:w-7.5 md:h-7.5 p-0 object-cover rounded-full bg-light-alt dark:bg-dark-alt duration-300 transition-all" />
+            <img src={vehicle.avatar || null} alt="" className="aspect-square w-5.5 h-5.5 md:w-7.5 md:h-7.5 p-0 object-cover rounded-full bg-light-alt dark:bg-dark-alt " />
             <div className='flex-1 flex flex-col items-start justify-between gap-px'>
               <h4 className="font-bold text-xs md:text-sm leading-normal line-clamp-1">
                 <span className="">{vehicle.year} {vehicle.name}</span>
