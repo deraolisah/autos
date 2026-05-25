@@ -23,7 +23,7 @@ app.use(cors({
   credentials: true
 }));
 app.use(express.json());
-app.use(logger('common'));
+app.use(logger('common', "dev"));
 app.use(express.urlencoded({ extended: true }));
 app.use(session({
   secret: process.env.JWT_SECRET,

@@ -135,28 +135,88 @@ const EditVehicle = () => {
 
         <div className="flex flex-col lg:flex-row gap-6">
           {/* Vehicle Image */}
-          <div className="lg:w-90">
-            <img
-              src={selectedImage}
-              alt={vehicle.name}
-              className="w-full aspect-video object-cover rounded-lg"
-            />
+          <div className="lg:w-90 flex flex-col gap-3">
+            {!isEditing && (
+              <img
+                src={selectedImage}
+                alt={vehicle.name}
+                className="w-full aspect-video object-cover rounded-lg"
+              />
+            )}
 
             {/* Thumbnails */}
-            <div className="flex gap-3 mt-3 overflow-x-auto">
+            <div className="flex gap-3 overflow-x-auto scrollbar-hidden relative">
               {vehicle?.images?.map((img, i) => (
-                <img
-                  key={i}
-                  src={img}
-                  alt=""
-                  onClick={() => setSelectedImage(img)}
-                  className={`w-22 h-16 rounded-lg object-cover cursor-pointer border-2 ${
-                    selectedImage === img
-                      ? 'border-blue-600'
-                      : 'border-transparent'
-                  }`}
-                />
+                <div className='w-full aspect-3/2'>
+                  <span className='text-xs absolute top-1 z-2 bg-light-alt dark:bg-dark-alt px-2 p-0.5 rounded-full'>{i+1 }</span>
+                  <img
+                    key={i}
+                    src={img}
+                    alt=""
+                    onClick={() => setSelectedImage(img)}
+                    className={`aspect-3/2 h-16 rounded-lg object-cover cursor-pointer border-2 ${
+                      selectedImage === img
+                        ? 'border-primary'
+                        : 'border-transparent'
+                    }`}
+                  />
+                </div>
               ))}
+            </div>
+
+            {/* Avatar */}
+            {isEditing && (
+              <div className="w-full flex items-center gap-2">
+                <img src={editData?.avatar} alt="Avatar" className="min-w-6.5 h-6.5 rounded-full object-cover" />
+                <input
+                  type="text"
+                  value={editData?.avatar || ""}
+                  onChange={(e) => setEditData({ ...editData, avatar: e.target.value })}
+                  className="w-full border border-light-alt dark:border-dark-alt px-1.5 p-px rounded-md"
+                  />
+              </div>
+            )}
+
+            <div className="w-full flex flex-col gap-1.5">
+              {isEditing && (
+                <>
+                  {editData?.images?.map((img, idx) => (
+                    <div key={idx} className="flex gap-2 items-center">
+                      <input
+                        type="text"
+                        value={img}
+                        placeholder={`Image URL ${idx + 1}`}
+                        onChange={(e) => {
+                          const newImages = [...editData.images];
+                          newImages[idx] = e.target.value;
+                          setEditData({ ...editData, images: newImages });
+                        }}
+                        className="w-full border border-light-alt dark:border-dark-alt px-1 p-px rounded-md"
+                      />
+                      <button
+                        type="button"
+                        onClick={() => {
+                          const newImages = editData.images.filter((_, i) => i !== idx);
+                          setEditData({ ...editData, images: newImages });
+                        }}
+                        className="px-2 py-1 bg-red-500 text-white rounded-md"
+                      >
+                        Remove
+                      </button>
+                    </div>
+                  ))}
+
+                  <button
+                    type="button"
+                    onClick={() =>
+                      setEditData({ ...editData, images: [...(editData.images || []), ""] })
+                    }
+                    className="mt-2 px-3 py-1 bg-blue-500 text-white rounded-md"
+                  >
+                    Add Image
+                  </button>
+                </>
+              )}
             </div>
           </div>
 
@@ -172,7 +232,7 @@ const EditVehicle = () => {
                         type="text"
                         value={editData?.name || ""}
                         onChange={(e) => setEditData({ ...editData, name: e.target.value })}
-                        className="w-full border border-light-alt dark:border-dark-alt px-1 rounded-md"
+                        className="w-full border border-light-alt dark:border-dark-alt px-1.5 p-px rounded-md"
                       />
                     ) : (
                       `${vehicle?.name}`
@@ -188,14 +248,14 @@ const EditVehicle = () => {
                           value={editData?.year || ""}
                           placeholder='Year'
                           onChange={(e) => setEditData({ ...editData, year: e.target.value })}
-                          className='border border-light-alt dark:border-dark-alt px-1 p-px rounded-md'
+                          className='border border-light-alt dark:border-dark-alt px-1.5 p-px rounded-md'
                         />
                         <input 
                           type='text'
                           value={editData?.category || ""}
                           placeholder='Category'
                           onChange={(e) => setEditData({ ...editData, category: e.target.value })}
-                          className='border border-light-alt dark:border-dark-alt px-1 p-px rounded-md'
+                          className='border border-light-alt dark:border-dark-alt px-1.5 p-px rounded-md'
                         />
                       </div>
                     ) : (
@@ -248,60 +308,28 @@ const EditVehicle = () => {
                 <div className="bg-gray-100 dark:bg-dark-alt text-sm px-3 py-1 rounded-full">
                   {formatAmount(vehicle.price)}
                 </div>
-
-                {/* <div className="bg-gray-100 dark:bg-dark-alt text-sm px-3 py-1 rounded-full">
-                  {vehicle?.trips || 0} Trips
-                </div> */}
-
               </div>
 
 
-              <div className="w-full flex flex-col gap-1.5">
-                {isEditing && (
-                  <>
-                    {editData?.images?.map((img, idx) => (
-                      <div key={idx} className="flex gap-2 items-center">
-                        <input
-                          type="text"
-                          value={img}
-                          placeholder={`Image URL ${idx + 1}`}
-                          onChange={(e) => {
-                            const newImages = [...editData.images];
-                            newImages[idx] = e.target.value;
-                            setEditData({ ...editData, images: newImages });
-                          }}
-                          className="w-full border border-light-alt dark:border-dark-alt px-1 p-px rounded-md"
-                        />
-                        <button
-                          type="button"
-                          onClick={() => {
-                            const newImages = editData.images.filter((_, i) => i !== idx);
-                            setEditData({ ...editData, images: newImages });
-                          }}
-                          className="px-2 py-1 bg-red-500 text-white rounded-md"
-                        >
-                          Remove
-                        </button>
-                      </div>
-                    ))}
-
-                    <button
-                      type="button"
-                      onClick={() =>
-                        setEditData({ ...editData, images: [...(editData.images || []), ""] })
-                      }
-                      className="mt-2 px-3 py-1 bg-blue-500 text-white rounded-md"
-                    >
-                      Add Image
-                    </button>
-                  </>
+              <div>
+                {isEditing ? (
+                  <input
+                  type='text'
+                  value={editData?.description || ""}
+                  onChange={(e) => setEditData({ ...editData, description: e.target.value })}
+                  className='border border-light-alt dark:border-dark-alt px-1.5 p-px rounded-md'
+                  />
+                ) : (
+                  <p> {vehicle?.description || ""} </p>
                 )}
               </div>
+
+
 
             </div>
 
             {/* Quick Info */}
-            <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 mt-8">
+            <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
               <div className="border border-light-alt dark:border-dark-alt rounded-xl p-4">
                 <CarProfileIcon size={24} />
                 <p className="text-xs text-gray-500 mt-2">Doors</p>
@@ -446,7 +474,7 @@ const EditVehicle = () => {
             <div className="space-y-4">
               <PriceRow
                 label="Daily Price"
-                value={`$${formatAmount(vehicle.price)}`}
+                value={`${formatAmount(vehicle.price)}`}
               />
 
               <PriceRow
