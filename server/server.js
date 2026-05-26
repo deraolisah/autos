@@ -16,6 +16,7 @@ const app = express();
 const PORT = process.env.PORT;
 const allowedOrigins = process.env.FRONTEND_URL.split(",");
 
+
 // Middlewares
 // app.use(cors());
 app.use(cors({
