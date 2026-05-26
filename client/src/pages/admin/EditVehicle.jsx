@@ -59,6 +59,7 @@ const EditVehicle = () => {
     }
   }, [vehicle]);
 
+
   if (loading) {
     return <div className="p-6">Loading...</div>;
   }
@@ -96,11 +97,13 @@ const EditVehicle = () => {
   const API_URL = import.meta.env.VITE_API_URL;
 
 
+  // Edit Vehicle
   const handleEdit = () => {
     setEditData(vehicle); // preload form with vehicle data
     setIsEditing(true);
   };
 
+  // Save Edit
   const handleSave = async () => {
     try {
       await axios.patch(`${API_URL}/api/vehicles/patch/${id}`, editData, {
@@ -115,6 +118,7 @@ const EditVehicle = () => {
     }
   };
 
+  // Cancel Editing
   const handleCancel = () => {
     setEditData(vehicle);   // reset form back to original vehicle values
     setIsEditing(false);    // exit edit mode
