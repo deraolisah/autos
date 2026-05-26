@@ -13,6 +13,15 @@ export const addVehicle = async (req, res) => {
                 message: "Name, price and listed are required!"
             });
         }
+
+        // Validate images count
+        if(images && images.length > 6){
+            return res.status(400).json({
+                success: false,
+                message: "Maximum 6 images allowed per vehicle"
+            });
+        }
+
         // Then finally create the resource
         const vehicle = await Vehicle.create(req.body);
         res.status(201).json({ success: true, data: vehicle });        
@@ -151,6 +160,14 @@ export const updateVehicle = async (req, res) => {
 export const patchVehicle = async (req, res) => {
   try {
     const { id } = req.params;
+
+        // Validate images count if images are being updated
+    if(req.body.images && req.body.images.length > 6){
+      return res.status(400).json({
+        success: false,
+        message: "Maximum 6 images allowed per vehicle"
+      });
+    }
 
     // req.body can contain one or more fields to update
     const updatedVehicle = await Vehicle.findByIdAndUpdate(

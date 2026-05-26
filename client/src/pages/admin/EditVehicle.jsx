@@ -133,9 +133,9 @@ const EditVehicle = () => {
           back
         </button>
 
-        <div className="flex flex-col lg:flex-row gap-6">
+        <div className="flex flex-col lg:flex-row gap-4">
           {/* Vehicle Image */}
-          <div className="lg:w-90 flex flex-col gap-3">
+          <div className="lg:w-100 flex flex-col justify-between gap-3">
             {!isEditing && (
               <img
                 src={selectedImage}
@@ -145,16 +145,16 @@ const EditVehicle = () => {
             )}
 
             {/* Thumbnails */}
-            <div className="flex gap-3 overflow-x-auto scrollbar-hidden relative">
+            <div className="flex gap-3 overflow-y-hidden overflow-x-auto scrollbar-hidden rounded-lg">
               {vehicle?.images?.map((img, i) => (
-                <div className='w-full aspect-3/2'>
-                  <span className='text-xs absolute top-1 z-2 bg-light-alt dark:bg-dark-alt px-2 p-0.5 rounded-full'>{i+1 }</span>
+                <div className='aspect-3/2 h-16 relative'>
+                  <span className='text-xs absolute top-1 left-1 z-2 bg-light-alt dark:bg-dark-alt px-2 p-0.5 rounded-full'>{i+1 }</span>
                   <img
                     key={i}
                     src={img}
                     alt=""
                     onClick={() => setSelectedImage(img)}
-                    className={`aspect-3/2 h-16 rounded-lg object-cover cursor-pointer border-2 ${
+                    className={`min-w-full h-full rounded-lg object-cover cursor-pointer border-2 ${
                       selectedImage === img
                         ? 'border-primary'
                         : 'border-transparent'
@@ -177,35 +177,36 @@ const EditVehicle = () => {
               </div>
             )}
 
-            <div className="w-full flex flex-col gap-1.5">
-              {isEditing && (
-                <>
-                  {editData?.images?.map((img, idx) => (
-                    <div key={idx} className="flex gap-2 items-center">
-                      <input
-                        type="text"
-                        value={img}
-                        placeholder={`Image URL ${idx + 1}`}
-                        onChange={(e) => {
-                          const newImages = [...editData.images];
-                          newImages[idx] = e.target.value;
-                          setEditData({ ...editData, images: newImages });
-                        }}
-                        className="w-full border border-light-alt dark:border-dark-alt px-1 p-px rounded-md"
-                      />
-                      <button
-                        type="button"
-                        onClick={() => {
-                          const newImages = editData.images.filter((_, i) => i !== idx);
-                          setEditData({ ...editData, images: newImages });
-                        }}
-                        className="px-2 py-1 bg-red-500 text-white rounded-md"
-                      >
-                        Remove
-                      </button>
-                    </div>
-                  ))}
+            {isEditing && (
+              <div className="w-full flex flex-col gap-1.5">
+                {editData?.images?.map((img, idx) => (
+                  <div key={idx} className="flex gap-2 items-center">
+                    <input
+                      type="text"
+                      value={img}
+                      placeholder={`Image URL ${idx + 1}`}
+                      onChange={(e) => {
+                        const newImages = [...editData.images];
+                        newImages[idx] = e.target.value;
+                        setEditData({ ...editData, images: newImages });
+                      }}
+                      className="w-full border border-light-alt dark:border-dark-alt px-1 p-px rounded-md"
+                    />
+                    <button
+                      type="button"
+                      onClick={() => {
+                        const newImages = editData.images.filter((_, i) => i !== idx);
+                        setEditData({ ...editData, images: newImages });
+                      }}
+                      className="px-2 py-1 bg-red-500 text-white rounded-md"
+                    >
+                      Remove
+                    </button>
+                  </div>
+                ))}
 
+                {/* Only show Add Image button if less than 6 images */}
+                {editData?.images?.length < 6 && (
                   <button
                     type="button"
                     onClick={() =>
@@ -213,11 +214,18 @@ const EditVehicle = () => {
                     }
                     className="mt-2 px-3 py-1 bg-blue-500 text-white rounded-md"
                   >
-                    Add Image
+                    Add Image ({editData?.images?.length || 0}/6)
                   </button>
-                </>
-              )}
-            </div>
+                )}
+
+                {/* Show warning when max images reached */}
+                {editData?.images?.length === 6 && (
+                  <p className="text-xs text-yellow-600 dark:text-yellow-400 mt-1">
+                    Maximum 6 images reached. Remove some images to add more.
+                  </p>
+                )}
+              </div>
+            )}
           </div>
 
           {/* Vehicle Details */}
@@ -287,7 +295,7 @@ const EditVehicle = () => {
 
               <div className="flex flex-wrap gap-3 bg-yellow-500/0">
                 {isEditing ? (
-                  <div className='px-3 py-1 rounded-full text-sm flex items-center gap-1 bg-light-alt dark:bg-dark-alt'>
+                  <div className='text-sm px-3 py-1 rounded-full flex items-center gap-1 bg-light-alt dark:bg-dark-alt'>
                     <input 
                       id='listed'
                       type='checkbox'
@@ -300,12 +308,12 @@ const EditVehicle = () => {
                     </label>
                   </div>
                 ) : (
-                  <div className={`text-sm px-3 py-1 rounded-full ${vehicle.listed ? "bg-green-100 text-green-700" : "bg-red-100 text-red-700"}`}>
+                  <div className={`text-sm px-3 py-1 rounded-full shadow dark:shadow-white/20 ${vehicle.listed ? "bg-green-100 text-green-700" : "bg-red-100 text-red-700"}`}>
                     {vehicle.listed ? "Listed" : "Unlisted"}
                   </div>
                 )}
 
-                <div className="bg-gray-100 dark:bg-dark-alt text-sm px-3 py-1 rounded-full">
+                <div className="bg-light-alt dark:bg-dark-alt text-sm px-3 py-1 rounded-full shadow dark:shadow-white/20">
                   {formatAmount(vehicle.price)}
                 </div>
               </div>
@@ -323,40 +331,37 @@ const EditVehicle = () => {
                   <p> {vehicle?.description || ""} </p>
                 )}
               </div>
-
-
-
             </div>
 
             {/* Quick Info */}
             <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
-              <div className="border border-light-alt dark:border-dark-alt rounded-xl p-4">
+              <div className="border border-light-alt dark:border-dark-alt rounded-xl p-4 py-2">
                 <CarProfileIcon size={24} />
-                <p className="text-xs text-gray-500 mt-2">Doors</p>
+                <p className="text-xs text-gray-500">Doors</p>
                 <h4 className="font-semibold">
                   {vehicle?.doors || 4}
                 </h4>
               </div>
 
-              <div className="border border-light-alt dark:border-dark-alt rounded-xl p-4">
+              <div className="border border-light-alt dark:border-dark-alt rounded-xl p-4 py-2">
                 <SeatIcon size={24} />
-                <p className="text-xs text-gray-500 mt-2">Seats</p>
+                <p className="text-xs text-gray-500">Seats</p>
                 <h4 className="font-semibold">
                   {vehicle?.seats || 5}
                 </h4>
               </div>
 
-              <div className="border border-light-alt dark:border-dark-alt rounded-xl p-4">
+              <div className="border border-light-alt dark:border-dark-alt rounded-xl p-4 py-2">
                 <GasPumpIcon size={24} />
-                <p className="text-xs text-gray-500 mt-2">Fuel Type</p>
+                <p className="text-xs text-gray-500">Fuel Type</p>
                 <h4 className="font-semibold">
                   {vehicle?.fuelType || 'Electric'}
                 </h4>
               </div>
 
-              <div className="border border-light-alt dark:border-dark-alt rounded-xl p-4">
+              <div className="border border-light-alt dark:border-dark-alt rounded-xl p-4 py-2">
                 <SteeringWheelIcon size={24} />
-                <p className="text-xs text-gray-500 mt-2">Transmission</p>
+                <p className="text-xs text-gray-500">Transmission</p>
                 <h4 className="font-semibold">
                   {vehicle?.transmission || 'Automatic'}
                 </h4>

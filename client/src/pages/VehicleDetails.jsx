@@ -54,12 +54,16 @@ const VehicleDetails = () => {
 //     // const isFav = Array.isArray(favorites) && favorites.some(fav => fav._id === vehicle._id);
 
 
-  // Build thumbnails: real images first, placeholders fill the rest
-  const thumbnails = [...(vehicle.images || [])];
-  while (thumbnails.length < 6) {
-    thumbnails.push(placeholders[thumbnails.length]);
-  }
 
+
+  // Build thumbnails: real images first, placeholders fill the rest up to 6
+    const thumbnails = [...(vehicle.images || [])];
+    // Only add placeholders up to 6 total images
+    while (thumbnails.length < 6) {
+    thumbnails.push(placeholders[thumbnails.length]);
+    }
+    // If there are more than 6 real images, only take the first 6
+    const displayThumbnails = thumbnails.slice(0, 6);
 
 
   return (
@@ -98,7 +102,7 @@ const VehicleDetails = () => {
 
                 {/* Thumbnails */}
                 <div className='grid grid-cols-6 gap-2.5'>
-                    {thumbnails.slice(0, 6).map((img, index) => (
+                    {displayThumbnails.slice(0, 6).map((img, index) => (
                         <img
                             key={index}
                             src={img}

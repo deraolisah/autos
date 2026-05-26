@@ -7,7 +7,16 @@ const vehicleSchema = new mongoose.Schema({
     year: { type: String, required: false },
     vehicleType: { type: String, enum: ["Car", "Suv", "Truck", "Pick-up" ], required: false },
     fuelType: { type: String, enum: ["Electric", "Petrol", "Diesel", ], required: false },
-    images: { type: [String], required: false },
+    images: { 
+        type: [String], 
+        required: false,
+        validate: {
+            validator: function(images) {
+                return images.length <= 6;
+            },
+            message: 'Maximum 6 images allowed per vehicle'
+        }
+    },
     avatar: { type: String, required: false },
     brand: { type: String, required: false },
     category: { type: String },
