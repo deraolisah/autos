@@ -15,7 +15,7 @@ const DashboardLayout = () => {
       <main className={`bg-light dark:bg-dark w-full min-h-full flex flex-col flex-1  ${sidebarOpen ? "ml-0" : "md:ml-0" }`}>
         <Header sidebarOpen={sidebarOpen} setSidebarOpen={setSidebarOpen} />
         
-        <div className="ticks"></div>
+        {/* <div className="ticks"></div> */}
 
         <div className='p-0 pb-12'> 
           <Outlet />

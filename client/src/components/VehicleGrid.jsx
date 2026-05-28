@@ -54,7 +54,7 @@ const VehicleGrid = ({
 
   return (
     <section className='w-full h-full flex flex-col items-start justify-between'>
-      <div className='grid grid-cols-2 md:grid-cols-3 gap-3 md:gap-4 md:gap-y-5 lg:gap-5 mt-4'>
+      <div className='h-full grid grid-cols-2 lg:grid-cols-3 gap-3 md:gap-4 md:gap-y-5 lg:gap-5'>
         {vehicles.map((vehicle, index) => (
           <VehicleCard 
             key={vehicle._id || index} 

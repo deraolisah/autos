@@ -129,6 +129,8 @@ export const VehicleProvider = ({ children }) => {
         formatAmount,
         loading,
         error,
+        setLoading,
+        setError
     };
 
     // console.log("Provider providing these keys:", Object.keys(contextValue));

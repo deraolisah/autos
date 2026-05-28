@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import axios from "axios";
 
+
 const AddVehicle = () => {
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
@@ -21,6 +22,21 @@ const AddVehicle = () => {
   const handleOnChange = (e) => {
     const { name, value } = e.target;
     setFormData((prev) => ({ ...prev, [name]: value }));
+  };
+
+  const handleImageChange = (index, value) => {
+    const newImages = [...formData.images];
+    newImages[index] = value;
+    setFormData((prev) => ({ ...prev, images: newImages }));
+  };
+
+  const addImageField = () => {
+    setFormData((prev) => ({ ...prev, images: [...prev.images, ""] }));
+  };
+
+  const removeImageField = (index) => {
+    const newImages = formData.images.filter((_, i) => i !== index);
+    setFormData((prev) => ({ ...prev, images: newImages }));
   };
 
   const handleSubmit = async (e) => {
@@ -78,7 +94,7 @@ const AddVehicle = () => {
             name="name"
             value={formData.name}
             onChange={handleOnChange}
-            className="bg-light-alt/60 rounded-md text-base px-3 p-1 border border-light-alt"
+            className="bg-light-alt/60 dark:bg-dark-alt/60 rounded-md text-base px-3 p-1 border border-light-alt dark:border-dark-alt"
             required
             placeholder="Vehicle name here"
           />
@@ -92,7 +108,7 @@ const AddVehicle = () => {
             name="description"
             value={formData.description}
             onChange={handleOnChange}
-            className="bg-light-alt/60 rounded-md text-base px-3 p-1 border border-light-alt"
+            className="bg-light-alt/60 dark:bg-dark-alt/60 rounded-md text-base px-3 p-1 border border-light-alt dark:border-dark-alt"
             required
             placeholder="Vehicle description here"
           />
@@ -106,7 +122,7 @@ const AddVehicle = () => {
             name="price"
             value={formData.price}
             onChange={handleOnChange}
-            className="bg-light-alt/60 rounded-md text-base px-3 p-1 border border-light-alt"
+            className="bg-light-alt/60 dark:bg-dark-alt/60 rounded-md text-base px-3 p-1 border border-light-alt dark:border-dark-alt"
             required
             placeholder="Vehicle price here"
           />
@@ -121,7 +137,7 @@ const AddVehicle = () => {
             name="year"
             value={formData.year}
             onChange={handleOnChange}
-            className="bg-light-alt/60 rounded-md text-base px-3 p-1 border border-light-alt"
+            className="bg-light-alt/60 dark:bg-dark-alt/60 rounded-md text-base px-3 p-1 border border-light-alt dark:border-dark-alt"
             required
             placeholder="Vehicle year here"
           />
@@ -134,12 +150,12 @@ const AddVehicle = () => {
             name="vehicleType"
             value={formData.vehicleType}
             onChange={handleOnChange}
-            required
-            className="bg-light-alt/60 rounded-md text-base px-3 p-1 border border-light-alt"
+            // required
+            className="bg-light-alt/60 dark:bg-dark-alt/60 rounded-md text-base px-3 p-1 border border-light-alt dark:border-dark-alt"
           >
             <option value="">Select type</option>
             <option value="Car">Car</option>
-            <option value="Suv">Suv</option>
+            <option value="Suv">Suv</option>s
             <option value="Truck">Truck</option>
             <option value="Pick-up">Pick-up</option>
           </select>
@@ -152,8 +168,8 @@ const AddVehicle = () => {
             name="fuelType"
             value={formData.fuelType}
             onChange={handleOnChange}
-            required
-            className="bg-light-alt/60 rounded-md text-base px-3 p-1 border border-light-alt"
+            // required
+            className="bg-light-alt/60 dark:bg-dark-alt/60 rounded-md text-base px-3 p-1 border border-light-alt"
           >
             <option value="">Select fuel</option>
             <option value="Petrol">Petrol</option>
@@ -164,6 +180,35 @@ const AddVehicle = () => {
         </div>
 
         <div>
+          <label>Images</label>
+          {formData.images.map((img, index) => (
+            <div key={index} className="flex gap-2 mb-2">
+              <input
+                type="text"
+                value={img}
+                onChange={(e) => handleImageChange(index, e.target.value)}
+                placeholder={`Image URL ${index + 1}`}
+                className="w-full bg-light-alt/60 dark:bg-dark-alt/60 rounded-md px-3 p-1 border"
+              />
+              <button
+                type="button"
+                onClick={() => removeImageField(index)}
+                className="bg-red-500 text-white px-2 rounded"
+              >
+                Remove
+              </button>
+            </div>
+          ))}
+          <button
+            type="button"
+            onClick={addImageField}
+            className="bg-green-500 text-white px-3 py-1 rounded"
+          >
+            + Add Image
+          </button>
+        </div>
+
+        <div>
           <label htmlFor="condition">Condition</label>
           <select
             id="condition"
@@ -171,11 +216,12 @@ const AddVehicle = () => {
             value={formData.condition}
             onChange={handleOnChange}
             required
-            className="bg-light-alt/60 rounded-md text-base px-3 p-1 border border-light-alt"
+            className="bg-light-alt/60 dark:bg-dark-alt/60 rounded-md text-base px-3 p-1 border border-light-alt dark:border-dark-alt"
           >
             <option value="">Select condition</option>
             <option value="New">New</option>
             <option value="Used">Used</option>
+            <option value="Cpo">Certified Pre-owned</option>
           </select>
         </div>
 

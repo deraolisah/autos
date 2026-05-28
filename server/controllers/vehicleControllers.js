@@ -4,8 +4,8 @@ import Vehicle from "../models/vehicleModels.js";
 export const addVehicle = async (req, res) => {
     // Using a try-catch block to..
     try {
-        // const { name, description, price, images, avatar, brand, year, category, listed, ratings } = req.body;
-        const { name, price, listed } = req.body;
+        const { name, description, price, images, doors, avatar, brand, year, category, listed, ratings } = req.body;
+        // const { name, price, listed } = req.body;
         // Check if all required fields are provided
         if(!name || !price || listed === undefined){
             return res.status(400).json({ 

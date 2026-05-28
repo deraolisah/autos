@@ -16,7 +16,7 @@ const Hero = () => {
           backgroundSize: "cover",
           backgroundPosition: "center"
       }}>
-        <div className='absolute inset-0 w-full h-full bg-linear-to-t from-transparent to-white/88 dark:to-black  z-0'></div>
+        <div className='absolute inset-0 w-full h-full bg-linear-to-t from-transparent to-white/90 dark:to-black z-0'></div>
         <p className='uppercase z-2'> Explore Our Luxury </p>
         <h1 className='text-3xl md:text-5xl font-bold uppercase z-2 mb-1'> Car Collection </h1>
         <Link to="/listings" className='text-xs sm:text-base  bg-primary px-4 py-2 rounded-md w-fit z-2'> Get Started </Link>

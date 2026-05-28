@@ -26,7 +26,7 @@ const Header = ({ sidebarOpen, setSidebarOpen }) => {
   }, []);
 
   return (
-    <header className='sticky top-0 z-20 min-h-16 w-full px-4 border-b border-light-alt dark:border-dark-alt bg-light dark:bg-dark flex items-center justify-between duration-300 transition-all'>
+    <header className='sticky top-0 z-200 min-h-16 w-full px-4 border-b border-light-alt dark:border-dark-alt bg-light dark:bg-dark flex items-center justify-between duration-300 transition-all'>
         <button className="md:opacity-0 p-2 rounded-sm bg-light-alt/50 dark:bg-dark-alt/50 hover:bg-light-alt dark:hover:bg-dark-alt duration-300 transition-all" onClick={()=> {setSidebarOpen(prev => !prev)}}>
           <PanelRightClose size={20} strokeWidth={1.5} className={`duration-300 transition-all ${sidebarOpen ? 'rotate-180' : ''}`} />
         </button>
@@ -66,7 +66,7 @@ const Header = ({ sidebarOpen, setSidebarOpen }) => {
 
           {themePopup && (
             <div ref={themeRef} className='fixed z-100 top-15 right-4 md:right-8 bg-light dark:bg-dark shadow-xl rounded-xl border border-gray-300 dark:border-dark-alt p-1'>
-                <ThemePopup />
+              <ThemePopup />
             </div>
           )}
 

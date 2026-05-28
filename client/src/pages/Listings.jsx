@@ -228,11 +228,13 @@ const Listings = () => {
       case 'alpha':
         sorted.sort((a, b) => (a.name || '').localeCompare(b.name || ''));
         break;
-      case 'date':
+      case 'date-asc': // Oldest → Newest
+        sorted.sort((a, b) => new Date(a.createdAt || 0) - new Date(b.createdAt || 0));
+        break;
+      case 'date-desc': // Newest → Oldest
         sorted.sort((a, b) => new Date(b.createdAt || 0) - new Date(a.createdAt || 0));
         break;
       default:
-        // Default sort by date or id
         sorted.sort((a, b) => (b._id || '').localeCompare(a._id || ''));
     }
     
@@ -407,7 +409,9 @@ const Listings = () => {
               title="Sort"
             >
               {/* <option value="">Sort by</option> */}
-              <option value="date">Date listed</option>
+              <option value="date-desc">Date: New to Old</option>
+              <option value="date-asc">Date: Old to New</option>
+
               <option value="price-asc">Price: Low to High</option>
               <option value="price-desc">Price: High to Low</option>
               <option value="alpha">Alphabetical</option>
@@ -456,7 +460,7 @@ const Listings = () => {
 
         {/* Vehicle grid with pagination */}
         {/* {totalItems > 0 && ( */}
-          <div className="w-full flex-1">
+          <div className="w-full h-full flex-1">
             <VehicleGrid 
               vehicles={paginatedVehicles}
               currentPage={currentPage}
