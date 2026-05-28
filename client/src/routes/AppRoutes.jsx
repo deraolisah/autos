@@ -10,6 +10,7 @@ import PublicLayout from '../layouts/PublicLayout.jsx';
 import Home from '../pages/Home';
 import About from '../pages/About';
 import Contact from '../pages/Contact.jsx';
+import Services from "../pages/Services.jsx";
 import Listings from '../pages/Listings';
 import VehicleDetails from '../pages/VehicleDetails';
 import Feedback from '../pages/Feedback.jsx';
@@ -43,11 +44,14 @@ const AppRoutes = () => {
             <Route index element={<Home />} />
             <Route path='/about' element={<About />} />
             <Route path='/contact' element={<Contact />} />
+            <Route path='/services' element={<Services />} />
             <Route path='/listings' element={<Listings />} />
             <Route path='/vehicle/:id' element={<VehicleDetails />} />
             <Route path='/auth/social-callback' element={<AuthCallback />} />
             <Route path='/feedback' element={<Feedback />} />
             <Route path='/support' element={<Support />} />
+            {/* Not Found */}
+            <Route path='*' element={<NotFound />} />
           </Route>
 
 
@@ -76,9 +80,6 @@ const AppRoutes = () => {
               <Route path=":id" element={<EditVehicle />} />
             </Route>
           </Route>
-
-          {/* Not Found */}
-          <Route path='*' element={<NotFound />} />
         </Routes>  
 
     </div>

@@ -342,9 +342,9 @@ const EditVehicle = () => {
               {/* Status + price badges */}
               <div className="flex flex-wrap items-center gap-2 pt-1">
                 {isEditing ? (
-                  <div className='flex items-center gap-2'>
+                  <div className='flex items-center gap-4'>
                     <div className='space-y-1'>
-                      <h4 className='text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wide'> Listing Status </h4>
+                      <h4 className='text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wide'> Status </h4>
                       <label className="flex items-center gap-2 text-sm px-3 py-2 rounded-lg border border-light-alt dark:border-dark-alt cursor-pointer select-none">
                         <input
                           id="listed"

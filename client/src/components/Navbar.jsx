@@ -1,6 +1,6 @@
 import React, { useState, useRef, useEffect } from 'react'
 import { Link, NavLink } from 'react-router-dom';
-import { Bell, File, Home, House, List, Menu, Monitor, Moon, Phone, Sun, User, UserRound, X } from "lucide-react";
+import { Bell, File, Home, House, List, Menu, Monitor, Moon, Phone, Server, Sun, User, UserRound, X } from "lucide-react";
 import logo from "../assets/logo.png";
 import { useTheme } from '../contexts/themeContext';
 import "./AccountPopup";
@@ -63,6 +63,7 @@ const Navbar = ({ isHome }) => {
         {name: "Home", link: "/", icon: <House size={14} /> },
         {name: "About", link: "/about", icon: <File size={14} /> },
         {name: "Contact", link: "/contact", icon: <Phone size={14} /> },
+        {name: "Services", link: "/services", icon: <Server size={14} /> },
         {name: "Listings", link: "/listings", icon: <List size={14} /> }
     ];
 

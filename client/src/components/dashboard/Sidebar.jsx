@@ -29,7 +29,7 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }) => {
 
   return (
     <>
-      <div className={`w-full max-w-60 mx-auto min-h-screen h-full flex flex-col border-r-0 border-light-alt dark:border-dark-alt bg-light dark:bg-dark fixed z-100 top-0 left-0 md:sticky md:translate-x-0  ${sidebarOpen ? "translate-x-0" : "-translate-x-full" }`}>
+      <div className={`w-full max-w-60 mx-auto min-h-screen h-full flex flex-col border-r-0 border-light-alt dark:border-dark-alt bg-light dark:bg-dark fixed z-1000 top-0 left-0 md:sticky md:translate-x-0  ${sidebarOpen ? "translate-x-0" : "-translate-x-full" }`}>
         <div className='min-h-16 border-b border-light-alt dark:border-dark-alt'>
           <Link to="/" onClick={()=> { scrollTo(0,0); }} className='h-full font-semibold text-lg flex items-center gap-1  p-4 w-fit'>
             <img src={logo} alt='Autos Logo' className='object-cover w-6.5  dark:invert-90 ' />
