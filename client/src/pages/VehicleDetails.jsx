@@ -1,8 +1,12 @@
 import React, { useState, useEffect } from 'react'
 import { useVehicle } from '../contexts/vehicleContext';
 import { Link, useParams } from 'react-router-dom';
-import { ChevronLeft, ChevronRight, Expand, Heart, Share } from 'lucide-react';
-// import { useFavorites } from '../hooks/useFavorites';
+import { 
+  ChevronLeft, ChevronRight, Expand, Heart, Share, 
+  Fuel, Gauge, Calendar, Users, Car, Settings,
+  Shield, CheckCircle, XCircle, AlertCircle, Clock,
+  MapPin, Star, Phone, Mail, MessageCircle
+} from 'lucide-react';
 import { useFavorite } from '../contexts/favoriteContext';
 import FavoriteButton from '../components/FavoriteButton';
 
@@ -25,34 +29,89 @@ const VehicleDetails = () => {
     'https://picsum.photos/500?random=6',
   ];
 
-  // State for selected main image
-  const [selectedImage, setSelectedImage] = useState(null);
-    // State for lightbox image
-    const [ showLightbox, setShowLightbox ] = useState(false);
+   
+    const [selectedImage, setSelectedImage] = useState(null);  // State for selected main image
+    const [ showLightbox, setShowLightbox ] = useState(false); // State for Lighbox 
+    const [activeTab, setActiveTab] = useState('details'); // details, features, specs
 
     const togglelightbox = () => { setShowLightbox(prev => !prev) };
 
   // Update selectedImage when vehicle changes
-  useEffect(() => {
-    if (vehicle?.images?.length) {
-      setSelectedImage(vehicle.images[0]);
-    } else {
-      setSelectedImage('https://via.placeholder.com/400x300?text=No+Image');
-    }
-  }, [vehicle]);
-
-  if (loading) return <div className='p-4'>Loading...</div>;
-  if (error) return <div className='p-4'>Error: {error}</div>;
-  if (!vehicle) return <div className='p-4'>No vehicle found</div>;
+    useEffect(() => {
+        if (vehicle?.images?.length) {
+            setSelectedImage(vehicle.images[0]);
+        } else {
+            setSelectedImage('https://via.placeholder.com/400x300?text=No+Image');
+        }
+    }, [vehicle]);
 
 
-//   // ✅ Safely check favorites only if both exist
-// //   const isFav = Array.isArray(favorites) && favorites.some(fav => fav._id === vehicle._id);
-//     const isFav = isFavorited(vehicle?._id);
+    if (loading) return (
+        <div className="container py-12 flex justify-center items-center">
+            <div className="animate-pulse text-center">
+                <div className="w-12 h-12 border-4 border-blue-500 border-t-transparent rounded-full animate-spin mx-auto mb-4"></div>
+                <p className="text-gray-500">Loading vehicle details...</p>
+            </div>
+        </div>
+    );
 
-//     // ✅ Safe check - handles undefined, null, or non-arrays
-//     // const isFav = Array.isArray(favorites) && favorites.some(fav => fav._id === vehicle._id);
+    if (error) return (
+        <div className="container py-12">
+            <div className="bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800 rounded-lg p-4 text-red-600 dark:text-red-400">
+                <AlertCircle className="inline mr-2" size={20} />
+                Error: {error}
+            </div>
+        </div>
+    );
+    
 
+    if (!vehicle) return (
+        <div className="container py-12 text-center">
+            <Car className="mx-auto mb-4 text-gray-400" size={48} />
+            <h2 className="text-xl font-semibold mb-2">Vehicle not found</h2>
+            <p className="text-gray-500 mb-4">The vehicle you're looking for doesn't exist or has been removed.</p>
+            <Link to="/vehicles" className="text-blue-600 hover:underline">Browse other vehicles →</Link>
+        </div>
+    );
+
+    
+
+    // Format specifications for display
+    const specifications = [
+        { icon: <Car size={18} />, label: "Type", value: vehicle.vehicleType || "Not specified" },
+        { icon: <Calendar size={18} />, label: "Year", value: vehicle.year || "Not specified" },
+        { icon: <Users size={18} />, label: "Seats", value: vehicle.seats || "Not specified" },
+        { icon: <Car size={18} />, label: "Doors", value: vehicle.doors || "Not specified" },
+        { icon: <Settings size={18} />, label: "Transmission", value: vehicle.transmission || "Not specified" },
+        { icon: <Fuel size={18} />, label: "Fuel Type", value: vehicle.fuelType || "Not specified" },
+        { icon: <Gauge size={18} />, label: "Engine", value: vehicle.engineSize || "Not specified" },
+        { icon: <Gauge size={18} />, label: "Horsepower", value: vehicle.horsepower ? `${vehicle.horsepower} HP` : "Not specified" },
+    ];
+
+    const conditionInfo = {
+        New: { color: "bg-green-500", icon: <CheckCircle size={14} />, text: "Brand New" },
+        Used: { color: "bg-blue-500", icon: <Clock size={14} />, text: "Pre-owned" },
+        CPO: { color: "bg-purple-500", icon: <Shield size={14} />, text: "Certified Pre-Owned" },
+        Refurbished: { color: "bg-yellow-500", icon: <Settings size={14} />, text: "Refurbished" },
+        Salvage: { color: "bg-red-500", icon: <AlertCircle size={14} />, text: "Salvage" },
+    };
+
+    const currentCondition = conditionInfo[vehicle.condition] || conditionInfo.Used;
+
+    // Get warranty display text
+    const getWarrantyText = (warranty) => {
+        if (!warranty || warranty === "None") return "No warranty";
+        return `${warranty} warranty`;
+    };
+
+
+    // // Build thumbnails (max 6)
+    // const displayThumbnails = (vehicle.images || []).slice(0, 6);
+    
+    // // Add placeholder if no images
+    // if (displayThumbnails.length === 0) {
+    //     displayThumbnails.push('https://via.placeholder.com/800x600?text=No+Image+Available');
+    // }
 
 
 
@@ -114,37 +173,237 @@ const VehicleDetails = () => {
                 </div>
             </div>
 
-            {/* Vehicle Info */}
-            <div className='w-full flex-1 space-y-2'>
-                <div className='w-full flex items-start justify-between gap-1.5'>
-                    <div className='w-full flex items-center flex-wrap gap-x-4 gap-1.5'>
-                        <h1 className='text-lg md:text-2xl font-bold'>
-                            <span> {vehicle.year} {vehicle.name} </span>
-                        </h1>
 
-                        <span className={`bg-green-500 text-white py-1 p-1.5 rounded-sm capitalize text-[10px] md:text-[11px] font-normal shadow ${vehicle.listed ? "bg-green-500" : "bg-red-500"}`}>
-                            {vehicle.listed ? (
-                                <span> Available </span>
-                            ) : (
-                                <span> Unavailable </span>
-                            )}
-                        </span>
+            {/* Right Column - Vehicle Info */}
+            <div className='w-full flex-1  space-y-4'>
+                {/* Title and Actions */}
+                <div className='space-y-3'>
+                    <div className='flex items-start justify-between gap-2'>
+                        <div className='flex-1'>
+                            <h1 className='text-lg md:text-xl lg:text-2xl font-bold leading-tight'>
+                                {vehicle.year} {vehicle.name}
+                            </h1>
+                            <p className='text-sm text-gray-500 mt-1'>
+                                {vehicle.model && `${vehicle.model} • `}
+                                {vehicle.category || "Standard"} Class
+                            </p>
+                        </div>
+                        
+                        <div className='flex items-center gap-2'>
+                            <FavoriteButton vehicleId={vehicle._id} />
+                            <button 
+                                className='p-2 rounded-full bg-gray-100 dark:bg-dark-alt hover:bg-gray-200 dark:hover:bg-gray-700 transition-colors'
+                                title='Share'
+                                onClick={() => {
+                                    navigator.share ? navigator.share({ title: vehicle.name, url: window.location.href }) : navigator.clipboard.writeText(window.location.href);
+                                }}
+                            >
+                                <Share size={18} />
+                            </button>
+                        </div>
                     </div>
 
-                    <div className='w-fit flex items-center gap-2'>
-                        <FavoriteButton vehicleId={vehicle._id} />
-                        {/* <button className={`bg-light-alt/30 dark:bg-dark-alt/30 hover:bg-light-alt hover:dark:bg-dark-alt p-1.5 rounded-full  ${isFav ? "text-red-600" : "text-gray-400"}`} title='Favorite' onClick={() => toggleFavorite(vehicle._id)}>
-                            {isFav ? "❤️ Favorited" : (<Heart size={18} />)}
-                        </button> */}
-                        <button className='bg-light-alt/30 dark:bg-dark-alt/30 hover:bg-light-alt hover:dark:bg-dark-alt p-2 sm:px-2 sm:p-1.5 rounded-full sm:rounded-md text-xs md:text-sm flex items-center gap-1.5 ' title='Share'>
-                            <span className='hidden sm:flex'> Share </span>
-                            <Share size={16} />
-                        </button>
+                    {/* Status Badges */}
+                    <div className='flex flex-wrap gap-2'>
+                        <span className={`inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-medium ${currentCondition.color} text-white`}>
+                            {currentCondition.icon}
+                            {currentCondition.text}
+                        </span>
+                        
+                        <span className={`inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-medium border ${
+                            vehicle.listed 
+                                ? 'bg-green-200 dark:bg-green-900/30 text-green-700 dark:text-green-400' 
+                                : 'bg-red-100 dark:bg-red-900/30 text-red-700 dark:text-red-400'
+                        }`}>
+                            {vehicle.listed ? <CheckCircle size={14} /> : <XCircle size={14} />}
+                            {vehicle.listed ? "Available" : "Unavailable"}
+                        </span>
+
+                        {vehicle.featured && (
+                            <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-medium bg-yellow-100 dark:bg-yellow-900/30 text-yellow-700 dark:text-yellow-400">
+                                <Star size={14} />
+                                Featured
+                            </span>
+                        )}
+
+                        {vehicle.verified && (
+                            <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-medium bg-blue-100 dark:bg-blue-900/30 text-blue-700 dark:text-blue-400">
+                                <Shield size={14} />
+                                Verified
+                            </span>
+                        )}
+                    </div>
+
+                    {/* Price */}
+                    <div className='border-t border-b border-light-alt dark:border-dark-alt py-3'>
+                        <div className='flex items-baseline gap-2'>
+                            <span className='text-3xl font-bold'>{formatAmount(vehicle.price)}</span>
+                            {vehicle.originalPrice && vehicle.originalPrice > vehicle.price && (
+                                <>
+                                    <span className='text-lg text-gray-400 line-through'>{formatAmount(vehicle.originalPrice)}</span>
+                                    <span className='text-sm text-green-600 font-medium'>
+                                        Save {Math.round(((vehicle.originalPrice - vehicle.price) / vehicle.originalPrice) * 100)}%
+                                    </span>
+                                </>
+                            )}
+                        </div>
+                        {vehicle.warranty && vehicle.warranty !== "None" && (
+                            <p className='text-sm text-green-600 mt-1'>
+                                <Shield size={14} className="inline mr-1" />
+                                {getWarrantyText(vehicle.warranty)} included
+                            </p>
+                        )}
                     </div>
                 </div>
-                <p className='mt-2 font-semibold'>{formatAmount(vehicle.price)}</p>
-                <p className='text-sm text-gray-600 capitalize'>{vehicle?.condition === "Cpo" ? "Certified Pre-Owned" : vehicle.condition} ⁕ {vehicle.category}</p>
+
+                {/* Key Specifications Grid */}
+                <div className='grid grid-cols-2 md:grid-cols-4 gap-3'>
+                    {specifications.slice(0, 4).map((spec, idx) => (
+                        <div key={idx} className='bg-light-alt dark:bg-dark-alt rounded-lg p-3'>
+                            <div className='text-gray-400 mb-1'>{spec.icon}</div>
+                            <p className='text-xs text-gray-500'>{spec.label}</p>
+                            <p className='text-sm font-semibold mt-0.5'>{spec.value}</p>
+                        </div>
+                    ))}
+                </div>
+
+                {/* Description */}
+                {vehicle.description && (
+                    <div className='bg-light-alt dark:bg-dark-alt rounded-lg p-4'>
+                        <h3 className='font-semibold mb-2'>Description</h3>
+                        <p className='text-sm text-gray-600 dark:text-gray-400 leading-relaxed'>
+                            {vehicle.description}
+                        </p>
+                    </div>
+                )}
             </div>
+        </div>
+
+
+        <div className='w-full mt-8'>
+            {/* Tabs */}
+            <div className='border-b border-light-alt dark:border-dark-alt'>
+                <div className='flex gap-4'>
+                    {['details', 'features', 'specs'].map((tab) => (
+                        <button
+                            key={tab}
+                            onClick={() => setActiveTab(tab)}
+                            className={`px-3 py-2 text-sm font-medium capitalize transition-colors border-b-2 ${
+                                activeTab === tab
+                                    ? 'border-primary text-primary text-shadow-2xs'
+                                    : 'border-transparent text-gray-500 hover:text-gray-700'
+                            }`}
+                        >
+                            {tab}
+                        </button>
+                    ))}
+                </div>
+            </div>
+
+            {/* Tab Content */}
+            <div className='py-2'>
+                {activeTab === 'details' && (
+                    <div className='space-y-3'>
+                        <div className='grid grid-cols-2 gap-4 md:gap-6 gap-y-3'>
+                            <div className='flex justify-between py-2 border-b border-light-alt dark:border-dark-alt'>
+                                <span className='text-sm text-gray-500'>Condition</span>
+                                <span className='text-sm font-medium capitalize'>{vehicle.condition}</span>
+                            </div>
+                            <div className='flex justify-between py-2 border-b border-light-alt dark:border-dark-alt'>
+                                <span className='text-sm text-gray-500'>Mileage</span>
+                                <span className='text-sm font-medium'>{vehicle.mileage ? `${vehicle.mileage.toLocaleString()} km` : 'Not applicable'}</span>
+                            </div>
+                            <div className='flex justify-between py-2 border-b border-light-alt dark:border-dark-alt'>
+                                <span className='text-sm text-gray-500'>Accident History</span>
+                                <span className={`text-sm font-medium ${vehicle.accidentHistory ? 'text-red-600' : 'text-green-600'}`}>
+                                    {vehicle.accidentHistory ? 'Reported' : 'None'}
+                                </span>
+                            </div>
+                            <div className='flex justify-between py-2 border-b border-light-alt dark:border-dark-alt'>
+                                <span className='text-sm text-gray-500'>Service History</span>
+                                <span className='text-sm font-medium'>{vehicle.serviceHistory ? 'Available' : 'Not available'}</span>
+                            </div>
+                            <div className='flex justify-between py-2 border-b border-light-alt dark:border-dark-alt'>
+                                <span className='text-sm text-gray-500'>Exterior Color</span>
+                                <span className='text-sm font-medium capitalize'>{vehicle.exteriorColor || 'Not specified'}</span>
+                            </div>
+                            <div className='flex justify-between py-2 border-b border-light-alt dark:border-dark-alt'>
+                                <span className='text-sm text-gray-500'>Interior Color</span>
+                                <span className='text-sm font-medium capitalize'>{vehicle.interiorColor || 'Not specified'}</span>
+                            </div>
+                        </div>
+                        <div className='mt-3 p-3 bg-light-alt dark:bg-dark-alt rounded-lg text-sm'>
+                            <p className='text-gray-500'>Listed on {new Date(vehicle.createdAt).toLocaleDateString()}</p>
+                            {/* <p className='text-gray-500 text-xs mt-1'>Last updated {new Date(vehicle.updatedAt).toLocaleDateString()}</p> */}
+                        </div>
+                    </div>
+                )}
+
+                {activeTab === 'features' && (
+                    <div className='grid grid-cols-2 gap-2'>
+                        {(vehicle.features || []).length > 0 ? (
+                            vehicle.features.map((feature, idx) => (
+                                <div key={idx} className='flex items-center gap-2 text-sm py-1.5'>
+                                    <CheckCircle size={14} className='text-green-500 flex-shrink-0' />
+                                    <span>{feature}</span>
+                                </div>
+                            ))
+                        ) : (
+                            <p className='text-gray-500 col-span-2 text-center py-4'>No features listed for this vehicle</p>
+                        )}
+                    </div>
+                )}
+
+                {activeTab === 'specs' && (
+                    <div className='space-y-3'>
+                        <div className='grid grid-cols-2 gap-3'>
+                            {specifications.map((spec, idx) => (
+                                <div key={idx} className='flex justify-between py-2 border-b border-gray-100 dark:border-gray-800'>
+                                    <span className='text-sm text-gray-500'>{spec.label}</span>
+                                    <span className='text-sm font-medium'>{spec.value}</span>
+                                </div>
+                            ))}
+                        </div>
+                        {vehicle.tags && vehicle.tags.length > 0 && (
+                            <div className='mt-3'>
+                                <p className='text-sm text-gray-500 mb-2'>Tags</p>
+                                <div className='flex flex-wrap gap-2'>
+                                    {vehicle.tags.map((tag, idx) => (
+                                        <span key={idx} className='px-2 py-1 bg-gray-100 dark:bg-gray-800 rounded-md text-xs'>
+                                            #{tag}
+                                        </span>
+                                    ))}
+                                </div>
+                            </div>
+                        )}
+                    </div>
+                )}
+            </div>
+
+            {/* Contact/Action Buttons */}
+            <div className='flex gap-3 pt-2'>
+                <button className='flex-1 bg-blue-600 hover:bg-blue-700 text-white font-medium py-3 rounded-lg transition-colors'>
+                    <Phone size={18} className="inline mr-2" />
+                    Contact Seller
+                </button>
+                <button className='flex-1 border border-gray-300 dark:border-gray-600 hover:bg-gray-50 dark:hover:bg-gray-800 font-medium py-3 rounded-lg transition-colors'>
+                    <MessageCircle size={18} className="inline mr-2" />
+                    Send Message
+                </button>
+            </div>
+
+            {/* Rating Section */}
+            {vehicle.ratings > 0 && (
+                <div className='flex items-center gap-2 pt-2 text-sm'>
+                    <div className='flex items-center'>
+                        {[...Array(5)].map((_, i) => (
+                            <Star key={i} size={16} className={`${i < Math.floor(vehicle.ratings) ? 'text-yellow-400 fill-yellow-400' : 'text-gray-300'}`} />
+                        ))}
+                    </div>
+                    <span className='font-medium'>{vehicle.ratings}</span>
+                    <span className='text-gray-500'>({vehicle.reviewCount || 0} reviews)</span>
+                </div>
+            )}
         </div>
     </section>
   );

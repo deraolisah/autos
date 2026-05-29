@@ -179,7 +179,7 @@ const EditVehicle = () => {
     const newErrors = {};
     
     if (!editData?.name?.trim()) newErrors.name = "Vehicle name is required";
-    if (!editData?.brand?.trim()) newErrors.brand = "Brand is required";
+    // if (!editData?.brand?.trim()) newErrors.brand = "Brand is required";
     if (!editData?.price || editData.price < 0) newErrors.price = "Valid price is required";
     if (!editData?.condition) newErrors.condition = "Condition is required";
     if (editData?.condition === "Used" && !editData?.mileage) newErrors.mileage = "Mileage is required for used vehicles";
@@ -428,14 +428,16 @@ const EditVehicle = () => {
                     value={editData?.brand || ""}
                     onChange={set('brand')}
                     placeholder="e.g. Tesla"
-                    required
                   />
                   {errors.brand && <p className="text-red-500 text-xs">{errors.brand}</p>}
                 </>
               ) : (
                 <>
                   <h1 className="text-2xl font-bold tracking-tight">{vehicle.name}</h1>
-                  <p className="text-sm text-gray-500">{vehicle.brand}</p>
+                  <div className='flex items-center gap-2'>
+                    <img src={vehicle?.avatar || ""} alt='' className='w-6 h-6 p-px rounded-full border border-light-alt dark:border-dark-alt' />
+                    <p className="text-sm text-gray-500">{vehicle.brand}</p>
+                  </div>
                 </>
               )}
 
@@ -466,7 +468,7 @@ const EditVehicle = () => {
                   <span className="w-1 h-1 rounded-full bg-gray-300 dark:bg-gray-600 inline-block" />
                   <span>{vehicle.category}</span>
                   <span className="w-1 h-1 rounded-full bg-gray-300 dark:bg-gray-600 inline-block" />
-                  <span>{vehicle.condition}</span>
+                  <span>{vehicle.condition === "Cpo" ? "Certified Pre-Owned" : vehicle.condition}</span>
                 </p>
               )}
 
@@ -486,7 +488,7 @@ const EditVehicle = () => {
                         Listed
                       </label>
                     </div>
-                    <FieldInput label="Price" id="price" value={formatAmount(editData?.price || "")} onChange={set('price')} placeholder="Price" required />
+                    <FieldInput label="Price" id="price" value={editData?.price || ""} onChange={set('price')} placeholder="Price" required />
                     {errors.price && <p className="text-red-500 text-xs">{errors.price}</p>}
                   </div>
                 ) : (
@@ -614,61 +616,6 @@ const EditVehicle = () => {
 
 
 
-          
-          {/* Edit: Additional Fields */}
-          {/* {isEditing ? (
-            <Section title="Additional Details" className="rounded-xl p-4 space-y-3">
-              <div className="grid grid-cols-2 gap-3">
-                <FieldSelect label="Warranty" id="warranty" value={editData?.warranty || ""} onChange={set('warranty')} options={warrantyOptions} />
-                <div className="flex items-center gap-4">
-                  <label className="flex items-center gap-2 text-sm">
-                    <input
-                      type="checkbox"
-                      checked={editData?.accidentHistory || false}
-                      onChange={(e) => setEditData({ ...editData, accidentHistory: e.target.checked })}
-                      className="w-3.5 h-3.5 accent-blue-600"
-                    />
-                    Accident history
-                  </label>
-                  <label className="flex items-center gap-2 text-sm">
-                    <input
-                      type="checkbox"
-                      checked={editData?.serviceHistory || false}
-                      onChange={(e) => setEditData({ ...editData, serviceHistory: e.target.checked })}
-                      className="w-3.5 h-3.5 accent-blue-600"
-                    />
-                    Service history
-                  </label>
-                </div>
-                <FieldSelect 
-                  label="Exterior color" 
-                  id="exteriorColor" 
-                  value={editData?.exteriorColor || ""} 
-                  onChange={set('exteriorColor')} 
-                  options={colorOptions.map(c => ({ value: c, label: c }))}
-                />
-                <FieldSelect 
-                  label="Interior color" 
-                  id="interiorColor" 
-                  value={editData?.interiorColor || ""} 
-                  onChange={set('interiorColor')} 
-                  options={colorOptions.map(c => ({ value: c, label: c }))}
-                />
-              </div>
-            </Section>
-          ): (
-            // Show additional details in view mode
-            <Section title="Additional Details" className="rounded-xl p-4 space-y-3">
-              <div className="grid grid-cols-2 gap-3">
-                <InfoCard title="Warranty" value={vehicle.warranty || 'None'} />
-                <InfoCard title="Accident History" value={vehicle.accidentHistory ? 'Yes' : 'No'} />
-                <InfoCard title="Service History" value={vehicle.serviceHistory ? 'Yes' : 'No'} />
-                <InfoCard title="Exterior Color" value={vehicle.exteriorColor || 'Not specified'} />
-                <InfoCard title="Interior Color" value={vehicle.interiorColor || 'Not specified'} />
-              </div>
-            </Section>
-          )} */}
-
           {/* Edit: Additional Fields */}
           {isEditing ? (
             <Section title="Additional Details" className="rounded-xl p-4 space-y-3">
@@ -779,7 +726,7 @@ const EditVehicle = () => {
             {vehicle.originalPrice && vehicle.originalPrice > vehicle.price && (
               <PriceRow label="Original price" value={formatAmount(vehicle.originalPrice)} />
             )}
-            <PriceRow label="Listed" value={vehicle.listed ? "Yes" : "No"} />
+            {/* <PriceRow label="Listed" value={vehicle.listed ? "Yes" : "No"} /> */}
             <PriceRow label="Verified" value={vehicle.verified ? "✓ Verified" : "Not verified"} />
             <PriceRow label="Featured" value={vehicle.featured ? "★ Featured" : "Standard"} />
           </Section>

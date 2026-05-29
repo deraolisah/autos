@@ -8,7 +8,7 @@ const DashboardLayout = () => {
 
 
   return (
-    <section className='container p-0! h-screen flex items-start gap-0 border-x border-light-alt dark:border-dark-alt '>
+    <section className='container font-body p-0! h-screen flex items-start gap-0 border-x border-light-alt dark:border-dark-alt '>
       <Sidebar sidebarOpen={sidebarOpen} setSidebarOpen={setSidebarOpen} />
 
 

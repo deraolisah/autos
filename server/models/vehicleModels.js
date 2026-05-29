@@ -15,7 +15,7 @@ const vehicleSchema = new mongoose.Schema(
     },
     brand: { 
         type: String, 
-        required: true,
+        required: false,
         trim: true,
         index: true
     },

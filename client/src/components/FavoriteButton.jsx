@@ -40,6 +40,7 @@ const FavoriteButton = ({ vehicleId, className = "" }) => {
             disabled={isLoading}
             className={`favorite-button ${favorite ? 'active' : ''} ${className}`}
             aria-label={favorite ? "Remove from favorites" : "Add to favorites"}
+            title="Favorite"
         >
             {isLoading ? (
                 <span className="spinner">⏳</span>
