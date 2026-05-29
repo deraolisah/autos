@@ -305,7 +305,7 @@ const EditVehicle = () => {
         <div className="flex flex-col lg:flex-row gap-5">
 
           {/* ── LEFT: Images ── */}
-          <div className="lg:w-[420px] flex-shrink-0 space-y-3">
+          <div className="lg:w-105 shrink-0 space-y-3">
             <div className="aspect-video w-full overflow-hidden rounded-xl bg-light-alt dark:bg-dark-alt">
               <img
                 src={selectedImage}
@@ -317,7 +317,7 @@ const EditVehicle = () => {
             {/* Thumbnails */}
             <div className="flex gap-2 overflow-x-auto scrollbar-hidden">
               {vehicle?.images?.map((img, i) => (
-                <div key={i} className="relative flex-shrink-0 h-16 aspect-[3/2]">
+                <div key={i} className="relative shrink-0 h-16 aspect-3/2">
                   <span className="text-xs absolute top-1 left-1 z-10 bg-black/50 text-white px-1.5 py-0.5 rounded-full leading-none">
                     {i + 1}
                   </span>
@@ -326,7 +326,7 @@ const EditVehicle = () => {
                     alt=""
                     onClick={() => setSelectedImage(img)}
                     className={`w-full h-full rounded-lg object-cover cursor-pointer border-2 transition-all ${
-                      selectedImage === img ? 'border-blue-500' : 'border-transparent opacity-70 hover:opacity-100'
+                      selectedImage === img ? 'border-primary' : 'border-transparent opacity-70 hover:opacity-100'
                     }`}
                   />
                 </div>
@@ -344,7 +344,7 @@ const EditVehicle = () => {
                 {/* Avatar */}
                 <div className="flex items-center gap-2">
                   {editData?.avatar && (
-                    <img src={editData.avatar} alt="Avatar" className="w-7 h-7 rounded-full object-cover flex-shrink-0 border border-light-alt dark:border-dark-alt" />
+                    <img src={editData.avatar} alt="Avatar" className="w-7 h-7 rounded-full object-cover shrink-0 border border-light-alt dark:border-dark-alt" />
                   )}
                   <FieldInput
                     label="Avatar URL"
@@ -364,7 +364,7 @@ const EditVehicle = () => {
 
                   {editData?.images?.map((img, idx) => (
                     <div key={idx} className="flex gap-2 items-center">
-                      <LinkIcon size={14} className="text-gray-400 flex-shrink-0" />
+                      <LinkIcon size={14} className="text-gray-400 shrink-0" />
                       <input
                         type="text"
                         value={img}
@@ -570,7 +570,7 @@ const EditVehicle = () => {
               <div className="grid grid-cols-2 md:grid-cols-3 gap-3">
                 {(vehicle.features || []).map((feature, i) => (
                   <div key={i} className="flex items-center gap-2.5 text-sm">
-                    <div className="w-5 h-5 rounded-md bg-gray-900 dark:bg-gray-100 text-white dark:text-gray-900 flex-shrink-0 flex items-center justify-center">
+                    <div className="w-5 h-5 rounded-md bg-gray-900 dark:bg-gray-100 text-white dark:text-gray-900 shrink-0 flex items-center justify-center">
                       <CheckIcon size={11} weight="bold" />
                     </div>
                     {feature}
@@ -616,7 +616,7 @@ const EditVehicle = () => {
 
           
           {/* Edit: Additional Fields */}
-          {isEditing ? (
+          {/* {isEditing ? (
             <Section title="Additional Details" className="rounded-xl p-4 space-y-3">
               <div className="grid grid-cols-2 gap-3">
                 <FieldSelect label="Warranty" id="warranty" value={editData?.warranty || ""} onChange={set('warranty')} options={warrantyOptions} />
@@ -667,16 +667,96 @@ const EditVehicle = () => {
                 <InfoCard title="Interior Color" value={vehicle.interiorColor || 'Not specified'} />
               </div>
             </Section>
-          )}
+          )} */}
 
+          {/* Edit: Additional Fields */}
+          {isEditing ? (
+            <Section title="Additional Details" className="rounded-xl p-4 space-y-3">
+              <div className="grid grid-cols-2 gap-3">
+                <div className="flex flex-col items-start gap-1">
+                  <h4 className='text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wide'>History</h4>
+                  <div className='flex items-center gap-4'>
+                    <label className="flex items-center gap-2 text-sm px-3 py-2 rounded-lg border border-light-alt dark:border-dark-alt cursor-pointer select-none">
+                      <input
+                        type="checkbox"
+                        checked={editData?.accidentHistory || false}
+                        onChange={(e) => setEditData({ ...editData, accidentHistory: e.target.checked })}
+                        className="w-3.5 h-3.5 accent-blue-600"
+                      />
+                      Accident history
+                    </label>
+
+                    <label className="flex items-center gap-2 text-sm px-3 py-2 rounded-lg border border-light-alt dark:border-dark-alt cursor-pointer select-none">
+                      <input
+                        type="checkbox"
+                        checked={editData?.serviceHistory || false}
+                          onChange={(e) => setEditData({ ...editData, serviceHistory: e.target.checked })}
+                        className="w-3.5 h-3.5 accent-blue-600"
+                      />
+                      Service history
+                    </label>
+                  </div>
+                </div>
+
+                <FieldSelect 
+                  label="Exterior color" 
+                  id="exteriorColor" 
+                  value={editData?.exteriorColor || ""} 
+                  onChange={set('exteriorColor')} 
+                  options={colorOptions.map(c => ({ value: c, label: c }))}
+                />
+                <FieldSelect 
+                  label="Interior color" 
+                  id="interiorColor" 
+                  value={editData?.interiorColor || ""} 
+                  onChange={set('interiorColor')} 
+                  options={colorOptions.map(c => ({ value: c, label: c }))}
+                />
+              </div>
+            </Section>
+          ) : (
+            // Simple display when not editing
+            <Section title="Additional Details" className="p-4 space-y-3">
+              <div className="grid grid-cols-2 gap-3">
+                <div className="text-sm border border-light-alt dark:border-dark-alt p-2 rounded-lg">
+                  <span className="text-gray-500">Accident: </span>
+                  <span className="font-medium">{vehicle.accidentHistory ? 'Yes' : 'No'}</span>
+                </div>
+                <div className="text-sm border border-light-alt dark:border-dark-alt p-2 rounded-lg">
+                  <span className="text-gray-500">Service: </span>
+                  <span className="font-medium">{vehicle.serviceHistory ? 'Yes' : 'No'}</span>
+                </div>
+                <div className="text-sm border border-light-alt dark:border-dark-alt p-2 rounded-lg">
+                  <span className="text-gray-500">Ext. Color: </span>
+                  <span className="font-medium">{vehicle.exteriorColor || '—'}</span>
+                </div>
+                <div className="text-sm border border-light-alt dark:border-dark-alt p-2 rounded-lg">
+                  <span className="text-gray-500">Int. Color: </span>
+                  <span className="font-medium">{vehicle.interiorColor || '—'}</span>
+                </div>
+              </div>
+            </Section>
+          )}
 
 
           <div className="ticks">
             <hr className="w-full h-px my-0 border-0 bg-light-alt dark:bg-dark-alt" />
           </div>
 
+
           {/* Engine & Performance */}
-          <Section title="Engine & Performance">
+          {isEditing ? (
+            <Section title="Engine & Perfomance">
+              <FieldSelect 
+                  label="Warranty" 
+                  id="warranty" 
+                  value={editData?.warranty || ""} 
+                  onChange={set('warranty')} 
+                  options={warrantyOptions} 
+                />
+            </Section>
+          ) : (
+            <Section title="Engine & Performance">
             <div className="grid grid-cols-2 gap-3">
               <InfoCard title="Engine size" value={vehicle.engineSize || 'Not specified'} />
               <InfoCard title="Horsepower" value={vehicle.horsepower ? `${vehicle.horsepower} HP` : 'Not specified'} />
@@ -684,6 +764,7 @@ const EditVehicle = () => {
               <InfoCard title="Warranty" value={vehicle.warranty || 'None'} />
             </div>
           </Section>
+          )}
         </div>
 
         <div className="xl:hidden ticks">
