@@ -9,6 +9,7 @@ import {
 } from 'lucide-react';
 import { useFavorite } from '../contexts/favoriteContext';
 import FavoriteButton from '../components/FavoriteButton';
+import { CaretLeftIcon } from '@phosphor-icons/react';
 
 
 const VehicleDetails = () => {
@@ -133,9 +134,13 @@ const VehicleDetails = () => {
                 {/* Main Image */}
                 {selectedImage && (
                     <div className='relative rounded-md overflow-hidden'>
-                        <button className='absolute z-2 top-2 left-2 bg-light/80 dark:bg-dark/80 backdrop-blur-sm p-1 pr-2 rounded-sm text-xs flex items-center gap-0 cursor-pointer ' onClick={()=> {window.history.back()}}>
+                        {/* <button className='absolute z-2 top-2 left-2 bg-light/60 dark:bg-dark/60 backdrop-blur-sm p-1 pr-2 rounded-sm text-xs flex items-center gap-0 cursor-pointer ' onClick={()=> {window.history.back()}}>
                             <ChevronLeft size={14} />
-                            back
+                            <span> Back </span>
+                        </button> */}
+                        <button onClick={() => window.history.back()} className="absolute z-2 top-2 left-2 flex items-center gap-0.5 text-xs px-1 pr-3 py-2 pt-1.5 rounded-md bg-light-alt/70 dark:bg-dark-alt/70 hover:bg-light-alt dark:hover:bg-dark-alt backdrop-blur-sm">
+                            <CaretLeftIcon size={12} weight="bold" className='mt-px' />
+                            Back
                         </button>
                         <img
                             src={selectedImage}
@@ -307,7 +312,7 @@ const VehicleDetails = () => {
                         <div className='grid grid-cols-2 gap-4 md:gap-6 gap-y-3'>
                             <div className='flex justify-between py-2 border-b border-light-alt dark:border-dark-alt'>
                                 <span className='text-sm text-gray-500'>Condition</span>
-                                <span className='text-sm font-medium capitalize'>{vehicle.condition}</span>
+                                <span className='text-sm font-medium capitalize'>{vehicle?.condition === "CPO" ? "Certified Pre-Owned" : vehicle.condition}</span>
                             </div>
                             <div className='flex justify-between py-2 border-b border-light-alt dark:border-dark-alt'>
                                 <span className='text-sm text-gray-500'>Mileage</span>
@@ -382,7 +387,7 @@ const VehicleDetails = () => {
 
             {/* Contact/Action Buttons */}
             <div className='flex gap-3 pt-2'>
-                <button className='flex-1 bg-blue-600 hover:bg-blue-700 text-white font-medium py-3 rounded-lg transition-colors'>
+                <button className='flex-1 bg-primary hover:bg-yellow-600 text-white font-medium py-3 rounded-lg'>
                     <Phone size={18} className="inline mr-2" />
                     Contact Seller
                 </button>

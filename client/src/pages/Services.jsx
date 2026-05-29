@@ -180,19 +180,19 @@ const Services = () => {
                     {service.icon}
                   </div>
                 </div>
-                <div className="font-body-alt text-[19px] font-bold uppercase tracking-[0.03em] text-[#f0f1f5] mb-2">{service.name}</div>
+                <div className="font-body-alt text-[19px] font-bold uppercase tracking-[0.03em] mb-2">{service.name}</div>
                 <div className="text-[13px] text-[#7a7f96] leading-relaxed mb-4">{service.description}</div>
                 <div className="flex flex-wrap gap-1.5 mb-5">
                   {service.features.slice(0, 3).map((f, i) => (
-                    <span key={i} className="text-[11px] text-[#7a7f96] bg-[#1e2028] border border-[#2a2d38] py-1 px-2.5 rounded">{f}</span>
+                    <span key={i} className="text-[11px] text-[#7a7f96] bg-light dark:bg-dark border border-[#2a2d38] py-1 px-2.5 rounded">{f}</span>
                   ))}
                   {service.features.length > 3 && (
-                    <span className="text-[11px] text-[#7a7f96] bg-[#1e2028] border border-[#2a2d38] py-1 px-2.5 rounded">+{service.features.length - 3} more</span>
+                    <span className="text-[11px] text-[#7a7f96] bg-light dark:bg-dark border border-[#2a2d38] py-1 px-2.5 rounded">+{service.features.length - 3} more</span>
                   )}
                 </div>
                 <div className="flex items-center justify-between pt-4.5 border-t border-[#2a2d38]">
                   <div>
-                    <div className="font-body-alt text-[22px] font-extrabold text-[#f0f1f5]">{service.price}</div>
+                    <div className="font-body-alt text-[22px] font-extrabold ">{service.price}</div>
                     <div className="flex items-center gap-1.5 text-[11px] text-[#7a7f96] mt-0.5">
                       <Clock size={11} /> {service.duration}
                     </div>

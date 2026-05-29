@@ -68,7 +68,7 @@ const VehicleGrid = ({
       {totalPages > 0 && (
         <div className='w-full flex items-center justify-between py-4 mt-6'>
           <button 
-            onClick={() => onPageChange(currentPage - 1)}
+            onClick={() => {onPageChange(currentPage - 1); scrollTo(0,0); }}
             disabled={currentPage === 1}
             className='inline-flex items-center bg-light-alt/80 dark:bg-dark-alt/80 hover:bg-light-alt dark:hover:bg-dark-alt rounded-md px-4 pl-2.5 py-1.5 cursor-pointer  disabled:opacity-50 disabled:cursor-not-allowed'
           >
@@ -88,7 +88,7 @@ const VehicleGrid = ({
           </div>
 
           <button 
-            onClick={() => onPageChange(currentPage + 1)}
+            onClick={() => { scrollTo(0,0); onPageChange(currentPage + 1); }}
             disabled={currentPage === totalPages}
             className='inline-flex items-center bg-light-alt/80 dark:bg-dark-alt/80 hover:bg-light-alt dark:hover:bg-dark-alt rounded-md px-4 pr-2.5 py-1.5 cursor-pointer  disabled:opacity-50 disabled:cursor-not-allowed'
           >

@@ -147,7 +147,7 @@ const VehicleCard = ({ vehicle }) => {
           />
         </Link> */}
 
-        <Link to={`/vehicle/${vehicle._id}`} className="block overflow-hidden aspect-video rounded-md relative">
+        <Link onClick={()=> { scrollTo(0,0); }} to={`/vehicle/${vehicle._id}`} className="block overflow-hidden aspect-video rounded-md relative">
           {/* Loader shimmer */}
           {!loaded && (
             <div className="absolute inset-0 bg-light-alt/60 dark:bg-dark-alt/60 shimmer rounded-md"></div>

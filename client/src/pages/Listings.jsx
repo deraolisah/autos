@@ -129,6 +129,10 @@ const Listings = () => {
         { value: 'suv', label: 'SUVs', filterKey: 'vehicleType' },
         { value: 'truck', label: 'Trucks', filterKey: 'vehicleType' },
         { value: 'pickup', label: 'Pick-ups', filterKey: 'vehicleType' },
+        { value: 'van', label: 'Vans', filterKey: 'vehicleType' },
+        { value: 'motorcycle', label: 'Motorcycles', filterKey: 'vehicleType' },
+        { value: 'bus', label: 'Buses', filterKey: 'vehicleType' },
+        { value: 'minivan', label: 'Minivans', filterKey: 'vehicleType' },
       ]
     },
     price: {
@@ -365,12 +369,12 @@ const Listings = () => {
       <div className='hidden md:flex md:w-px h-full absolute top-0 left-60  bg-light-alt dark:bg-dark-alt'></div>
 
       {/* ── Main Content ── */}
-      <main className="min-w-0 w-full h-full p-4 flex-1">
+      <main className="min-w-0 w-full h-full p-4 pt-3 flex-1">
         {/* Topbar */}
         <div className="w-full flex flex-col md:flex-row items-start justify-between gap-3 mb-3 flex-wrap">
           <div className='w-full md:w-fit flex items-start justify-between gap-2'>
             <div className="flex items-baseline gap-1.5">
-              <h2 className="text-xl md:text-2xl font-semibold tracking-tight">Vehicles</h2>
+              <h2 className="text-lg font-semibold tracking-tight">Vehicles</h2>
               <span className="text-sm text-gray-400">
                 ({totalItems} {totalItems === 1 ? 'result' : 'results'})
               </span>
