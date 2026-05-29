@@ -24,7 +24,7 @@ const AllVehicles = () => {
     <section className='p-4'>
       All Vehicles ({vehicles.length})
 
-        <div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 mt-4'>
+        <div className='grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 mt-4'>
           {vehicles.map((vehicle, index) => (
             <Link to={`/admin/view-all/${vehicle._id}`} key={vehicle._id || index} className='border border-light-alt dark:border-dark-alt hover:bg-light-alt dark:hover:bg-dark-alt rounded-md p-0 duration-300 transition-all relative' title={`Edit ${vehicle.name}`}>
                 <span className='absolute top-2 left-2 w-6 h-6 text-sm rounded-full flex items-center justify-center inset-shadow-2xs bg-light dark:bg-dark border border-light-alt dark:border-dark-alt'>{index+1}</span>

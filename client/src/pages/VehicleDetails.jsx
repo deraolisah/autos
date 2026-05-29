@@ -108,7 +108,7 @@ const VehicleDetails = () => {
                             src={img}
                             alt={`Thumbnail ${index + 1}`}
                             onClick={() => setSelectedImage(img)}
-                                className={`w-full aspect-3/2 object-cover rounded md:rounded-md ring md:ring-2 ring-transparent cursor-pointer opacity-60 hover:opacity-100 transition ${selectedImage === img ? "opacity-100 ring-yellow-500" : ""}`}
+                            className={`w-full aspect-3/2 object-cover rounded md:rounded-md ring md:ring-2 ring-transparent cursor-pointer opacity-60 hover:opacity-100 transition ${selectedImage === img ? "opacity-100 ring-yellow-500" : ""}`}
                         />
                     ))}
                 </div>
@@ -116,9 +116,9 @@ const VehicleDetails = () => {
 
             {/* Vehicle Info */}
             <div className='w-full flex-1 space-y-2'>
-                <div className='w-full flex items-start md:items-center justify-between gap-1.5'>
+                <div className='w-full flex items-start justify-between gap-1.5'>
                     <div className='w-full flex items-center flex-wrap gap-x-4 gap-1.5'>
-                        <h1 className='text-2xl font-bold leading-none'>
+                        <h1 className='text-lg md:text-2xl font-bold'>
                             <span> {vehicle.year} {vehicle.name} </span>
                         </h1>
 
@@ -136,14 +136,14 @@ const VehicleDetails = () => {
                         {/* <button className={`bg-light-alt/30 dark:bg-dark-alt/30 hover:bg-light-alt hover:dark:bg-dark-alt p-1.5 rounded-full  ${isFav ? "text-red-600" : "text-gray-400"}`} title='Favorite' onClick={() => toggleFavorite(vehicle._id)}>
                             {isFav ? "❤️ Favorited" : (<Heart size={18} />)}
                         </button> */}
-                        <button className='bg-light-alt/30 dark:bg-dark-alt/30 hover:bg-light-alt hover:dark:bg-dark-alt px-2 p-1.5 rounded-md text-xs md:text-sm flex items-center gap-1.5 ' title='Share'>
-                            Share
+                        <button className='bg-light-alt/30 dark:bg-dark-alt/30 hover:bg-light-alt hover:dark:bg-dark-alt p-2 sm:px-2 sm:p-1.5 rounded-full sm:rounded-md text-xs md:text-sm flex items-center gap-1.5 ' title='Share'>
+                            <span className='hidden sm:flex'> Share </span>
                             <Share size={16} />
                         </button>
                     </div>
                 </div>
                 <p className='mt-2 font-semibold'>{formatAmount(vehicle.price)}</p>
-                <p className='text-sm text-gray-600 capitalize'>{vehicle?.condition || "New"} ⁕ {vehicle.category}</p>
+                <p className='text-sm text-gray-600 capitalize'>{vehicle?.condition === "Cpo" ? "Certified Pre-Owned" : vehicle.condition} ⁕ {vehicle.category}</p>
             </div>
         </div>
     </section>
