@@ -188,10 +188,14 @@ const VehicleDetails = () => {
                             <h1 className='text-lg md:text-xl lg:text-2xl font-bold leading-tight'>
                                 {vehicle.year} {vehicle.name}
                             </h1>
-                            <p className='text-sm text-gray-500 mt-1'>
-                                {vehicle.model && `${vehicle.model} • `}
-                                {vehicle.category || "Standard"} Class
-                            </p>
+                            <div className='text-sm text-gray-500 mt-1 space-x-2 flex items-center'>
+                                <p> {vehicle.model && `${vehicle.model}`} </p>
+                                <span> • </span>
+                                <p> {vehicle?.category || "Standard"} Class </p>
+                                <span> • </span>
+                                <p> {new Date(vehicle.createdAt).toLocaleDateString()} </p>
+                            </div>
+                            {/* <p className='text-gray-500'>Listed on {new Date(vehicle.createdAt).toLocaleDateString()}</p> */}
                         </div>
                         
                         <div className='flex items-center gap-2'>
@@ -337,10 +341,10 @@ const VehicleDetails = () => {
                                 <span className='text-sm font-medium capitalize'>{vehicle.interiorColor || 'Not specified'}</span>
                             </div>
                         </div>
-                        <div className='mt-3 p-3 bg-light-alt dark:bg-dark-alt rounded-lg text-sm'>
+                        {/* <div className='mt-8 p-3 bg-light-alt dark:bg-dark-alt rounded-lg text-sm'>
                             <p className='text-gray-500'>Listed on {new Date(vehicle.createdAt).toLocaleDateString()}</p>
-                            {/* <p className='text-gray-500 text-xs mt-1'>Last updated {new Date(vehicle.updatedAt).toLocaleDateString()}</p> */}
-                        </div>
+                            {/* <p className='text-gray-500 text-xs mt-1'>Last updated {new Date(vehicle.updatedAt).toLocaleDateString()}</p>
+                        </div> */}
                     </div>
                 )}
 
@@ -386,7 +390,7 @@ const VehicleDetails = () => {
             </div>
 
             {/* Contact/Action Buttons */}
-            <div className='flex gap-3 pt-2'>
+            <div className='flex gap-3 pt-2 mt-4'>
                 <button className='flex-1 bg-primary hover:bg-yellow-600 text-white font-medium py-3 rounded-lg'>
                     <Phone size={18} className="inline mr-2" />
                     Contact Seller
