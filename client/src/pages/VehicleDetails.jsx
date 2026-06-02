@@ -353,7 +353,7 @@ const VehicleDetails = () => {
                         {(vehicle.features || []).length > 0 ? (
                             vehicle.features.map((feature, idx) => (
                                 <div key={idx} className='flex items-center gap-2 text-sm py-1.5'>
-                                    <CheckCircle size={14} className='text-green-500 flex-shrink-0' />
+                                    <CheckCircle size={14} className='text-green-500 shrink-0' />
                                     <span>{feature}</span>
                                 </div>
                             ))
