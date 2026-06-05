@@ -41,11 +41,11 @@ const AppRoutes = () => {
         <Routes>
           {/* Public Routes */}
           <Route path='/' element={<PublicLayout />}>
-            <Route index element={<Home />} />
+            <Route index element={<Listings />} />
             <Route path='/about' element={<About />} />
             <Route path='/contact' element={<Contact />} />
             <Route path='/services' element={<Services />} />
-            <Route path='/listings' element={<Listings />} />
+            {/* <Route path='/listings' element={<Listings />} /> */}
             <Route path='/vehicle/:id' element={<VehicleDetails />} />
             <Route path='/auth/social-callback' element={<AuthCallback />} />
             <Route path='/feedback' element={<Feedback />} />

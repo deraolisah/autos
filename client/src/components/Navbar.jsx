@@ -60,11 +60,11 @@ const Navbar = ({ isHome }) => {
 
 
     const navList = [
-        {name: "Home", link: "/", icon: <House size={14} /> },
-        {name: "About", link: "/about", icon: <File size={14} /> },
+        // {name: "Home", link: "/", icon: <House size={14} /> },
+        {name: "Listings", link: "/", icon: <List size={14} /> },
+        {name: "About Us", link: "/about", icon: <File size={14} /> },
         {name: "Contact", link: "/contact", icon: <Phone size={14} /> },
-        {name: "Services", link: "/services", icon: <Server size={14} /> },
-        {name: "Listings", link: "/listings", icon: <List size={14} /> }
+        {name: "Services", link: "/services", icon: <Server size={14} /> }
     ];
 
 
